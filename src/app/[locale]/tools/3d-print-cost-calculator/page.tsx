@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { Box } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
 import { ThreeDPrintCalculator } from "@/components/three-d-print-calculator";
@@ -17,10 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return buildMetadata({ locale, path, title: dictionary.tool.title, description: dictionary.tool.description });
 }
 
-export default async function ThreeDPrintPage({ params }: { params: Promise<{ locale: string }> }) {
-  const { locale: rawLocale } = await params;
-  if (!isLocale(rawLocale)) notFound();
-  const locale = rawLocale as Locale;
+export function ThreeDPrintView({ locale }: { locale: Locale }) {
   const dictionary = getDictionary(locale);
   const url = `${siteConfig.url}${localizedPath(locale, path)}`;
   const structuredData = [
@@ -57,4 +54,11 @@ export default async function ThreeDPrintPage({ params }: { params: Promise<{ lo
     <ThreeDPrintCalculator locale={locale} dictionary={dictionary} />
     <section className="section seo-content"><div className="shell seo-grid"><div><p className="section-kicker">Method</p><h2>{dictionary.tool.methodologyTitle}</h2><p>{dictionary.tool.methodologyBody}</p></div><div><h2>{dictionary.tool.faqTitle}</h2><div className="faq-list">{dictionary.tool.faq.map((entry) => <details key={entry.question}><summary>{entry.question}</summary><p>{entry.answer}</p></details>)}</div></div></div></section>
   </article>;
+}
+
+export default async function ThreeDPrintPage({ params }: { params: Promise<{ locale: string }> }) {
+  const { locale: rawLocale } = await params;
+  if (!isLocale(rawLocale)) notFound();
+  if (rawLocale === "en") permanentRedirect("/tools/3d-print-cost-calculator");
+  return <ThreeDPrintView locale={rawLocale} />;
 }

@@ -46,11 +46,11 @@ Rules:
 
 ### Canonical Locale Routes
 
-Every indexable language version uses its own locale-prefixed URL:
+English uses the root URL structure. Every additional language uses its own locale-prefixed URL:
 
 ```text
-/en
-/en/tools/3d-print-cost-calculator
+/
+/tools/3d-print-cost-calculator
 /zh-hant/tools/3d-print-cost-calculator
 /ar/tools/3d-print-cost-calculator
 ```
@@ -59,7 +59,7 @@ The root `/` is not an indexable content duplicate. It may:
 
 - Redirect to a remembered locale.
 - Use `Accept-Language` for a first-visit recommendation.
-- Fall back to `/en`.
+- Fall back to `/`.
 
 Always keep an explicit language switcher. Do not force or permanently lock a language based on IP address.
 
@@ -78,7 +78,7 @@ Example:
 
 ```html
 <link rel="canonical" href="https://zaps.work/ar/tools/3d-print-cost-calculator" />
-<link rel="alternate" hreflang="en" href="https://zaps.work/en/tools/3d-print-cost-calculator" />
+<link rel="alternate" hreflang="en" href="https://zaps.work/tools/3d-print-cost-calculator" />
 <link rel="alternate" hreflang="zh-Hant" href="https://zaps.work/zh-hant/tools/3d-print-cost-calculator" />
 <link rel="alternate" hreflang="ar" href="https://zaps.work/ar/tools/3d-print-cost-calculator" />
 <link rel="alternate" hreflang="x-default" href="https://zaps.work/" />
@@ -424,7 +424,7 @@ Add two development-only pseudo-locales:
 
 ## 15. Acceptance Checklist
 
-- [ ] Every indexable page has a locale-prefixed canonical URL.
+- [ ] English pages use unprefixed canonicals; every additional language uses a locale-prefixed canonical URL.
 - [ ] Complete locale equivalents have reciprocal `hreflang` and `x-default`.
 - [ ] `<html>` has correct `lang` and `dir`.
 - [ ] Shared layout CSS uses logical properties.

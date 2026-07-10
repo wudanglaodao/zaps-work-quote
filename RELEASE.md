@@ -9,9 +9,9 @@
 
 ## Launch Routes
 
-- `/en`
+- `/`
 - `/zh-hant`
-- `/en/tools/3d-print-cost-calculator`
+- `/tools/3d-print-cost-calculator`
 - `/zh-hant/tools/3d-print-cost-calculator`
 - `/sitemap.xml`
 - `/robots.txt`
@@ -49,7 +49,7 @@ Copy `.env.example` to `.env.local` for local development. Configure the same na
 ## SEO Launch Checklist
 
 - Verify both locale routes return `200` and contain one language only.
-- Confirm `/` permanently redirects to `/en` and is not indexed as duplicate content.
+- Confirm legacy `/en` routes permanently redirect to unprefixed English equivalents and are not indexed as duplicate content.
 - Inspect canonical and `hreflang` links, including `x-default`.
 - Submit `https://zaps.work/sitemap.xml` to Google Search Console and Bing Webmaster Tools.
 - Verify the domain property and both protocol/host redirects.

@@ -4,7 +4,7 @@ import { siteConfig } from "@/lib/site";
 
 export function localizedPath(locale: Locale, path = "") {
   const suffix = path && path !== "/" ? `/${path.replace(/^\//, "")}` : "";
-  return `/${locale}${suffix}`;
+  return locale === "en" ? suffix || "/" : `/${locale}${suffix}`;
 }
 
 export function languageAlternates(path = "") {
@@ -12,7 +12,7 @@ export function languageAlternates(path = "") {
   for (const locale of locales) {
     languages[htmlLanguage(locale)] = `${siteConfig.url}${localizedPath(locale, path)}`;
   }
-  languages["x-default"] = path ? `${siteConfig.url}${localizedPath("en", path)}` : `${siteConfig.url}/`;
+  languages["x-default"] = `${siteConfig.url}${localizedPath("en", path)}`;
   return languages;
 }
 

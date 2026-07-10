@@ -51,9 +51,9 @@ GitHub
 Every indexable language has a stable path prefix:
 
 ```text
-/en
-/en/tools
-/en/tools/3d-print-cost-calculator
+/
+/tools
+/tools/3d-print-cost-calculator
 /zh-hant
 /zh-hant/tools
 /zh-hant/tools/3d-print-cost-calculator
@@ -61,10 +61,11 @@ Every indexable language has a stable path prefix:
 
 Rules:
 
-- `/` redirects to `/en`; it is not a separate content page.
+- English is the default language and uses unprefixed canonical URLs.
+- Legacy `/en/...` URLs permanently redirect to the matching unprefixed English route.
 - English and Traditional Chinese never share one indexable URL.
 - Every page has a self-referencing canonical.
-- Every equivalent page has reciprocal `en`, `zh-Hant`, and `x-default` alternates.
+- Every equivalent page has reciprocal `en`, `zh-Hant`, and `x-default` alternates; `x-default` points to English.
 - The XML sitemap repeats the same alternate mapping.
 - `<html lang>` and `dir` come from the locale configuration.
 - Page title, description, visible FAQ, structured data, Open Graph metadata, and internal links use the same locale.

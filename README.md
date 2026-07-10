@@ -2,7 +2,7 @@
 
 Free, multilingual cost calculators and quote generators for real work.
 
-The first live tool is the [3D Print Cost Calculator](https://zaps.work/en/tools/3d-print-cost-calculator). It supports multiple line items, margin-based pricing, PDF quotes, CSV exports, English, Traditional Chinese, and global currency preferences.
+The first live tool is the [3D Print Cost Calculator](https://zaps.work/tools/3d-print-cost-calculator). It supports multiple line items, margin-based pricing, PDF quotes, CSV exports, English, Traditional Chinese, and global currency preferences.
 
 ## Stack
 
@@ -32,12 +32,12 @@ This runs lint, type checking, unit tests, and a production build.
 
 ## International SEO
 
-Indexable pages always use locale-prefixed URLs:
+English uses clean, unprefixed URLs. Other languages use stable locale prefixes:
 
-- `/en/...`
+- `/...`
 - `/zh-hant/...`
 
-Each localized page emits a language-specific canonical URL, reciprocal `hreflang` links, and an `x-default` English fallback. The sitemap repeats the same alternate mapping. `/` is only a redirect to `/en`.
+Each localized page emits a language-specific canonical URL, reciprocal `hreflang` links, and an `x-default` English fallback. The sitemap repeats the same alternate mapping. Legacy `/en/...` routes permanently redirect to their unprefixed English equivalents.
 
 ## Data Boundary
 
