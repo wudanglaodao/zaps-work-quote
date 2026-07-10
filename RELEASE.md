@@ -26,7 +26,7 @@ Copy `.env.example` to `.env.local` for local development. Configure the same na
 ## Supabase
 
 1. Create a Supabase project in the region closest to the expected users.
-2. Run `supabase/migrations/202607100001_analytics_events.sql` in the SQL editor or with the Supabase CLI.
+2. Apply every SQL file in `supabase/migrations` in filename order before deploying code that depends on it.
 3. Set `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in Vercel.
 4. Confirm that `anon` and `authenticated` cannot select or insert into `analytics_events`.
 
@@ -46,6 +46,15 @@ Copy `.env.example` to `.env.local` for local development. Configure the same na
 2. Keep branch protection on `main` after the first release.
 3. Require the `quality` GitHub Actions job before merging.
 4. Let Vercel create Preview deployments for pull requests and Production deployments from `main`.
+5. Use GitHub as the release source of truth; do not run manual production deployments during the normal release flow.
+
+## Release Flow
+
+1. Apply any pending Supabase migrations.
+2. Run `npm run check` locally.
+3. Push a feature branch and verify its Vercel Preview deployment.
+4. Merge into `main`; Vercel deploys Production from the GitHub commit.
+5. Verify `/api/health` and the changed user flow on `https://www.zaps.work`.
 
 ## SEO Launch Checklist
 

@@ -142,8 +142,54 @@ export function ThreeDPrintCalculator({ locale, dictionary }: { locale: Locale; 
     return { itemCount: input.items.length, totalCost: result.totalCost, quoteTotal: result.total, margin: result.margin };
   }
 
+  function quoteSnapshot() {
+    return {
+      inputs: {
+        items: input.items.map((item) => ({
+          material: item.material,
+          quantity: item.quantity,
+          filamentGrams: item.filamentGrams,
+          printHours: item.printHours,
+          printMinutes: item.printMinutes,
+          spoolPrice: item.spoolPrice,
+          spoolWeightGrams: item.spoolWeightGrams,
+          preparationMinutes: item.preparationMinutes,
+          postProcessingMinutes: item.postProcessingMinutes,
+          packagingCost: item.packagingCost,
+        })),
+        machineRate: input.machineRate,
+        laborRate: input.laborRate,
+        failureRate: input.failureRate,
+        wasteRate: input.wasteRate,
+        powerDrawWatts: input.powerDrawWatts,
+        electricityRate: input.electricityRate,
+        targetMargin: input.targetMargin,
+        minimumFee: input.minimumFee,
+        shippingCost: input.shippingCost,
+        taxRate: input.taxRate,
+      },
+      outputs: {
+        items: result.itemResults.map((item) => ({
+          materialCost: item.materialCost,
+          machineCost: item.machine,
+          electricityCost: item.electricity,
+          laborCost: item.labor,
+          failureRiskCost: item.failureRisk,
+          totalCost: item.totalCost,
+          quoteAmount: item.quoteAmount,
+        })),
+        totalCost: result.totalCost,
+        subtotal: result.subtotal,
+        tax: result.tax,
+        total: result.total,
+        profit: result.profit,
+        margin: result.margin,
+      },
+    };
+  }
+
   function exportPdf() {
-    trackToolEvent({ eventType: "pdf_exported", toolSlug: "3d-print-cost-calculator", locale, currency, metrics: metrics() });
+    trackToolEvent({ eventType: "pdf_exported", toolSlug: "3d-print-cost-calculator", locale, currency, metrics: metrics(), quoteSnapshot: quoteSnapshot() });
     setPrinting(true);
     window.setTimeout(() => window.print(), 60);
   }
@@ -166,7 +212,7 @@ export function ThreeDPrintCalculator({ locale, dictionary }: { locale: Locale; 
     link.download = `${(quoteNumber || `3d-print-quote-${date}`).replace(/[\\/:*?"<>|]/g, "-")}.csv`;
     link.click();
     URL.revokeObjectURL(url);
-    trackToolEvent({ eventType: "csv_exported", toolSlug: "3d-print-cost-calculator", locale, currency, metrics: metrics() });
+    trackToolEvent({ eventType: "csv_exported", toolSlug: "3d-print-cost-calculator", locale, currency, metrics: metrics(), quoteSnapshot: quoteSnapshot() });
     setToast(t.csvExported);
   }
 

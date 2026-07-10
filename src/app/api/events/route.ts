@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   const parsed = analyticsEventSchema.safeParse(json);
   if (!parsed.success) return NextResponse.json({ error: "Invalid event" }, { status: 400 });
   const supabase = getSupabaseAdmin();
-  if (!supabase) return new NextResponse(null, { status: 204 });
+  if (!supabase) return NextResponse.json({ error: "Analytics unavailable" }, { status: 503 });
   const event = parsed.data;
   const { error } = await supabase.from("analytics_events").insert({
     event_type: event.eventType,
@@ -29,6 +29,7 @@ export async function POST(request: Request) {
     total_cost: event.metrics.totalCost,
     quote_total: event.metrics.quoteTotal,
     margin: event.metrics.margin,
+    quote_snapshot: event.quoteSnapshot ?? null,
   });
   if (error) {
     console.error("analytics insert failed", error.code);

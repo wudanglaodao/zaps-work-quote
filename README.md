@@ -2,7 +2,7 @@
 
 Free, multilingual cost calculators and quote generators for real work.
 
-The source code is public so the calculation logic, privacy boundary, and export behavior can be inspected. No quote-entered content is stored in the database. Customer names, emails, addresses, and other customer details stay in the browser.
+The source code is public so the calculation logic, privacy boundary, and export behavior can be inspected. Customer names, emails, phone numbers, addresses, company details, quote numbers, item names, and notes stay in the browser.
 
 Repository: [github.com/wudanglaodao/zaps-work-quote](https://github.com/wudanglaodao/zaps-work-quote)
 
@@ -46,7 +46,7 @@ Each localized page emits a language-specific canonical URL, reciprocal `hreflan
 
 ## Data Boundary
 
-Calculations and PDF/CSV generation run in the browser. The analytics API accepts only allowlisted, aggregate product events: tool name, locale, currency, item count, numeric cost/quote/margin metrics, and export event type. It never receives quote-entered content or customer-related information. The service-role key is server-only and the analytics table has Row Level Security enabled.
+Calculations and PDF/CSV generation run in the browser. On export, the analytics API accepts a strictly allowlisted anonymous snapshot containing categorical and numeric calculation data such as material type, quantity, production time, rates, cost breakdown, and quote result. Strict schemas reject free text and customer-related fields. The service-role key is server-only and the analytics table has Row Level Security enabled.
 
 ## Deployment
 
