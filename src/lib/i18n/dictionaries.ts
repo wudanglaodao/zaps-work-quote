@@ -39,6 +39,15 @@ export type Dictionary = {
     toolsKicker: string;
     toolsHeading: string;
     toolsCopy: string;
+    privacyKicker: string;
+    privacyHeading: string;
+    privacyCopy: string;
+    privacyLocal: string;
+    privacyAnonymous: string;
+    privacyCta: string;
+    privacyBrowserLabel: string;
+    privacyBlockedLabel: string;
+    privacyMetricsLabel: string;
   };
   tool: {
     title: string;
@@ -157,6 +166,15 @@ const en: Dictionary = {
     toolsKicker: "Tool library",
     toolsHeading: "Start with the work in front of you.",
     toolsCopy: "One calculator is live. New fabrication and service quote tools will open as they become genuinely useful.",
+    privacyKicker: "Privacy by design",
+    privacyHeading: "Your customer data stays yours.",
+    privacyCopy: "Names, emails, phone numbers, addresses, company details, item names, and quote numbers never leave your browser.",
+    privacyLocal: "PDF and CSV files are generated locally in your browser.",
+    privacyAnonymous: "Only anonymous material, time, cost, and margin data is recorded when you export.",
+    privacyCta: "Read our privacy approach",
+    privacyBrowserLabel: "Your browser",
+    privacyBlockedLabel: "Private fields blocked",
+    privacyMetricsLabel: "Anonymous metrics",
   },
   tool: {
     title: "3D Print Cost Calculator & Quote Generator | zaps.work",
@@ -217,6 +235,15 @@ const zhHant: Dictionary = {
     toolsKicker: "工具庫",
     toolsHeading: "先處理眼前的工作。",
     toolsCopy: "目前已有一個計算器上線；其他製造與服務報價工具會在真正可用後陸續開放。",
+    privacyKicker: "隱私設計",
+    privacyHeading: "客戶資料，始終只屬於你。",
+    privacyCopy: "姓名、Email、電話、地址、公司資料、項目名稱與報價單號只會保留在你的瀏覽器中。",
+    privacyLocal: "PDF 與 CSV 文件直接在你的瀏覽器中產生。",
+    privacyAnonymous: "匯出時只記錄匿名的材料、工時、成本與毛利資料。",
+    privacyCta: "了解我們的隱私方式",
+    privacyBrowserLabel: "你的瀏覽器",
+    privacyBlockedLabel: "阻擋私人欄位",
+    privacyMetricsLabel: "匿名指標",
   },
   tool: {
     title: "3D 列印成本計算器與報價工具 | zaps.work",

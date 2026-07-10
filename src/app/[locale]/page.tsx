@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Box, BrushCleaning, DraftingCompass, ScanLine } from "lucide-react";
+import { ArrowRight, Box, BrushCleaning, Database, DraftingCompass, FileDown, LockKeyhole, ScanLine, ShieldCheck } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -72,6 +72,36 @@ export function HomeView({ locale }: { locale: Locale }) {
               const Icon = icons[index + 1] || Box;
               return <article className="home-planned-card" key={tool.slug}><div><span className="home-tool-icon"><Icon aria-hidden="true" /></span><span className="status soon">{dictionary.common.soon}</span></div><h3>{tool.names[locale]}</h3><p>{tool.summaries[locale]}</p><small>{locale === "zh-hant" ? "開發中" : "In development"}</small></article>;
             })}
+          </div>
+        </div>
+      </section>
+      <section className="home-privacy-section">
+        <div className="shell home-privacy-layout">
+          <div className="home-privacy-visual" aria-hidden="true">
+            <div className="privacy-browser-panel">
+              <div className="privacy-panel-bar"><span><i /><i /><i /></span><b>{dictionary.home.privacyBrowserLabel}</b><LockKeyhole /></div>
+              <div className="privacy-private-sheet">
+                <div className="privacy-sheet-head"><span><LockKeyhole /></span><div><i /><b /></div></div>
+                {[82, 64, 74, 56].map((width) => <div className="privacy-redacted-row" key={width}><span /><i style={{ width: `${width}%` }} /></div>)}
+                <div className="privacy-local-export"><FileDown /><span>PDF</span><span>CSV</span></div>
+              </div>
+            </div>
+            <div className="privacy-filter-gate"><ShieldCheck /><span>{dictionary.home.privacyBlockedLabel}</span></div>
+            <div className="privacy-metrics-panel">
+              <div className="privacy-metrics-head"><Database /><span>{dictionary.home.privacyMetricsLabel}</span></div>
+              <div className="privacy-metric-chips"><span>PLA</span><span>6.5h</span><span>35%</span></div>
+              <div className="privacy-metric-chart">{[72, 46, 84, 58].map((width) => <span key={width}><i style={{ width: `${width}%` }} /></span>)}</div>
+            </div>
+          </div>
+          <div className="home-privacy-copy">
+            <p className="section-kicker">{dictionary.home.privacyKicker}</p>
+            <h2>{dictionary.home.privacyHeading}</h2>
+            <p className="home-privacy-lead">{dictionary.home.privacyCopy}</p>
+            <div className="home-privacy-points">
+              <p><FileDown aria-hidden="true" /><span>{dictionary.home.privacyLocal}</span></p>
+              <p><Database aria-hidden="true" /><span>{dictionary.home.privacyAnonymous}</span></p>
+            </div>
+            <Link className="home-text-link home-privacy-link" href={localizedPath(locale, "privacy")}><span>{dictionary.home.privacyCta}</span><ArrowRight aria-hidden="true" /></Link>
           </div>
         </div>
       </section>

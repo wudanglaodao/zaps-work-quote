@@ -151,6 +151,51 @@ svg { flex: 0 0 auto; }
 .home-planned-card h3 { margin: 20px 0 0; color: var(--muted); font-size: 17px; line-height: 1.25; }
 .home-planned-card p { margin: 9px 0 0; color: var(--subtle); font-size: 12px; line-height: 1.5; }
 .home-planned-card small { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); color: var(--subtle); font-weight: 650; }
+.home-privacy-section { padding-block: 96px 104px; border-top: 1px solid var(--line); background: var(--canvas); }
+.home-privacy-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr); align-items: center; gap: 72px; }
+.home-privacy-visual { min-height: 356px; display: grid; grid-template-columns: minmax(0, 1.15fr) 72px minmax(0, .85fr); align-items: center; overflow: hidden; padding: 34px; border: 1px solid var(--line); border-radius: 4px; background: color-mix(in srgb, var(--green-soft) 56%, var(--surface)); box-shadow: 0 18px 52px rgba(7,16,10,.07); }
+.privacy-browser-panel, .privacy-metrics-panel { position: relative; z-index: 1; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); box-shadow: 0 18px 38px rgba(7,16,10,.08); }
+.privacy-browser-panel { min-height: 250px; }
+.privacy-panel-bar { min-height: 42px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; padding-inline: 13px; border-bottom: 1px solid var(--line); color: var(--subtle); font-size: 10px; }
+.privacy-panel-bar > span { display: flex; gap: 5px; }
+.privacy-panel-bar i { width: 7px; height: 7px; border-radius: 50%; background: var(--line-strong); }
+.privacy-panel-bar b { color: var(--muted); font-size: 10px; text-align: center; }
+.privacy-panel-bar svg { width: 14px; height: 14px; justify-self: end; color: var(--green-dark); }
+.privacy-private-sheet { width: calc(100% - 34px); margin: 18px auto; padding: 16px; border: 1px solid var(--line); border-radius: 2px; background: var(--surface-2); }
+.privacy-sheet-head { display: grid; grid-template-columns: 30px 1fr; align-items: center; gap: 10px; margin-bottom: 12px; }
+.privacy-sheet-head > span { width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid color-mix(in srgb, var(--green) 45%, var(--line)); border-radius: 2px; background: var(--green-soft); color: var(--green-dark); }
+.privacy-sheet-head svg { width: 14px; height: 14px; }
+.privacy-sheet-head > div { display: grid; gap: 6px; }
+.privacy-sheet-head i, .privacy-sheet-head b { height: 5px; display: block; border-radius: 2px; background: var(--line-strong); }
+.privacy-sheet-head i { width: 54%; }
+.privacy-sheet-head b { width: 78%; background: var(--line); }
+.privacy-redacted-row { min-height: 26px; display: grid; grid-template-columns: 46px 1fr; align-items: center; gap: 10px; border-top: 1px solid var(--line); }
+.privacy-redacted-row span { height: 4px; border-radius: 2px; background: var(--line-strong); }
+.privacy-redacted-row i { height: 7px; border-radius: 2px; background: color-mix(in srgb, var(--ink) 18%, var(--line)); }
+.privacy-local-export { display: flex; align-items: center; justify-content: flex-end; gap: 6px; margin-top: 10px; color: var(--green-dark); }
+.privacy-local-export svg { width: 14px; height: 14px; }
+.privacy-local-export span { padding: 3px 5px; border: 1px solid color-mix(in srgb, var(--green) 35%, var(--line)); border-radius: 2px; font-size: 8px; font-weight: 720; }
+.privacy-filter-gate { position: relative; z-index: 2; display: grid; justify-items: center; gap: 8px; color: var(--green-dark); text-align: center; }
+.privacy-filter-gate::before, .privacy-filter-gate::after { content: ""; width: 28px; height: 1px; position: absolute; inset-block-start: 22px; background: color-mix(in srgb, var(--green) 50%, var(--line)); }
+.privacy-filter-gate::before { inset-inline-end: calc(50% + 20px); }
+.privacy-filter-gate::after { inset-inline-start: calc(50% + 20px); }
+.privacy-filter-gate svg { width: 42px; height: 42px; padding: 10px; border: 1px solid var(--green); border-radius: 50%; background: var(--surface); }
+.privacy-filter-gate span { max-width: 68px; color: var(--muted); font-size: 8px; font-weight: 680; line-height: 1.25; }
+.privacy-metrics-panel { min-height: 194px; padding: 16px; }
+.privacy-metrics-head { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 10px; font-weight: 700; }
+.privacy-metrics-head svg { width: 15px; height: 15px; color: var(--blue); }
+.privacy-metric-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 18px; }
+.privacy-metric-chips span { padding: 5px 7px; border: 1px solid color-mix(in srgb, var(--blue) 24%, var(--line)); border-radius: 2px; background: color-mix(in srgb, var(--blue) 6%, var(--surface)); color: var(--blue); font-size: 9px; font-weight: 720; }
+.privacy-metric-chart { display: grid; gap: 10px; margin-top: 24px; }
+.privacy-metric-chart span { height: 6px; overflow: hidden; border-radius: 2px; background: var(--line); }
+.privacy-metric-chart i { display: block; height: 100%; border-radius: inherit; background: var(--green); }
+.home-privacy-copy .section-kicker { margin-bottom: 10px; }
+.home-privacy-copy h2 { max-width: 470px; margin: 0; font-size: clamp(31px, 3vw, 38px); font-weight: 660; line-height: 1.08; letter-spacing: 0; }
+.home-privacy-lead { max-width: 490px; margin: 20px 0 0; color: var(--muted); font-size: 16px; line-height: 1.65; }
+.home-privacy-points { display: grid; gap: 12px; margin-top: 24px; }
+.home-privacy-points p { display: grid; grid-template-columns: 28px 1fr; align-items: start; gap: 10px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+.home-privacy-points svg { width: 28px; height: 28px; padding: 6px; border: 1px solid var(--line); border-radius: 2px; background: var(--surface); color: var(--green-dark); }
+.home-privacy-link { width: max-content; margin-top: 26px; padding-inline: 0; }
 
 .hero { height: min(660px, calc(100svh - 170px)); min-height: 500px; position: relative; overflow: hidden; display: flex; align-items: center; background: #07100a; color: #fff; }
 .hero-background { object-fit: cover; object-position: center; }
@@ -322,6 +367,7 @@ svg { flex: 0 0 auto; }
   .nav-links { display: none; }
   .home-tool-layout { grid-template-columns: 1fr; }
   .home-planned-tools { grid-template-columns: repeat(3, 1fr); }
+  .home-privacy-layout { grid-template-columns: 1fr; gap: 42px; }
   .tool-grid { grid-template-columns: repeat(2, 1fr); }
   .calculator-grid { grid-template-columns: 1fr; }
   .result-column { position: static; }
@@ -346,7 +392,7 @@ svg { flex: 0 0 auto; }
   .home-hero-actions { align-items: stretch; flex-direction: column; }
   .home-hero-actions .button { width: 100%; }
   .home-text-link { justify-content: center; }
-  .home-workflow-section, .home-tools-section { padding-block: 64px 72px; }
+  .home-workflow-section, .home-tools-section, .home-privacy-section { padding-block: 64px 72px; }
   .home-section-intro { display: block; }
   .home-section-intro > p { margin-top: 14px; }
   .home-workflow-grid { grid-template-columns: 1fr; }
@@ -354,6 +400,12 @@ svg { flex: 0 0 auto; }
   .home-tool-preview { min-height: 230px; padding: 14px; }
   .home-planned-tools { grid-template-columns: 1fr; }
   .home-planned-card { min-height: 190px; }
+  .home-privacy-visual { min-height: 300px; grid-template-columns: minmax(0, 1.1fr) 54px minmax(0, .9fr); padding: 16px; }
+  .privacy-browser-panel { min-height: 230px; }
+  .privacy-private-sheet { width: calc(100% - 20px); margin-block: 10px; padding: 10px; }
+  .privacy-filter-gate::before, .privacy-filter-gate::after { width: 16px; }
+  .privacy-filter-gate::before { inset-inline-end: calc(50% + 18px); }
+  .privacy-filter-gate::after { inset-inline-start: calc(50% + 18px); }
   .hero { min-height: 500px; height: min(620px, calc(100svh - 150px)); }
   .hero-content { padding-block: 58px; }
   .hero h1 { font-size: 46px; }
