@@ -10,7 +10,31 @@ This document governs localization for the homepage, calculator pages, quote pre
 - `zaps-work_quote_platform_interaction_spec.md`
 - `zaps-work_technical_architecture.md`
 
-The product must be internationalization-ready before the first production release, even when English is the only complete launch locale.
+The product must be internationalization-ready before each locale is published. A locale is not indexable until its complete page copy, SEO metadata, calculator labels, FAQ, and export labels have been reviewed.
+
+## 0. Language Rollout
+
+Current complete locales:
+
+| Locale | URL prefix | HTML language | Direction | Default currency for a new visitor |
+| --- | --- | --- | --- | --- |
+| English | none | `en` | LTR | USD |
+| Traditional Chinese | `/zh-hant` | `zh-Hant` | LTR | TWD |
+| German | `/de` | `de` | LTR | EUR |
+
+Recommended next release group:
+
+1. Simplified Chinese (`zh-hans`)
+2. Japanese (`ja`)
+3. Spanish (`es`)
+
+Follow-up group:
+
+1. French (`fr`)
+2. Brazilian Portuguese (`pt-br`)
+3. Korean (`ko`)
+
+Arabic (`ar`) remains a separate RTL release because it needs mirrored desktop layout, Arabic typography, mixed-direction quote handling, and a dedicated PDF review. Do not add a locale to the route list only to expose a translated navigation label.
 
 ## 1. Core Model
 
@@ -18,7 +42,7 @@ Do not treat language as a single global preference. Keep these values independe
 
 ```ts
 type ProductPreferences = {
-  uiLocale: "en" | "zh-Hant" | "ar";
+  uiLocale: "en" | "zh-hant" | "de" | "zh-hans" | "ja" | "es" | "ar";
   region: string | null;
   currency: string;
   unitSystem: "metric" | "imperial";
@@ -52,6 +76,7 @@ English uses the root URL structure. Every additional language uses its own loca
 /
 /tools/3d-print-cost-calculator
 /zh-hant/tools/3d-print-cost-calculator
+/de/tools/3d-print-cost-calculator
 /ar/tools/3d-print-cost-calculator
 ```
 
@@ -114,7 +139,8 @@ Direction belongs to the locale configuration:
 ```ts
 export const locales = {
   en: { direction: "ltr", defaultCurrency: "USD", defaultUnits: "imperial" },
-  "zh-Hant": { direction: "ltr", defaultCurrency: "TWD", defaultUnits: "metric" },
+  "zh-hant": { direction: "ltr", defaultCurrency: "TWD", defaultUnits: "metric" },
+  de: { direction: "ltr", defaultCurrency: "EUR", defaultUnits: "metric" },
   ar: { direction: "rtl", defaultCurrency: "USD", defaultUnits: "metric" },
 } as const;
 ```

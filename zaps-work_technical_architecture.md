@@ -57,21 +57,25 @@ Every indexable language has a stable path prefix:
 /zh-hant
 /zh-hant/tools
 /zh-hant/tools/3d-print-cost-calculator
+/de
+/de/tools
+/de/tools/3d-print-cost-calculator
 ```
 
 Rules:
 
 - English is the default language and uses unprefixed canonical URLs.
 - Legacy `/en/...` URLs permanently redirect to the matching unprefixed English route.
-- English and Traditional Chinese never share one indexable URL.
+- English, Traditional Chinese, and German each have their own indexable URL.
 - Every page has a self-referencing canonical.
-- Every equivalent page has reciprocal `en`, `zh-Hant`, and `x-default` alternates; `x-default` points to English.
+- Every equivalent page has reciprocal `en`, `zh-Hant`, `de`, and `x-default` alternates; `x-default` points to English.
 - The XML sitemap repeats the same alternate mapping.
 - `<html lang>` and `dir` come from the locale configuration.
 - Page title, description, visible FAQ, structured data, Open Graph metadata, and internal links use the same locale.
 - Tool slugs remain stable in English during the first release. Localized slugs can be introduced later only with permanent redirects and measured search demand.
 - Language and currency are independent preferences. Currency changes formatting and calculations, not the indexed URL.
-- Future Arabic uses `/ar/...`, `dir="rtl"`, logical CSS properties, localized metadata, and an RTL document template.
+- The next planned LTR locales are Simplified Chinese (`zh-hans`), Japanese (`ja`), and Spanish (`es`).
+- Future Arabic uses `/ar/...`, `dir="rtl"`, logical CSS properties, localized metadata, and an RTL document template; it must not ship as a thin translation.
 
 Current SEO outputs:
 
