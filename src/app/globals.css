@@ -262,6 +262,14 @@ svg { flex: 0 0 auto; }
 .field-control input:focus, .field-control select:focus { border-color: var(--green); box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 13%, transparent); }
 .field-control input:has(+ i) { padding-inline-end: 72px; }
 .field-control i { min-width: 38px; position: absolute; inset-block: 1px; inset-inline-end: 1px; display: flex; align-items: center; justify-content: center; padding-inline: 8px; border-inline-start: 1px solid var(--line); background: var(--surface-2); color: var(--subtle); font-style: normal; font-size: 10px; pointer-events: none; }
+.number-control input { padding-inline-end: 72px; }
+.number-control:not(.has-suffix) input { padding-inline-end: 40px; }
+.number-stepper { width: 31px; position: absolute; inset-block: 1px; inset-inline-end: 40px; display: grid; grid-template-rows: 1fr 1fr; border-inline-start: 1px solid var(--line); background: var(--surface-2); }
+.number-control:not(.has-suffix) .number-stepper { inset-inline-end: 1px; }
+.number-stepper button { min-width: 0; min-height: 0; display: grid; place-items: center; padding: 0; border: 0; border-radius: 0; background: transparent; color: var(--subtle); }
+.number-stepper button + button { border-top: 1px solid var(--line); }
+.number-stepper button:hover { background: var(--green-soft); color: var(--green-dark); }
+.number-stepper svg { width: 11px; height: 11px; stroke-width: 2; }
 .split-controls { min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
 .time-control { min-width: 0; height: 40px; display: grid; grid-template-columns: minmax(42px, 1fr) 32px; overflow: hidden; border: 1px solid var(--line); border-radius: 2px; background: var(--surface); }
 .time-control:focus-within { border-color: var(--green); box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 13%, transparent); }
