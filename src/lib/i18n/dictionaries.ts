@@ -22,6 +22,7 @@ export type Dictionary = {
     templates: string;
     pricingBasics: string;
     contact: string;
+    feedback: string;
     footerLive: string;
     github: string;
   };
@@ -149,6 +150,7 @@ const en: Dictionary = {
     templates: "Templates",
     pricingBasics: "Pricing basics",
     contact: "Contact",
+    feedback: "Feedback",
     footerLive: "3D Print Calculator live",
     github: "GitHub",
   },
@@ -218,6 +220,7 @@ const zhHant: Dictionary = {
     templates: "範本",
     pricingBasics: "定價基礎",
     contact: "聯絡我們",
+    feedback: "回饋",
     footerLive: "3D 列印計算器已上線",
     github: "GitHub",
   },

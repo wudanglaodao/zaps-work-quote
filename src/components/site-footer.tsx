@@ -9,6 +9,7 @@ import { localizedPath } from "@/lib/seo";
 import { usePreferences } from "./preferences-provider";
 
 const githubUrl = "https://github.com/wudanglaodao/zaps-work-quote";
+const feedbackUrl = "https://github.com/wudanglaodao/zaps-work-quote/issues";
 
 export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary: Dictionary }) {
   const { theme, toggleTheme } = usePreferences();
@@ -24,6 +25,7 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
             <Link href={localizedPath(locale, "tools")}>{dictionary.common.tools}</Link>
             <Link href={localizedPath(locale, "privacy")}>{dictionary.common.privacy}</Link>
             <a href="mailto:info@lopuo.com">{dictionary.common.contact}</a>
+            <a href={feedbackUrl} target="_blank" rel="noreferrer">{dictionary.common.feedback}</a>
             <a href={githubUrl} target="_blank" rel="noreferrer">{dictionary.common.github}</a>
             <span>© 2026 zaps.work</span>
           </div>
@@ -57,6 +59,7 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
           <Link href={`${homePath}#how-it-works`}>{dictionary.common.howItWorks}</Link>
           <Link href={localizedPath(locale, "privacy")}>{dictionary.common.privacy}</Link>
           <a href="mailto:info@lopuo.com">{dictionary.common.contact}</a>
+          <a href={feedbackUrl} target="_blank" rel="noreferrer">{dictionary.common.feedback}</a>
           <a href={githubUrl} target="_blank" rel="noreferrer">{dictionary.common.github}</a>
         </div>
       </div>
