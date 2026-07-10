@@ -63,18 +63,18 @@ svg { flex: 0 0 auto; }
 .preference-trigger svg { width: 15px; height: 15px; }
 .preference-trigger[aria-expanded="true"] svg:last-child { transform: rotate(180deg); }
 .preference-menu { min-width: 166px; position: absolute; inset-block-start: calc(100% + 8px); inset-inline-end: 0; z-index: 60; display: grid; gap: 2px; padding: 5px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); box-shadow: var(--shadow); }
-.preference:has(.currency-search) .preference-menu { width: 230px; max-height: min(420px, calc(100vh - 88px)); grid-template-rows: auto minmax(0, 1fr); overflow: hidden; }
-.currency-search { display: block; padding: 3px 5px 5px; }
-.currency-search input { width: 100%; min-height: 34px; padding: 0 9px; border: 1px solid var(--line); border-radius: 2px; background: var(--surface-2); color: var(--ink); font: inherit; font-size: 12px; outline: 0; }
-.currency-search input:focus { border-color: var(--green); background: var(--surface); }
-.currency-options { min-height: 0; overflow-y: auto; padding-inline: 0; overscroll-behavior: contain; scrollbar-gutter: stable; }
-.currency-options::-webkit-scrollbar { width: 8px; }
-.currency-options::-webkit-scrollbar-thumb { border: 2px solid var(--surface); border-radius: 8px; background: var(--line-strong); }
+.preference:has(.menu-search) .preference-menu { width: 230px; max-height: min(420px, calc(100vh - 88px)); grid-template-rows: auto minmax(0, 1fr); overflow: hidden; }
+.menu-search { display: block; padding: 3px 5px 5px; }
+.menu-search input { width: 100%; min-height: 34px; padding: 0 9px; border: 1px solid var(--line); border-radius: 2px; background: var(--surface-2); color: var(--ink); font: inherit; font-size: 12px; outline: 0; }
+.menu-search input:focus { border-color: var(--green); background: var(--surface); }
+.menu-options, .currency-options { min-height: 0; overflow-y: auto; padding-inline: 0; overscroll-behavior: contain; scrollbar-gutter: stable; }
+.menu-options::-webkit-scrollbar, .currency-options::-webkit-scrollbar { width: 8px; }
+.menu-options::-webkit-scrollbar-thumb, .currency-options::-webkit-scrollbar-thumb { border: 2px solid var(--surface); border-radius: 8px; background: var(--line-strong); }
 .currency-option { min-height: 40px; display: grid; grid-template-columns: 42px 1fr; gap: 7px; align-items: center; }
 .currency-option strong { color: inherit; font-size: 12px; }
 .currency-option small { overflow: hidden; color: var(--muted); font-size: 11px; font-weight: 560; text-overflow: ellipsis; white-space: nowrap; }
 .currency-option.selected small { color: var(--green-dark); }
-.currency-empty { margin: 8px 10px; color: var(--muted); font-size: 11px; }
+.menu-empty { margin: 8px 10px; color: var(--muted); font-size: 11px; }
 .preference-option { min-height: 38px; display: flex; align-items: center; width: 100%; padding: 0 10px; border: 0; border-radius: 2px; background: transparent; color: var(--muted); cursor: pointer; font-size: 12px; font-weight: 650; text-align: start; }
 .preference-option:hover { background: var(--surface-2); color: var(--ink); }
 .preference-option.selected { background: var(--green-soft); color: var(--green-dark); }

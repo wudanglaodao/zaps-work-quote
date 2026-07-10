@@ -45,9 +45,12 @@ function Menu({
 export function SiteHeader({ locale, dictionary }: { locale: Locale; dictionary: Dictionary }) {
   const pathname = usePathname();
   const { currency, setCurrency, theme, toggleTheme } = usePreferences();
+  const [languageQuery, setLanguageQuery] = useState("");
   const [currencyQuery, setCurrencyQuery] = useState("");
   const routePath = pathname.replace(/^\/(en|zh-hant|de|ja|es|fr|pt-br|ko)(?=\/|$)/, "").replace(/^\//, "");
+  const normalizedLanguageQuery = languageQuery.trim().toLowerCase();
   const normalizedCurrencyQuery = currencyQuery.trim().toLowerCase();
+  const filteredLocales = locales.filter((option) => `${option} ${localeNames[option]}`.toLowerCase().includes(normalizedLanguageQuery));
   const filteredCurrencies = currencies.filter((option) => `${option} ${currencyNames[option]}`.toLowerCase().includes(normalizedCurrencyQuery));
   return (
     <header className="site-header">
@@ -60,10 +63,11 @@ export function SiteHeader({ locale, dictionary }: { locale: Locale; dictionary:
         </div>
         <div className="nav-actions">
           <Menu label={dictionary.common.language} value={localeLabel(locale)} icon={<Globe2 aria-hidden="true" />}>
-            {locales.map((option) => <Link className={`preference-option ${option === locale ? "selected" : ""}`} href={localizedPath(option, routePath)} key={option}>{localeNames[option]}</Link>)}
+            <label className="menu-search"><span className="sr-only">{dictionary.common.searchLanguage}</span><input type="search" value={languageQuery} placeholder={dictionary.common.searchLanguage} onChange={(event) => setLanguageQuery(event.target.value)} /></label>
+            <div className="menu-options">{filteredLocales.length ? filteredLocales.map((option) => <Link className={`preference-option ${option === locale ? "selected" : ""}`} href={localizedPath(option, routePath)} key={option}>{localeNames[option]}</Link>) : <p className="menu-empty">{dictionary.common.noLanguageResults}</p>}</div>
           </Menu>
           <Menu label={dictionary.common.currency} value={currency} icon={<Coins aria-hidden="true" />}>
-            <label className="currency-search"><span className="sr-only">{dictionary.common.searchCurrency}</span><input type="search" value={currencyQuery} placeholder={dictionary.common.searchCurrency} onChange={(event) => setCurrencyQuery(event.target.value)} /></label>
+            <label className="menu-search currency-search"><span className="sr-only">{dictionary.common.searchCurrency}</span><input type="search" value={currencyQuery} placeholder={dictionary.common.searchCurrency} onChange={(event) => setCurrencyQuery(event.target.value)} /></label>
             <div className="currency-options">{filteredCurrencies.length ? filteredCurrencies.map((option) => <button className={`preference-option currency-option ${option === currency ? "selected" : ""}`} type="button" key={option} onClick={() => setCurrency(option)}><strong>{option}</strong><small>{currencyNames[option]}</small></button>) : <p className="currency-empty">{dictionary.common.noCurrencyResults}</p>}</div>
           </Menu>
           <button className="icon-button theme-button" type="button" onClick={toggleTheme} aria-label={theme === "dark" ? dictionary.common.lightMode : dictionary.common.darkMode}>
