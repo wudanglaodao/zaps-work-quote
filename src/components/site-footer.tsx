@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Moon, Sun } from "lucide-react";
+import { usePathname } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import type { Locale } from "@/lib/i18n/config";
 import { localizedPath } from "@/lib/seo";
@@ -9,7 +10,24 @@ import { usePreferences } from "./preferences-provider";
 
 export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary: Dictionary }) {
   const { theme, toggleTheme } = usePreferences();
+  const pathname = usePathname();
   const homePath = localizedPath(locale);
+
+  if (pathname.includes("/tools")) {
+    return (
+      <footer className="site-footer site-footer-compact">
+        <div className="shell footer-compact-inner">
+          <Link className="brand footer-brand" href={homePath}>zaps<span>.</span>work</Link>
+          <div className="footer-compact-links">
+            <Link href={localizedPath(locale, "tools")}>{dictionary.common.tools}</Link>
+            <Link href={localizedPath(locale, "privacy")}>{dictionary.common.privacy}</Link>
+            <a href="mailto:hello@zaps.work">{dictionary.common.contact}</a>
+            <span>© 2026 zaps.work</span>
+          </div>
+        </div>
+      </footer>
+    );
+  }
 
   return (
     <footer className="site-footer" id="guides">
