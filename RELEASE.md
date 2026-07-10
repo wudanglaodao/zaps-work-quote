@@ -36,8 +36,9 @@ Copy `.env.example` to `.env.local` for local development. Configure the same na
 2. Keep `main` as the production branch.
 3. Add `zaps.work` and `www.zaps.work`; redirect one host to the canonical host.
 4. Set `NEXT_PUBLIC_SITE_URL=https://zaps.work` in every environment.
-5. Enable Web Analytics and Speed Insights.
-6. Verify the Preview deployment before merging to `main`.
+5. Set `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` in Preview and Production.
+6. Enable Web Analytics and Speed Insights.
+7. Verify the Preview deployment before merging to `main`.
 
 ## GitHub
 

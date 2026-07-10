@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { GoogleAnalytics } from "@/components/google-analytics";
 import { PreferencesProvider } from "@/components/preferences-provider";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -21,5 +22,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootEntryLayout({ children }: { children: React.ReactNode }) {
-  return <html lang="en" dir="ltr" data-scroll-behavior="smooth" className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning><body><PreferencesProvider locale="en"><SiteHeader locale="en" dictionary={dictionary} /><main className="site-main">{children}</main><SiteFooter locale="en" dictionary={dictionary} /></PreferencesProvider><Analytics /><SpeedInsights /></body></html>;
+  return <html lang="en" dir="ltr" data-scroll-behavior="smooth" className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning><body><PreferencesProvider locale="en"><SiteHeader locale="en" dictionary={dictionary} /><main className="site-main">{children}</main><SiteFooter locale="en" dictionary={dictionary} /></PreferencesProvider><Analytics /><SpeedInsights /><GoogleAnalytics /></body></html>;
 }

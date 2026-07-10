@@ -14,6 +14,7 @@ The first live tool is the [3D Print Cost Calculator](https://zaps.work/tools/3d
 - Zod schemas and pure calculation functions
 - Supabase Postgres for privacy-safe product analytics
 - Vercel hosting, previews, Web Analytics, and Speed Insights
+- Google Analytics for page-level traffic analysis
 - Vitest, ESLint, and TypeScript release checks
 
 ## Local Development

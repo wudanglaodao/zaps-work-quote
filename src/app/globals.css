@@ -300,6 +300,7 @@ svg { flex: 0 0 auto; }
 .footer-top { display: grid; grid-template-columns: 1.4fr repeat(3, .6fr); gap: 52px; padding-block: 58px 46px; }
 .footer-summary { max-width: 340px; }
 .footer-summary p { margin: 16px 0 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.footer-summary .footer-privacy-promise { margin-top: 12px; color: var(--ink); font-size: 13px; font-weight: 650; }
 .footer-brand { font-size: 24px; }
 .footer-column h3 { margin: 0 0 14px; font-size: 12px; font-weight: 720; }
 .footer-column a, .footer-column span { display: block; margin-top: 11px; color: var(--muted); font-size: 13px; }

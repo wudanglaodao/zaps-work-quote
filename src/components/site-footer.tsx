@@ -38,6 +38,7 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
         <div className="footer-summary">
           <Link className="brand footer-brand" href={homePath}>zaps<span>.</span>work</Link>
           <p>{dictionary.common.footerSummary}</p>
+          <p className="footer-privacy-promise">{dictionary.common.footerPrivacyPromise}</p>
         </div>
         <div className="footer-column">
           <h3>{dictionary.common.tools}</h3>
