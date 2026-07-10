@@ -370,6 +370,16 @@ svg { flex: 0 0 auto; }
 .prose-page h1 { margin: 0 0 34px; font-size: 48px; }
 .prose-page h2 { margin: 42px 0 14px; font-size: 25px; }
 .prose-page p { color: var(--muted); font-size: 16px; line-height: 1.75; }
+.not-found-page { min-height: calc(100svh - 126px); display: grid; place-items: center; padding-block: 72px 100px; }
+.not-found-content { max-width: 680px; text-align: center; }
+.not-found-content .section-kicker { justify-content: center; }
+.not-found-content .section-kicker svg { width: 15px; height: 15px; color: var(--green); }
+.not-found-code { margin-top: 18px; color: var(--green); font-family: var(--font-mono); font-size: clamp(92px, 16vw, 156px); font-weight: 700; line-height: .86; letter-spacing: 0; }
+.not-found-content h1 { margin: 30px 0 0; color: var(--ink); font-size: clamp(32px, 4vw, 48px); font-weight: 660; line-height: 1.08; letter-spacing: 0; }
+.not-found-copy { max-width: 480px; margin: 18px auto 0; color: var(--muted); font-size: 16px; line-height: 1.6; }
+.not-found-actions { margin-top: 30px; display: flex; align-items: center; justify-content: center; gap: 14px; }
+.not-found-actions .home-text-link { gap: 7px; }
+.not-found-actions .home-text-link svg:first-child { width: 16px; height: 16px; }
 .site-footer { border-top: 1px solid var(--line); background: var(--surface); }
 .footer-top { display: grid; grid-template-columns: 1.4fr repeat(3, .6fr); gap: 52px; padding-block: 58px 46px; }
 .footer-summary { max-width: 340px; }
@@ -421,6 +431,9 @@ svg { flex: 0 0 auto; }
   .home-hero-actions { align-items: stretch; flex-direction: column; }
   .home-hero-actions .button { width: 100%; }
   .home-text-link { justify-content: center; }
+  .not-found-page { min-height: calc(100svh - 96px); padding-block: 56px 72px; }
+  .not-found-actions { align-items: stretch; flex-direction: column; }
+  .not-found-actions .button, .not-found-actions .home-text-link { justify-content: center; }
   .home-workflow-section, .home-tools-section, .home-privacy-section { padding-block: 64px 72px; }
   .home-section-intro { display: block; }
   .home-section-intro > p { margin-top: 14px; }
