@@ -56,16 +56,17 @@ function TimeField({
   minutesLabel: string;
 }) {
   function numericValue(value: string, max?: number) {
-    const digits = value.replace(/\D/g, "");
-    if (!digits) return 0;
-    return max === undefined ? Number(digits) : Math.min(max, Number(digits));
+    const parsed = Number(value);
+    if (!Number.isFinite(parsed)) return 0;
+    const normalized = Math.max(0, Math.floor(parsed));
+    return max === undefined ? normalized : Math.min(max, normalized);
   }
 
   return <div className="field split-field">
     <span>{label}</span>
     <span className="split-controls">
-      <span className="field-control time-control"><input aria-label={hoursLabel} inputMode="numeric" pattern="[0-9]*" type="text" value={String(Number.isFinite(hours) ? hours : 0)} onChange={(event) => onHoursChange(numericValue(event.target.value))} /><i>h</i></span>
-      <span className="field-control time-control"><input aria-label={minutesLabel} inputMode="numeric" pattern="[0-9]*" type="text" value={String(Number.isFinite(minutes) ? minutes : 0)} onChange={(event) => onMinutesChange(numericValue(event.target.value, 59))} /><i>m</i></span>
+      <span className="time-control"><input className="time-input" aria-label={hoursLabel} inputMode="numeric" min="0" step="1" type="number" value={Number.isFinite(hours) ? hours : 0} onChange={(event) => onHoursChange(numericValue(event.target.value))} /><span className="time-unit" aria-hidden="true">h</span></span>
+      <span className="time-control"><input className="time-input" aria-label={minutesLabel} inputMode="numeric" min="0" max="59" step="1" type="number" value={Number.isFinite(minutes) ? minutes : 0} onChange={(event) => onMinutesChange(numericValue(event.target.value, 59))} /><span className="time-unit" aria-hidden="true">m</span></span>
     </span>
   </div>;
 }

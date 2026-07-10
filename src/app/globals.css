@@ -260,12 +260,13 @@ svg { flex: 0 0 auto; }
 .field-control input:focus, .field-control select:focus { border-color: var(--green); box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 13%, transparent); }
 .field-control input:has(+ i) { padding-inline-end: 72px; }
 .field-control i { min-width: 38px; position: absolute; inset-block: 1px; inset-inline-end: 1px; display: flex; align-items: center; justify-content: center; padding-inline: 8px; border-inline-start: 1px solid var(--line); background: var(--surface-2); color: var(--subtle); font-style: normal; font-size: 10px; pointer-events: none; }
-.split-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.time-control { display: grid; grid-template-columns: minmax(0, 1fr) 32px; overflow: hidden; border: 1px solid var(--line); border-radius: 2px; background: var(--surface); }
+.split-controls { min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.time-control { min-width: 0; height: 40px; display: grid; grid-template-columns: minmax(42px, 1fr) 32px; overflow: hidden; border: 1px solid var(--line); border-radius: 2px; background: var(--surface); }
 .time-control:focus-within { border-color: var(--green); box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 13%, transparent); }
-.time-control input, .time-control input:has(+ i) { min-width: 0; padding: 0 10px; border: 0; border-radius: 0; box-shadow: none; background: transparent; font-variant-numeric: tabular-nums; }
-.time-control input:focus { border: 0; box-shadow: none; }
-.time-control i { min-width: 0; position: static; padding: 0; border-inline-start: 1px solid var(--line); background: var(--surface-2); }
+.time-input, .time-input:has(+ .time-unit) { width: 100%; min-width: 0; height: 38px; min-height: 38px; padding: 0 8px; border: 0; border-radius: 0; outline: 0; box-shadow: none; appearance: textfield; background: transparent; color: var(--ink); font: inherit; font-size: 13px; font-weight: 650; line-height: normal; text-align: center; font-variant-numeric: tabular-nums; -webkit-text-fill-color: var(--ink); opacity: 1; }
+.time-input::-webkit-inner-spin-button, .time-input::-webkit-outer-spin-button { margin: 0; appearance: none; }
+.time-input:focus { border: 0; outline: 0; box-shadow: none; }
+.time-unit { min-width: 0; display: grid; place-items: center; border-inline-start: 1px solid var(--line); background: var(--surface-2); color: var(--subtle); font-size: 10px; font-weight: 630; line-height: 1; pointer-events: none; }
 .form-disclosure { margin-top: 18px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--surface-2) 55%, transparent); }
 .form-disclosure summary { min-height: 46px; display: flex; align-items: center; justify-content: space-between; padding-inline: 10px; list-style: none; cursor: pointer; color: var(--muted); font-size: 12px; font-weight: 680; }
 .form-disclosure summary::-webkit-details-marker { display: none; }
