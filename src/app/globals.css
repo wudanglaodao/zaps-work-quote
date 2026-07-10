@@ -257,6 +257,8 @@ svg { flex: 0 0 auto; }
 .field { min-height: 40px; display: grid; grid-template-columns: minmax(110px, 1fr) minmax(150px, 1.08fr); align-items: center; gap: 16px; color: var(--muted); font-size: 12px; font-weight: 620; }
 .field-control { min-width: 0; position: relative; display: flex; }
 .field-control input, .field-control select { width: 100%; min-height: 40px; padding: 0 12px; border: 1px solid var(--line); border-radius: 2px; outline: 0; background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 630; }
+.field-control input[type="number"] { appearance: textfield; }
+.field-control input[type="number"]::-webkit-inner-spin-button, .field-control input[type="number"]::-webkit-outer-spin-button { margin: 0; appearance: none; }
 .field-control input:focus, .field-control select:focus { border-color: var(--green); box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 13%, transparent); }
 .field-control input:has(+ i) { padding-inline-end: 72px; }
 .field-control i { min-width: 38px; position: absolute; inset-block: 1px; inset-inline-end: 1px; display: flex; align-items: center; justify-content: center; padding-inline: 8px; border-inline-start: 1px solid var(--line); background: var(--surface-2); color: var(--subtle); font-style: normal; font-size: 10px; pointer-events: none; }
