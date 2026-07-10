@@ -38,6 +38,38 @@ function TextField({ label, value, onChange, placeholder }: { label: string; val
   return <label className="field"><span>{label}</span><span className="field-control"><input type="text" value={value} placeholder={placeholder} onChange={(event) => onChange(event.target.value)} /></span></label>;
 }
 
+function TimeField({
+  label,
+  hours,
+  minutes,
+  onHoursChange,
+  onMinutesChange,
+  hoursLabel,
+  minutesLabel,
+}: {
+  label: string;
+  hours: number;
+  minutes: number;
+  onHoursChange: (value: number) => void;
+  onMinutesChange: (value: number) => void;
+  hoursLabel: string;
+  minutesLabel: string;
+}) {
+  function numericValue(value: string, max?: number) {
+    const digits = value.replace(/\D/g, "");
+    if (!digits) return 0;
+    return max === undefined ? Number(digits) : Math.min(max, Number(digits));
+  }
+
+  return <div className="field split-field">
+    <span>{label}</span>
+    <span className="split-controls">
+      <span className="field-control"><input aria-label={hoursLabel} inputMode="numeric" pattern="[0-9]*" type="text" value={String(Number.isFinite(hours) ? hours : 0)} onChange={(event) => onHoursChange(numericValue(event.target.value))} /><i>h</i></span>
+      <span className="field-control"><input aria-label={minutesLabel} inputMode="numeric" pattern="[0-9]*" type="text" value={String(Number.isFinite(minutes) ? minutes : 0)} onChange={(event) => onMinutesChange(numericValue(event.target.value, 59))} /><i>m</i></span>
+    </span>
+  </div>;
+}
+
 function QuoteDocument({
   locale,
   dictionary,
@@ -150,7 +182,7 @@ export function ThreeDPrintCalculator({ locale, dictionary }: { locale: Locale; 
       <form className="calculator-panel" onSubmit={(event) => event.preventDefault()}>
         <header className="panel-heading"><p>{t.input}</p><h2>{t.jobDetails}</h2></header>
         <div className="form-section"><div className="form-title"><h3><b>01</b>{t.printItems}</h3><span>{input.items.length}</span></div><div className="item-tabs">{input.items.map((item, index) => <button type="button" className={item.id === activeItem.id ? "active" : ""} key={item.id} onClick={() => setActiveItemId(item.id)}><span>{String(index + 1).padStart(2, "0")}</span><strong>{item.name}</strong>{input.items.length > 1 ? <Trash2 aria-label="Delete item" onClick={(event) => { event.stopPropagation(); const next = input.items.filter((candidate) => candidate.id !== item.id); setInput({ ...input, items: next }); setActiveItemId(next[0].id); }} /> : null}</button>)}</div><button className="button dashed" type="button" disabled={input.items.length >= 10} onClick={() => { const next = createDefaultItem(input.items.length + 1); setInput({ ...input, items: [...input.items, next] }); setActiveItemId(next.id); }}><Plus aria-hidden="true" />{t.addItem}</button>
-          <div className="fields"><TextField label={t.itemName} value={activeItem.name} onChange={(name) => updateItem({ name })} /><label className="field"><span>{t.material}</span><span className="field-control"><select value={activeItem.material} onChange={(event) => updateItem({ material: event.target.value as PrintItemInput["material"] })}>{["PLA", "PETG", "ABS", "TPU", "Other"].map((material) => <option key={material}>{material}</option>)}</select></span></label><Field label={t.quantity} value={activeItem.quantity} min={1} step={1} onChange={(quantity) => updateItem({ quantity: Math.max(1, Math.round(quantity)) })} suffix="pcs" /><Field label={t.filament} value={activeItem.filamentGrams} onChange={(filamentGrams) => updateItem({ filamentGrams })} suffix="g" /><div className="field split-field"><span>{locale === "zh-hant" ? "列印時間" : "Print time"}</span><span className="split-controls"><span className="field-control"><input type="number" min="0" value={activeItem.printHours} onChange={(event) => updateItem({ printHours: Number(event.target.value) })} /><i>h</i></span><span className="field-control"><input type="number" min="0" max="59" value={activeItem.printMinutes} onChange={(event) => updateItem({ printMinutes: Math.min(59, Number(event.target.value)) })} /><i>m</i></span></span></div></div>
+          <div className="fields"><TextField label={t.itemName} value={activeItem.name} onChange={(name) => updateItem({ name })} /><label className="field"><span>{t.material}</span><span className="field-control"><select value={activeItem.material} onChange={(event) => updateItem({ material: event.target.value as PrintItemInput["material"] })}>{["PLA", "PETG", "ABS", "TPU", "Other"].map((material) => <option key={material}>{material}</option>)}</select></span></label><Field label={t.quantity} value={activeItem.quantity} min={1} step={1} onChange={(quantity) => updateItem({ quantity: Math.max(1, Math.round(quantity)) })} suffix="pcs" /><Field label={t.filament} value={activeItem.filamentGrams} onChange={(filamentGrams) => updateItem({ filamentGrams })} suffix="g" /><TimeField label={locale === "zh-hant" ? "列印時間" : "Print time"} hours={activeItem.printHours} minutes={activeItem.printMinutes} onHoursChange={(printHours) => updateItem({ printHours })} onMinutesChange={(printMinutes) => updateItem({ printMinutes })} hoursLabel={locale === "zh-hant" ? "列印小時" : "Print hours"} minutesLabel={locale === "zh-hant" ? "列印分鐘" : "Print minutes"} /></div>
           <details className="form-disclosure"><summary>{t.itemCosts}<span /></summary><div className="fields detail-fields"><Field label={t.spoolPrice} value={activeItem.spoolPrice} onChange={(spoolPrice) => updateItem({ spoolPrice })} suffix={symbol} /><Field label={t.spoolWeight} value={activeItem.spoolWeightGrams} onChange={(spoolWeightGrams) => updateItem({ spoolWeightGrams })} suffix="g" /><Field label={t.preparation} value={activeItem.preparationMinutes} onChange={(preparationMinutes) => updateItem({ preparationMinutes })} suffix="min" /><Field label={t.postProcessing} value={activeItem.postProcessingMinutes} onChange={(postProcessingMinutes) => updateItem({ postProcessingMinutes })} suffix="min" /><Field label={t.packaging} value={activeItem.packagingCost} onChange={(packagingCost) => updateItem({ packagingCost })} suffix={symbol} /></div></details>
         </div>
         <div className="form-section"><div className="form-title"><h3><b>02</b>{t.sharedRates}</h3></div><div className="fields"><Field label={t.machineRate} value={input.machineRate} onChange={(value) => updateInput("machineRate", value)} suffix={`${symbol}/h`} /><Field label={t.laborRate} value={input.laborRate} onChange={(value) => updateInput("laborRate", value)} suffix={`${symbol}/h`} /><Field label={t.failureRate} value={input.failureRate} onChange={(value) => updateInput("failureRate", value)} suffix="%" /><Field label={t.wasteRate} value={input.wasteRate} onChange={(value) => updateInput("wasteRate", value)} suffix="%" /><Field label={t.powerDraw} value={input.powerDrawWatts} onChange={(value) => updateInput("powerDrawWatts", value)} suffix="W" /><Field label={t.electricityRate} value={input.electricityRate} onChange={(value) => updateInput("electricityRate", value)} suffix={`${symbol}/kWh`} /></div></div>
