@@ -21,7 +21,7 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
           <div className="footer-compact-links">
             <Link href={localizedPath(locale, "tools")}>{dictionary.common.tools}</Link>
             <Link href={localizedPath(locale, "privacy")}>{dictionary.common.privacy}</Link>
-            <a href="mailto:hello@zaps.work">{dictionary.common.contact}</a>
+            <a href="mailto:info@lopuo.com">{dictionary.common.contact}</a>
             <span>© 2026 zaps.work</span>
           </div>
         </div>
@@ -52,7 +52,7 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
           <h3>zaps.work</h3>
           <Link href={`${homePath}#how-it-works`}>{dictionary.common.howItWorks}</Link>
           <Link href={localizedPath(locale, "privacy")}>{dictionary.common.privacy}</Link>
-          <a href="mailto:hello@zaps.work">{dictionary.common.contact}</a>
+          <a href="mailto:info@lopuo.com">{dictionary.common.contact}</a>
         </div>
       </div>
       <div className="shell footer-bottom">

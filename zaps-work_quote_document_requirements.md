@@ -85,7 +85,7 @@ When on, display the fields as optional. Empty values must not leave blank label
 
 Starter placeholders:
 
-- Company details: `hello@zaps.work`.
+- Company details: `info@lopuo.com`.
 - Customer name: `Optional`.
 - Customer details: `Email or address`.
 - Quote number: `QT-2026-001`.

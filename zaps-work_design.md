@@ -383,7 +383,7 @@ Rules:
 - Company name is optional; leave the header blank when it is not provided instead of falling back to platform branding.
 - Do not add a zaps.work footer, watermark, promotional line, or source URL to exported documents.
 - Keep only Company name visible by default. Place the remaining optional quote metadata behind an off-by-default switch; closing it preserves entered values but excludes them from the PDF.
-- Optional quote metadata starts empty. Omit both its label and value from the PDF when the user has not provided it; placeholders such as `hello@zaps.work` are never exported.
+- Optional quote metadata starts empty. Omit both its label and value from the PDF when the user has not provided it; placeholders such as `info@lopuo.com` are never exported.
 - Use a restrained editorial quote structure: large document title, company identity, quote date/reference, customer and project block, line-item table, totals, and validity note.
 - Customer-facing line items show description, quantity, unit price, and amount. Internal cost, margin, risk, and pricing formulas never appear in the exported quote.
 - CSV exports use UTF-8 BOM, localized headers, plain numeric amount cells, and a separate currency-code column. Optional metadata follows the same visibility switch as the PDF.
