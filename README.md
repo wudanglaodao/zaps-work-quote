@@ -45,6 +45,8 @@ English uses clean, unprefixed URLs. Other languages use stable locale prefixes:
 
 Each complete localized page emits a language-specific canonical URL, reciprocal `hreflang` links, and an `x-default` English fallback. The sitemap repeats the same alternate mapping. Legacy `/en/...` routes permanently redirect to their unprefixed English equivalents. New locales are added only after their full page copy and SEO metadata are ready.
 
+The site also publishes [`/robots.txt`](https://zaps.work/robots.txt), [`/sitemap.xml`](https://zaps.work/sitemap.xml), and [`/llms.txt`](https://zaps.work/llms.txt). `llms.txt` is an AI-readable navigation aid; canonical metadata, sitemap, robots rules, and page content remain the source of truth for search indexing.
+
 ## Data Boundary
 
 Calculations and PDF/CSV generation run in the browser. On export, the analytics API accepts a strictly allowlisted anonymous snapshot containing categorical and numeric calculation data such as material type, quantity, production time, rates, cost breakdown, and quote result. Strict schemas reject free text and customer-related fields. The service-role key is server-only and the analytics table has Row Level Security enabled.

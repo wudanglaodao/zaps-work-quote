@@ -15,6 +15,7 @@
 - `/zh-hant/tools/3d-print-cost-calculator`
 - `/sitemap.xml`
 - `/robots.txt`
+- `/llms.txt`
 - `/api/health`
 
 ## Environment Variables
@@ -61,6 +62,7 @@ Copy `.env.example` to `.env.local` for local development. Configure the same na
 - Verify both locale routes return `200` and contain one language only.
 - Confirm legacy `/en` routes permanently redirect to unprefixed English equivalents and are not indexed as duplicate content.
 - Inspect canonical and `hreflang` links, including `x-default`.
+- Verify `/llms.txt` returns the current public page map and privacy boundary.
 - Submit `https://zaps.work/sitemap.xml` to Google Search Console and Bing Webmaster Tools.
 - Verify the domain property and both protocol/host redirects.
 - Run Rich Results Test for the tool page.
