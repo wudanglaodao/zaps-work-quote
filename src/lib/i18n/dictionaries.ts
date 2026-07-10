@@ -13,6 +13,15 @@ export type Dictionary = {
     lightMode: string;
     live: string;
     soon: string;
+    footerSummary: string;
+    footer3d: string;
+    footerCleaning: string;
+    footerLaser: string;
+    resources: string;
+    templates: string;
+    pricingBasics: string;
+    contact: string;
+    footerLive: string;
   };
   home: {
     title: string;
@@ -119,6 +128,15 @@ const en: Dictionary = {
     lightMode: "Switch to light mode",
     live: "Live",
     soon: "Soon",
+    footerSummary: "Practical cost calculators and quote generators for fabrication, local services, and independent work.",
+    footer3d: "3D Print Cost",
+    footerCleaning: "Cleaning Quote",
+    footerLaser: "Laser Cutting",
+    resources: "Resources",
+    templates: "Templates",
+    pricingBasics: "Pricing basics",
+    contact: "Contact",
+    footerLive: "3D Print Calculator live",
   },
   home: {
     title: "Free Cost Calculators & Quote Tools | zaps.work",
@@ -167,6 +185,15 @@ const zhHant: Dictionary = {
     lightMode: "切換至淺色模式",
     live: "已上線",
     soon: "即將推出",
+    footerSummary: "為製造加工、在地服務與獨立工作者打造的實用成本與報價工具。",
+    footer3d: "3D 列印成本",
+    footerCleaning: "清潔報價",
+    footerLaser: "雷射切割",
+    resources: "資源",
+    templates: "範本",
+    pricingBasics: "定價基礎",
+    contact: "聯絡我們",
+    footerLive: "3D 列印計算器已上線",
   },
   home: {
     title: "免費成本計算器與報價工具 | zaps.work",
