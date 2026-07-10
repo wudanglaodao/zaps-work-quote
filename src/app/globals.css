@@ -69,6 +69,9 @@ svg { flex: 0 0 auto; }
 .icon-button { width: 42px; height: 42px; padding: 0; }
 .icon-button:hover { border-color: var(--ink); background: var(--surface-2); color: var(--ink); }
 .icon-button svg, .button svg { width: 16px; height: 16px; }
+.icon-button.theme-button, .icon-button.footer-theme { border-color: transparent; background: transparent; }
+.icon-button.theme-button:hover, .icon-button.footer-theme:hover { border-color: transparent; background: var(--surface-2); }
+.icon-button.theme-button:focus-visible, .icon-button.footer-theme:focus-visible { outline-color: var(--green); }
 .button:hover { border-color: var(--ink); transform: translateY(-1px); }
 .button.primary { border-color: var(--green); background: var(--green); color: #fff; }
 [data-theme="dark"] .button.primary { color: #041009; }

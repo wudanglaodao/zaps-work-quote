@@ -65,7 +65,7 @@ export function SiteHeader({ locale, dictionary }: { locale: Locale; dictionary:
               <button className={`preference-option ${option === currency ? "selected" : ""}`} type="button" key={option} onClick={() => setCurrency(option as Currency)}>{option}</button>
             ))}
           </Menu>
-          <button className="icon-button" type="button" onClick={toggleTheme} aria-label={theme === "dark" ? dictionary.common.lightMode : dictionary.common.darkMode}>
+          <button className="icon-button theme-button" type="button" onClick={toggleTheme} aria-label={theme === "dark" ? dictionary.common.lightMode : dictionary.common.darkMode}>
             {theme === "dark" ? <Sun aria-hidden="true" /> : <Moon aria-hidden="true" />}
           </button>
           <Link className="button compact" href={localizedPath(locale, "tools")}>{dictionary.common.allTools}</Link>
