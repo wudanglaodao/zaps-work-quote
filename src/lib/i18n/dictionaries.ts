@@ -9,6 +9,8 @@ export type Dictionary = {
     allTools: string;
     language: string;
     currency: string;
+    searchCurrency: string;
+    noCurrencyResults: string;
     darkMode: string;
     lightMode: string;
     live: string;
@@ -137,6 +139,8 @@ const en: Dictionary = {
     allTools: "All tools",
     language: "Language",
     currency: "Currency",
+    searchCurrency: "Search currency",
+    noCurrencyResults: "No matching currency",
     darkMode: "Switch to dark mode",
     lightMode: "Switch to light mode",
     live: "Live",
@@ -207,6 +211,8 @@ const zhHant: Dictionary = {
     allTools: "所有工具",
     language: "語言",
     currency: "貨幣",
+    searchCurrency: "搜尋貨幣",
+    noCurrencyResults: "找不到符合的貨幣",
     darkMode: "切換至深色模式",
     lightMode: "切換至淺色模式",
     live: "已上線",
@@ -277,6 +283,8 @@ const de: Dictionary = {
     allTools: "Alle Tools",
     language: "Sprache",
     currency: "Währung",
+    searchCurrency: "Währung suchen",
+    noCurrencyResults: "Keine passende Währung",
     darkMode: "Dunkelmodus aktivieren",
     lightMode: "Hellmodus aktivieren",
     live: "Live",

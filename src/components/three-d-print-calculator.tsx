@@ -6,10 +6,9 @@ import { useEffect, useMemo, useState } from "react";
 import { usePreferences } from "@/components/preferences-provider";
 import { trackToolEvent } from "@/lib/analytics/client";
 import { calculateThreeDPrintQuote, createDefaultItem, createDefaultQuoteInput, type PrintItemInput, type QuoteInput } from "@/lib/calculators/three-d-print";
+import { currencySymbols } from "@/lib/currency";
 import type { Locale } from "@/lib/i18n/config";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
-
-const currencySymbols = { USD: "$", TWD: "NT$", EUR: "€", GBP: "£" } as const;
 
 type QuoteDetails = {
   companyName: string;

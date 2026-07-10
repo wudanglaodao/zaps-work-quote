@@ -2,9 +2,10 @@
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { Locale } from "@/lib/i18n/config";
+import { currencies, type Currency } from "@/lib/currency";
 
-export const currencies = ["USD", "TWD", "EUR", "GBP"] as const;
-export type Currency = (typeof currencies)[number];
+export { currencies } from "@/lib/currency";
+export type { Currency } from "@/lib/currency";
 
 type Preferences = {
   locale: Locale;

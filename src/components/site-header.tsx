@@ -6,8 +6,9 @@ import { ChevronDown, Coins, Globe2, Moon, Sun } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { localeLabel, locales, type Locale } from "@/lib/i18n/config";
+import { currencies, currencyNames } from "@/lib/currency";
 import { localizedPath } from "@/lib/seo";
-import { currencies, usePreferences, type Currency } from "./preferences-provider";
+import { usePreferences } from "./preferences-provider";
 
 const localeNames: Record<Locale, string> = { en: "English", "zh-hant": "繁體中文", de: "Deutsch" };
 
@@ -36,7 +37,7 @@ function Menu({
       <button className="preference-trigger" type="button" aria-label={label} aria-expanded={open} onClick={() => setOpen((value) => !value)}>
         {icon}<span>{value}</span><ChevronDown aria-hidden="true" />
       </button>
-      {open ? <div className="preference-menu" onClick={() => setOpen(false)}>{children}</div> : null}
+      {open ? <div className="preference-menu" onClick={(event) => { if ((event.target as HTMLElement).closest(".preference-option")) setOpen(false); }}>{children}</div> : null}
     </div>
   );
 }
@@ -44,7 +45,10 @@ function Menu({
 export function SiteHeader({ locale, dictionary }: { locale: Locale; dictionary: Dictionary }) {
   const pathname = usePathname();
   const { currency, setCurrency, theme, toggleTheme } = usePreferences();
+  const [currencyQuery, setCurrencyQuery] = useState("");
   const routePath = pathname.replace(/^\/(en|zh-hant|de)(?=\/|$)/, "").replace(/^\//, "");
+  const normalizedCurrencyQuery = currencyQuery.trim().toLowerCase();
+  const filteredCurrencies = currencies.filter((option) => `${option} ${currencyNames[option]}`.toLowerCase().includes(normalizedCurrencyQuery));
   return (
     <header className="site-header">
       <nav className="shell nav" aria-label="Primary navigation">
@@ -59,9 +63,8 @@ export function SiteHeader({ locale, dictionary }: { locale: Locale; dictionary:
             {locales.map((option) => <Link className={`preference-option ${option === locale ? "selected" : ""}`} href={localizedPath(option, routePath)} key={option}>{localeNames[option]}</Link>)}
           </Menu>
           <Menu label={dictionary.common.currency} value={currency} icon={<Coins aria-hidden="true" />}>
-            {currencies.map((option) => (
-              <button className={`preference-option ${option === currency ? "selected" : ""}`} type="button" key={option} onClick={() => setCurrency(option as Currency)}>{option}</button>
-            ))}
+            <label className="currency-search"><span className="sr-only">{dictionary.common.searchCurrency}</span><input type="search" value={currencyQuery} placeholder={dictionary.common.searchCurrency} onChange={(event) => setCurrencyQuery(event.target.value)} /></label>
+            <div className="currency-options">{filteredCurrencies.length ? filteredCurrencies.map((option) => <button className={`preference-option currency-option ${option === currency ? "selected" : ""}`} type="button" key={option} onClick={() => setCurrency(option)}><strong>{option}</strong><small>{currencyNames[option]}</small></button>) : <p className="currency-empty">{dictionary.common.noCurrencyResults}</p>}</div>
           </Menu>
           <button className="icon-button theme-button" type="button" onClick={toggleTheme} aria-label={theme === "dark" ? dictionary.common.lightMode : dictionary.common.darkMode}>
             {theme === "dark" ? <Sun aria-hidden="true" /> : <Moon aria-hidden="true" />}

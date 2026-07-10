@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { currencies } from "../currency";
 
 const amountSchema = z.number().finite().min(0).max(1_000_000_000);
 
@@ -50,7 +51,7 @@ export const analyticsEventSchema = z.object({
   eventType: z.enum(["calculator_used", "pdf_exported", "csv_exported", "summary_copied"]),
   toolSlug: z.literal("3d-print-cost-calculator"),
   locale: z.enum(["en", "zh-hant", "de"]),
-  currency: z.enum(["USD", "TWD", "EUR", "GBP"]),
+  currency: z.enum(currencies),
   metrics: z.object({
     itemCount: z.number().int().min(1).max(10),
     totalCost: z.number().finite().min(0).max(1_000_000_000),
