@@ -1,0 +1,1321 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Calculate material, machine, labor, risk, and margin for an FDM 3D print quote." />
+    <title>3D Print Cost Calculator - zaps.work</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --canvas: #f5f7f5;
+        --surface: #ffffff;
+        --surface-2: #f0f4f1;
+        --ink: #0b110d;
+        --muted: #59675e;
+        --subtle: #829087;
+        --line: #dce4de;
+        --line-strong: #bac7be;
+        --green: #16a34a;
+        --green-dark: #0f7a38;
+        --green-soft: #eaf8ef;
+        --blue: #2563eb;
+        --amber: #d97706;
+        --red: #dc2626;
+        --shadow: 0 24px 64px rgba(11, 17, 13, 0.08);
+      }
+
+      [data-theme="dark"] {
+        color-scheme: dark;
+        --canvas: #080c09;
+        --surface: #101612;
+        --surface-2: #151d18;
+        --ink: #f5f8f6;
+        --muted: #a9b5ad;
+        --subtle: #748078;
+        --line: #28332b;
+        --line-strong: #465249;
+        --green: #4ade80;
+        --green-dark: #86efac;
+        --green-soft: #0d2c18;
+        --blue: #73a2ff;
+        --amber: #fbbf24;
+        --red: #f87171;
+        --shadow: 0 28px 70px rgba(0, 0, 0, 0.32);
+      }
+
+      * { box-sizing: border-box; }
+      [hidden] { display: none !important; }
+      html { background: var(--canvas); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+      html[lang="zh-Hant"] { font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif; }
+      body { margin: 0; min-width: 320px; background: var(--canvas); }
+      button, input, select { color: inherit; font: inherit; }
+      a { color: inherit; text-decoration: none; }
+      .page { width: min(1240px, calc(100% - 40px)); margin: 0 auto; }
+
+      .site-header { border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(16px); }
+      .nav { min-height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+      .brand { display: inline-flex; align-items: baseline; font-size: 23px; font-weight: 730; line-height: 1; }
+      .brand-dot { color: var(--green); }
+      .nav-actions { display: flex; align-items: center; gap: 9px; }
+
+      .preference-control { min-height: 38px; position: relative; display: inline-flex; align-items: center; border-radius: 2px; color: var(--muted); }
+      .preference-trigger { min-height: 38px; display: inline-grid; grid-template-columns: 16px auto 14px; align-items: center; gap: 7px; padding: 0 8px; border: 0; border-radius: 2px; outline: 0; background: transparent; color: inherit; cursor: pointer; font-size: 12px; font-weight: 650; transition: background 150ms ease, color 150ms ease; }
+      .preference-trigger:hover, .preference-control.open .preference-trigger { background: var(--surface-2); color: var(--ink); }
+      .preference-trigger:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+      .preference-icon, .preference-chevron { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .preference-chevron { width: 13px; height: 13px; transition: transform 150ms ease; }
+      .preference-control.open .preference-chevron { transform: rotate(180deg); }
+      .locale-trigger { min-width: 82px; }
+      .currency-trigger { min-width: 78px; }
+      .preference-popover { min-width: 184px; position: absolute; z-index: 40; inset-block-start: calc(100% + 8px); inset-inline-end: 0; padding: 5px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); box-shadow: var(--shadow); }
+      .preference-popover[hidden] { display: none; }
+      .preference-option { width: 100%; min-height: 40px; display: block; padding: 6px 9px; border: 0; border-radius: 2px; background: transparent; color: var(--muted); cursor: pointer; text-align: start; }
+      .preference-option:hover, .preference-option:focus-visible { outline: 0; background: var(--surface-2); color: var(--ink); }
+      .preference-option[aria-selected="true"] { background: var(--green-soft); color: var(--green-dark); }
+      .option-copy { min-width: 0; display: flex; align-items: baseline; justify-content: space-between; gap: 14px; }
+      .option-copy strong { color: inherit; font-size: 12px; font-weight: 680; }
+      .option-copy small { color: var(--subtle); font-size: 10px; font-weight: 600; white-space: nowrap; }
+
+      .icon-button, .button {
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 0 15px;
+        border: 1px solid var(--line-strong);
+        border-radius: 2px;
+        background: var(--surface);
+        color: var(--ink);
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 660;
+        transition: border-color 150ms ease, background 150ms ease, transform 150ms ease;
+      }
+      .icon-button { width: 40px; padding: 0; }
+      .button:hover, .icon-button:hover { transform: translateY(-1px); border-color: var(--ink); }
+      .button.primary { border-color: var(--ink); background: var(--ink); color: var(--surface); }
+      .button.green { border-color: var(--green); background: var(--green); color: #fff; }
+      .button:disabled { transform: none; border-color: var(--line); background: var(--surface-2); color: var(--subtle); cursor: not-allowed; }
+      [data-theme="dark"] .button.green { color: #061009; }
+      .button svg, .icon-button svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2; }
+      .moon { display: none; }
+      [data-theme="dark"] .sun { display: none; }
+      [data-theme="dark"] .moon { display: block; }
+      :focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+      .tool-head { padding: 32px 0 24px; }
+      .tool-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 28px; }
+      .tool-identity { display: flex; align-items: flex-start; gap: 15px; }
+      .tool-mark { width: 42px; height: 42px; display: grid; place-items: center; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface); color: var(--green-dark); }
+      .tool-mark svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-linejoin: round; stroke-width: 1.8; }
+      .tool-head h1 { margin: 0; font-size: 27px; line-height: 1.12; font-weight: 680; letter-spacing: 0; }
+      .tool-head p { margin: 7px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+      .workspace { padding-bottom: 72px; }
+      .workspace-grid { display: grid; grid-template-columns: minmax(330px, .78fr) minmax(560px, 1.42fr); gap: 16px; align-items: start; }
+      .panel { border: 1px solid var(--line); border-radius: 4px; background: var(--surface); box-shadow: 0 8px 24px rgba(11, 17, 13, 0.035); }
+      .panel-head { min-height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 0 20px; border-bottom: 1px solid var(--line); }
+      .panel-kicker { margin: 0 0 4px; color: var(--green-dark); font-size: 11px; font-weight: 720; }
+      .panel-head h2 { margin: 0; font-size: 18px; font-weight: 670; }
+      .reset { border: 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 12px; font-weight: 640; }
+      .reset:hover { color: var(--ink); }
+
+      .form-body { padding: 4px 22px 20px; }
+      .form-section { padding: 24px 0; border-bottom: 1px solid var(--line); }
+      .form-section:last-child { border-bottom: 0; }
+      .form-section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+      .form-section-title h3 { margin: 0; font-size: 14px; font-weight: 710; }
+      .form-section-title h3[data-step] { display: inline-flex; align-items: center; gap: 9px; }
+      .form-section-title h3[data-step]::before { content: attr(data-step); width: 28px; height: 24px; display: grid; place-items: center; border: 1px solid color-mix(in srgb, var(--green) 34%, var(--line)); border-radius: 2px; background: var(--green-soft); color: var(--green-dark); font-size: 10px; font-weight: 760; font-variant-numeric: tabular-nums; }
+      .hint { padding: 4px 7px; border-radius: 2px; background: var(--surface-2); color: var(--subtle); font-size: 10px; font-weight: 620; }
+      .field-cluster + .field-cluster { margin-top: 18px; }
+      .field-cluster-title { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; color: var(--subtle); font-size: 10px; font-weight: 720; text-transform: uppercase; }
+      .field-cluster-title::after { content: ""; height: 1px; flex: 1; background: var(--line); }
+      .fields { display: grid; gap: 10px; }
+      .item-list { display: grid; gap: 7px; margin-bottom: 9px; }
+      .item-row { min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: stretch; border: 1px solid var(--line); border-radius: 2px; background: var(--canvas); overflow: hidden; transition: border-color 150ms ease, background 150ms ease; }
+      .item-row.active { border-color: var(--green); background: var(--green-soft); }
+      .item-select { min-width: 0; min-height: 54px; display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 9px; padding: 7px 10px; border: 0; background: transparent; color: var(--ink); cursor: pointer; text-align: start; }
+      .item-index { width: 24px; height: 24px; display: grid; place-items: center; border: 1px solid var(--line-strong); border-radius: 2px; background: var(--surface); color: var(--muted); font-size: 10px; font-weight: 720; }
+      .item-row.active .item-index { border-color: var(--green); color: var(--green-dark); }
+      .item-summary { min-width: 0; }
+      .item-summary strong, .item-summary small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .item-summary strong { font-size: 12px; font-weight: 690; }
+      .item-summary small { margin-top: 3px; color: var(--muted); font-size: 10px; }
+      .item-price { padding-inline-start: 6px; font-size: 12px; font-weight: 720; font-variant-numeric: tabular-nums; white-space: nowrap; }
+      .item-actions { display: flex; align-items: center; padding: 6px; border-inline-start: 1px solid var(--line); }
+      .item-action { width: 28px; height: 28px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 2px; background: transparent; color: var(--muted); cursor: pointer; }
+      .item-action:hover { background: var(--surface); color: var(--ink); }
+      .item-action:disabled { color: var(--line-strong); cursor: not-allowed; }
+      .item-action svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .add-item { width: 100%; min-height: 36px; border-style: dashed; background: transparent; color: var(--green-dark); }
+      .item-editor-label { display: flex; align-items: center; gap: 8px; margin: 17px 0 13px; color: var(--muted); font-size: 10px; font-weight: 720; text-transform: uppercase; }
+      .item-editor-label::after { content: ""; height: 1px; flex: 1; background: var(--line); }
+      .field-row { min-height: 40px; display: grid; grid-template-columns: minmax(112px, 1fr) minmax(140px, 1.05fr); align-items: center; gap: 16px; }
+      .field-row label { color: var(--muted); font-size: 12px; font-weight: 620; line-height: 1.35; }
+      .control { position: relative; min-width: 0; }
+      input, select {
+        width: 100%;
+        min-height: 40px;
+        padding: 0 52px 0 12px;
+        border: 1px solid var(--line);
+        border-radius: 2px;
+        background: var(--surface);
+        color: var(--ink);
+        font-size: 13px;
+        font-weight: 620;
+        font-variant-numeric: tabular-nums;
+        transition: border-color 140ms ease, background 140ms ease, box-shadow 140ms ease;
+      }
+      input[type="text"] { padding-inline: 12px; }
+      input:hover, select:hover { border-color: var(--line-strong); background: color-mix(in srgb, var(--surface) 82%, var(--canvas)); }
+      input:focus, select:focus { border-color: var(--green); outline: 0; box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 13%, transparent); }
+      input[type="number"] { appearance: textfield; }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button { margin: 0; appearance: none; }
+      .unit { min-width: 34px; position: absolute; inset-block: 1px; inset-inline-end: 1px; display: flex; align-items: center; justify-content: center; padding-inline: 8px; border-inline-start: 1px solid var(--line); border-radius: 0; border-start-end-radius: 1px; border-end-end-radius: 1px; background: var(--surface-2); color: var(--subtle); pointer-events: none; font-size: 10px; font-weight: 680; white-space: nowrap; }
+      .control:focus-within .unit { border-color: color-mix(in srgb, var(--green) 40%, var(--line)); color: var(--green-dark); }
+      #machineRate, #laborRate, #energyRate { padding-inline-end: 72px; }
+      .split { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .split .control input { padding-inline-end: 42px; }
+
+      .segmented { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; padding: 3px; border: 1px solid var(--line); border-radius: 2px; background: var(--surface-2); }
+      .segment { min-height: 32px; border: 1px solid transparent; border-radius: 2px; background: transparent; color: var(--muted); cursor: pointer; font-size: 11px; font-weight: 660; }
+      .segment.active { border-color: var(--line); background: var(--surface); color: var(--ink); box-shadow: 0 1px 2px rgba(11, 17, 13, .06); }
+
+      details { border-bottom: 1px solid var(--line); }
+      details summary { min-height: 52px; display: flex; align-items: center; justify-content: space-between; gap: 14px; cursor: pointer; list-style: none; color: var(--ink); font-size: 13px; font-weight: 680; }
+      details summary::-webkit-details-marker { display: none; }
+      .disclosure-switch { width: 38px; height: 22px; flex: 0 0 auto; position: relative; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface-2); transition: border-color 160ms ease, background 160ms ease; }
+      .disclosure-switch::after { content: ""; width: 14px; height: 14px; position: absolute; top: 3px; inset-inline-start: 3px; border-radius: 50%; background: var(--subtle); box-shadow: 0 1px 2px rgba(11, 17, 13, .18); transition: transform 180ms ease, background 160ms ease; }
+      details summary:hover .disclosure-switch { border-color: var(--green); }
+      details[open] .disclosure-switch { border-color: var(--green); background: var(--green-soft); }
+      details[open] .disclosure-switch::after { background: var(--green); transform: translateX(16px); }
+      [dir="rtl"] details[open] .disclosure-switch::after { transform: translateX(-16px); }
+      .advanced-body { padding: 0 0 18px; }
+      .inner-disclosure { margin-top: 18px; padding-inline: 11px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--surface-2) 58%, transparent); }
+      .inner-disclosure summary { min-height: 46px; color: var(--muted); font-size: 12px; }
+      .inner-disclosure[open] summary { color: var(--ink); }
+      .inner-disclosure .advanced-body { padding-top: 5px; padding-bottom: 14px; }
+      .quote-options-toggle { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 4px; padding: 0 2px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; font-weight: 680; }
+      .switch-control { width: 38px; height: 22px; flex: 0 0 auto; position: relative; display: inline-flex; cursor: pointer; }
+      .switch-control input { width: 1px; height: 1px; min-height: 1px; position: absolute; opacity: 0; pointer-events: none; }
+      .switch-track { width: 38px; height: 22px; position: relative; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface-2); transition: border-color 160ms ease, background 160ms ease; }
+      .switch-track::after { content: ""; width: 14px; height: 14px; position: absolute; top: 3px; inset-inline-start: 3px; border-radius: 50%; background: var(--subtle); box-shadow: 0 1px 2px rgba(11, 17, 13, .18); transition: transform 180ms ease, background 160ms ease; }
+      .switch-control:hover .switch-track { border-color: var(--green); }
+      .switch-control input:focus-visible + .switch-track { outline: 2px solid var(--blue); outline-offset: 2px; }
+      .switch-control input:checked + .switch-track { border-color: var(--green); background: var(--green-soft); }
+      .switch-control input:checked + .switch-track::after { background: var(--green); transform: translateX(16px); }
+      [dir="rtl"] .switch-control input:checked + .switch-track::after { transform: translateX(-16px); }
+      .optional-quote-fields { padding-top: 8px; }
+
+      .result-stack { display: grid; gap: 16px; position: sticky; top: 16px; }
+      .result-panel { overflow: hidden; border-color: color-mix(in srgb, var(--green) 32%, var(--line)); box-shadow: var(--shadow); }
+      .result-top { padding: 24px 26px 22px; border-bottom: 1px solid var(--line); }
+      .result-label { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 12px; font-weight: 680; }
+      .result-label::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+      .quote-amount { margin-top: 8px; color: var(--ink); font-size: clamp(48px, 5vw, 66px); line-height: .98; font-weight: 710; font-variant-numeric: tabular-nums; transition: color 200ms ease; }
+      .quote-amount.updated { animation: value-flash 520ms ease; }
+      .price-scenarios { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 20px; }
+      .price-option { min-height: 58px; padding: 9px 11px; border: 1px solid var(--line); border-radius: 2px; background: var(--canvas); color: var(--muted); cursor: pointer; text-align: left; transition: border-color 150ms ease, background 150ms ease; }
+      .price-option:hover { border-color: var(--line-strong); }
+      .price-option.active { border-color: var(--green); background: var(--green-soft); color: var(--green-dark); }
+      .price-option span { display: block; font-size: 10px; font-weight: 680; }
+      .price-option strong { display: block; margin-top: 5px; color: var(--ink); font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+      .result-meta { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 24px; border-top: 1px solid var(--line); }
+      .metric { padding: 16px 17px 0 0; }
+      .metric + .metric { padding-left: 17px; border-left: 1px solid var(--line); }
+      .metric span { display: block; color: var(--subtle); font-size: 11px; font-weight: 620; }
+      .metric strong { display: block; margin-top: 5px; color: var(--ink); font-size: 18px; font-weight: 690; font-variant-numeric: tabular-nums; }
+      .metric.profit strong, .metric.margin strong { color: var(--green-dark); }
+      .result-actions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 18px 26px 24px; }
+      .notice { display: none; margin: 0 26px 20px; padding: 10px 12px; border: 1px solid color-mix(in srgb, var(--amber) 42%, var(--line)); border-radius: 2px; background: color-mix(in srgb, var(--amber) 9%, var(--surface)); color: var(--amber); font-size: 12px; line-height: 1.45; }
+      .notice.show { display: block; }
+
+      .tabs-panel { overflow: hidden; }
+      .tabs { display: flex; gap: 2px; padding: 0 20px; border-bottom: 1px solid var(--line); }
+      .tab { min-height: 48px; position: relative; padding: 0 14px; border: 0; background: transparent; color: var(--muted); cursor: pointer; font-size: 13px; font-weight: 660; }
+      .tab::after { content: ""; position: absolute; inset: auto 12px -1px; height: 2px; background: transparent; }
+      .tab.active { color: var(--ink); }
+      .tab.active::after { background: var(--green); }
+      .tab-content { display: none; min-height: 330px; padding: 22px 24px 24px; }
+      .tab-content.active { display: block; animation: tab-in 220ms ease; }
+
+      .breakdown { display: grid; gap: 16px; }
+      .breakdown-row { display: grid; grid-template-columns: 92px 1fr 70px; align-items: center; gap: 12px; }
+      .breakdown-row span { color: var(--muted); font-size: 12px; font-weight: 620; }
+      .track { height: 7px; overflow: hidden; border-radius: 2px; background: var(--surface-2); }
+      .fill { display: block; height: 100%; border-radius: inherit; background: var(--green); transform-origin: left; transition: width 300ms ease; }
+      .breakdown-row strong { text-align: right; font-size: 12px; font-weight: 680; font-variant-numeric: tabular-nums; }
+      .formula-note { margin-top: 24px; padding: 13px 14px; border: 1px solid var(--line); border-radius: 2px; background: var(--canvas); color: var(--muted); font-size: 12px; line-height: 1.55; }
+
+      .helper-box { margin-bottom: 14px; padding: 14px; border: 1px solid var(--line); border-radius: 2px; background: var(--canvas); }
+      .helper-title { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; margin-bottom: 12px; }
+      .helper-title strong { font-size: 12px; }
+      .helper-title span { max-width: 190px; color: var(--subtle); font-size: 10px; line-height: 1.4; text-align: right; }
+      .helper-action { width: 100%; margin-top: 12px; }
+
+      .quote-paper { min-height: 460px; display: flex; flex-direction: column; padding: 26px; border: 1px solid #d9dfda; border-radius: 2px; background: #fff; color: #0b110d; box-shadow: 0 14px 36px rgba(11, 17, 13, .07); }
+      .paper-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(150px, .8fr); gap: 28px; align-items: start; }
+      .paper-title strong { display: block; font-size: 30px; line-height: 1; font-weight: 760; }
+      .paper-reference { display: grid; gap: 3px; margin-top: 12px; color: #647168; font-size: 10px; line-height: 1.4; }
+      .paper-company { min-width: 0; display: grid; gap: 5px; text-align: end; }
+      .paper-company strong { overflow-wrap: anywhere; font-size: 13px; line-height: 1.25; }
+      .paper-company span { color: #647168; font-size: 10px; line-height: 1.45; overflow-wrap: anywhere; white-space: pre-line; }
+      .paper-company strong:empty, .paper-company span:empty, .paper-reference span:empty, .paper-party strong:empty, .paper-party span:empty, .paper-footer span:empty { display: none; }
+      .paper-parties { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 28px; padding: 14px 0; border-top: 1px solid #0b110d; border-bottom: 1px solid #0b110d; }
+      .paper-parties.single { grid-template-columns: 1fr; }
+      .paper-parties.single .paper-party:last-child { text-align: start; }
+      .paper-party { min-width: 0; display: grid; align-content: start; gap: 3px; }
+      .paper-party:last-child { text-align: end; }
+      .paper-party small { color: #647168; font-size: 8px; font-weight: 720; text-transform: uppercase; }
+      .paper-party strong { overflow-wrap: anywhere; font-size: 11px; line-height: 1.35; }
+      .paper-party span { color: #647168; font-size: 9px; line-height: 1.4; overflow-wrap: anywhere; white-space: pre-line; }
+      .paper-columns { display: grid; grid-template-columns: minmax(0, 1fr) 42px 74px 84px; gap: 12px; margin-top: 16px; padding-bottom: 8px; border-bottom: 1px solid #0b110d; color: #303a33; font-size: 8px; font-weight: 720; text-transform: uppercase; }
+      .paper-columns span:nth-child(2) { text-align: center; }
+      .paper-columns span:nth-child(n+3) { text-align: end; }
+      .paper-table { border-top: 0; }
+      .paper-line { min-height: 46px; display: grid; grid-template-columns: minmax(0, 1fr) 42px 74px 84px; align-items: center; gap: 12px; border-bottom: 1px solid #e1e7e3; font-size: 10px; }
+      .paper-line > span { min-width: 0; }
+      .paper-line > span:nth-child(2) { text-align: center; }
+      .paper-line > span:nth-child(n+3) { text-align: end; white-space: nowrap; }
+      .paper-description { display: grid; gap: 3px; }
+      .paper-description strong { overflow-wrap: anywhere; font-size: 10px; font-weight: 650; line-height: 1.35; }
+      .paper-description small { color: #647168; font-size: 8px; line-height: 1.3; }
+      .paper-summary { width: min(260px, 56%); display: grid; gap: 7px; margin-top: 18px; margin-inline-start: auto; }
+      .paper-summary-row { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; color: #647168; font-size: 10px; }
+      .paper-summary-row strong { color: #0b110d; font-weight: 650; }
+      .paper-total { margin-top: 2px; padding-top: 9px; border-top: 1px solid #0b110d; color: #0b110d; font-size: 13px; font-weight: 750; }
+      .paper-total strong { font-size: 20px; }
+      .paper-footer { display: flex; justify-content: space-between; gap: 24px; margin-top: auto; padding-top: 24px; border-bottom: 1px solid #0b110d; color: #647168; font-size: 8px; line-height: 1.4; }
+      .paper-footer span:last-child { margin-inline-start: auto; text-align: end; }
+
+      .assumption-list { display: grid; gap: 10px; }
+      .assumption { display: flex; justify-content: space-between; gap: 18px; padding: 12px 0; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+      .assumption strong { color: var(--ink); font-weight: 680; }
+
+      .toast { position: fixed; right: 22px; bottom: 22px; z-index: 30; padding: 12px 15px; border: 1px solid var(--line-strong); border-radius: 2px; background: var(--ink); color: var(--surface); box-shadow: var(--shadow); font-size: 12px; font-weight: 650; opacity: 0; transform: translateY(10px); pointer-events: none; transition: opacity 180ms ease, transform 180ms ease; }
+      .toast.show { opacity: 1; transform: translateY(0); }
+
+      .tool-footer { border-top: 1px solid var(--line); background: var(--surface); }
+      .tool-footer-inner { min-height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 24px; color: var(--subtle); font-size: 12px; }
+      .tool-footer-left, .tool-footer-links { display: flex; align-items: center; gap: 18px; }
+      .tool-footer-mark { color: var(--ink); font-size: 15px; font-weight: 720; }
+      .tool-footer-links a { color: var(--muted); font-weight: 600; transition: color 150ms ease; }
+      .tool-footer-links a:hover { color: var(--ink); }
+      .footer-theme { width: 36px; height: 36px; }
+
+      @keyframes value-flash { 0% { color: var(--green); transform: translateY(-2px); } 100% { color: var(--ink); transform: translateY(0); } }
+      @keyframes tab-in { from { opacity: .45; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+      @media (max-width: 940px) {
+        .workspace-grid { grid-template-columns: 1fr; }
+        .result-stack { position: static; }
+        .input-panel { order: 2; }
+        .result-stack { order: 1; }
+      }
+      @media (max-width: 650px) {
+        .page { width: min(100% - 24px, 1240px); }
+        .nav-actions .button { display: none; }
+        .nav { gap: 8px; }
+        .nav-actions { gap: 5px; }
+        .preference-control, .preference-trigger { min-height: 36px; }
+        .preference-trigger { gap: 5px; padding-inline: 6px; font-size: 11px; }
+        .preference-icon { width: 14px; height: 14px; }
+        .locale-trigger { width: 72px; min-width: 72px; }
+        .currency-trigger { width: 68px; min-width: 68px; }
+        .icon-button { width: 36px; height: 36px; }
+        .tool-head { padding-top: 24px; }
+        .tool-title-row { display: block; }
+        .field-row { grid-template-columns: 1fr; gap: 7px; }
+        .item-select { grid-template-columns: 28px minmax(0, 1fr); }
+        .item-price { display: none; }
+        .result-top { padding: 22px 19px 18px; }
+        .price-scenarios { grid-template-columns: 1fr; }
+        .result-meta { grid-template-columns: 1fr 1fr; }
+        .metric:nth-child(3) { padding-left: 0; border-left: 0; }
+        .metric:nth-child(n+3) { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+        .result-actions { grid-template-columns: 1fr; padding: 16px 19px 20px; }
+        .notice { margin-left: 19px; margin-right: 19px; }
+        .tab-content { padding: 18px; }
+        .quote-paper { padding: 18px; }
+        .paper-head, .paper-parties { grid-template-columns: 1fr; gap: 16px; }
+        .paper-company, .paper-party:last-child { text-align: start; }
+        .paper-parties { margin-top: 20px; }
+        .paper-columns, .paper-line { grid-template-columns: minmax(0, 1fr) 34px 72px; gap: 9px; }
+        .paper-columns span:nth-child(3), .paper-line > span:nth-child(3) { display: none; }
+        .breakdown-row { grid-template-columns: 80px 1fr 62px; gap: 9px; }
+        .tool-footer-inner { min-height: 78px; align-items: flex-start; flex-direction: column; justify-content: center; gap: 10px; }
+        .tool-footer-left { width: 100%; justify-content: space-between; }
+      }
+      @media print {
+        @page { size: A4 portrait; margin: 0; }
+        html, body {
+          width: auto !important;
+          min-width: 0 !important;
+          min-height: 0 !important;
+          background: #fff !important;
+          color: #0b110d !important;
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+        body { margin: 0 !important; }
+        body > .site-header, body > .tool-footer, .tool-head, .input-panel, .result-panel, .tabs, .tab-content:not(#quoteContent), .toast { display: none !important; }
+        main, .workspace, .workspace-grid, .result-stack, .tabs-panel, #quoteContent {
+          display: block !important;
+          width: auto !important;
+          min-width: 0 !important;
+          min-height: 0 !important;
+          margin: 0 !important;
+          padding: 0 !important;
+          border: 0 !important;
+          background: transparent !important;
+          box-shadow: none !important;
+        }
+        .quote-paper {
+          width: 210mm !important;
+          min-height: 297mm !important;
+          margin: 0 auto !important;
+          padding: 18mm 16mm 16mm !important;
+          border: 0 !important;
+          background: #fff !important;
+          color: #0b110d !important;
+          box-shadow: none !important;
+        }
+        .paper-head, .paper-parties, .paper-columns, .paper-summary, .paper-footer { break-inside: avoid; page-break-inside: avoid; }
+        .paper-head { grid-template-columns: minmax(0, 1fr) 72mm; gap: 14mm; }
+        .paper-title strong { font-size: 29pt; }
+        .paper-reference { gap: 1mm; margin-top: 5mm; font-size: 8.5pt; }
+        .paper-company { gap: 1.5mm; }
+        .paper-company strong { font-size: 11pt; }
+        .paper-company span { font-size: 8.5pt; }
+        .paper-parties { gap: 14mm; margin-top: 14mm; padding: 5mm 0; }
+        .paper-party small { font-size: 7.5pt; }
+        .paper-party strong { font-size: 10pt; }
+        .paper-party span { font-size: 8.5pt; }
+        .paper-columns { grid-template-columns: minmax(0, 1fr) 17mm 28mm 32mm; gap: 5mm; margin-top: 6mm; padding-bottom: 2.5mm; font-size: 7.5pt; }
+        .paper-table { break-inside: auto; }
+        .paper-line {
+          min-height: 11mm;
+          grid-template-columns: minmax(0, 1fr) 17mm 28mm 32mm;
+          gap: 5mm;
+          font-size: 9pt;
+          line-height: 1.4;
+          break-inside: avoid;
+          page-break-inside: avoid;
+        }
+        .paper-description strong { font-size: 9pt; }
+        .paper-description small { font-size: 7.5pt; }
+        .paper-summary { width: 72mm; gap: 2mm; margin-top: 7mm; }
+        .paper-summary-row { font-size: 9pt; }
+        .paper-total { margin-top: 1mm; padding-top: 3mm; font-size: 11pt; }
+        .paper-total strong { font-size: 18pt; }
+        .paper-footer { padding-top: 8mm; font-size: 7.5pt; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header" id="top">
+      <nav class="page nav">
+        <a class="brand" href="zaps-work_homepage_mockup.html">zaps<span class="brand-dot">.</span>work</a>
+        <div class="nav-actions">
+          <span class="preference-control" data-preference="locale">
+            <button class="preference-trigger locale-trigger" id="localeSelect" type="button" aria-label="Language" aria-haspopup="listbox" aria-expanded="false" aria-controls="localeMenu"><svg class="preference-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c3 3 4 6 4 9s-1 6-4 9M12 3c-3 3-4 6-4 9s1 6 4 9"></path></svg><span class="preference-value" id="localeValue">EN</span><svg class="preference-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"></path></svg></button>
+            <div class="preference-popover" id="localeMenu" role="listbox" hidden><button class="preference-option" type="button" role="option" data-value="en" data-short="EN" aria-selected="true"><span class="option-copy"><strong>English</strong><small>EN</small></span></button><button class="preference-option" type="button" role="option" data-value="zh-Hant" data-short="繁中" aria-selected="false"><span class="option-copy"><strong>繁體中文</strong><small>繁中</small></span></button></div>
+          </span>
+          <span class="preference-control" data-preference="currency">
+            <button class="preference-trigger currency-trigger" id="currencySelect" type="button" aria-label="Currency" aria-haspopup="listbox" aria-expanded="false" aria-controls="currencyMenu"><svg class="preference-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9" r="6"></circle><path d="M7 9h4M9 6v6M13 13a6 6 0 1 0 5-5"></path></svg><span class="preference-value" id="currencyValue">USD</span><svg class="preference-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"></path></svg></button>
+            <div class="preference-popover" id="currencyMenu" role="listbox" hidden><button class="preference-option" type="button" role="option" data-value="USD" data-short="USD" aria-selected="true"><span class="option-copy"><strong>USD</strong><small data-i18n="currencyUsd">US Dollar</small></span></button><button class="preference-option" type="button" role="option" data-value="TWD" data-short="TWD" aria-selected="false"><span class="option-copy"><strong>TWD</strong><small data-i18n="currencyTwd">New Taiwan Dollar</small></span></button><button class="preference-option" type="button" role="option" data-value="EUR" data-short="EUR" aria-selected="false"><span class="option-copy"><strong>EUR</strong><small data-i18n="currencyEur">Euro</small></span></button><button class="preference-option" type="button" role="option" data-value="GBP" data-short="GBP" aria-selected="false"><span class="option-copy"><strong>GBP</strong><small data-i18n="currencyGbp">British Pound</small></span></button></div>
+          </span>
+          <a class="button" href="zaps-work_homepage_mockup.html" data-i18n="allTools">All tools</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page tool-head">
+        <div class="tool-title-row">
+          <div class="tool-identity">
+            <span class="tool-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z"></path><path d="m4 7.5 8 4.5 8-4.5M12 12v9"></path></svg>
+            </span>
+            <div><h1 data-i18n="pageTitle">3D Print Cost Calculator</h1><p data-i18n="pageCopy">Price material, machine time, labor, failure risk, and margin.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page workspace">
+        <div class="workspace-grid">
+          <form class="panel input-panel" id="calculatorForm" novalidate>
+            <div class="panel-head">
+              <div><p class="panel-kicker" data-i18n="inputKicker">INPUT</p><h2 data-i18n="jobDetails">Job details</h2></div>
+              <button class="reset" id="resetForm" type="button" data-i18n="reset">Reset</button>
+            </div>
+            <div class="form-body">
+              <div class="form-section">
+                <div class="form-section-title"><h3 data-step="01" data-i18n="printItems">Print items</h3><span class="hint" id="itemCount">1 item</span></div>
+                <div class="item-list" id="itemList" aria-label="Print items"></div>
+                <button class="button add-item" id="addItem" type="button">+ <span data-i18n="addItem">Add item</span></button>
+                <div class="item-editor-label" data-i18n="editingItem">Editing item</div>
+                <div class="field-cluster">
+                  <div class="field-cluster-title" data-i18n="itemDetails">Item details</div>
+                  <div class="fields">
+                    <div class="field-row"><label for="jobName" data-i18n="jobName">Job name</label><div class="control"><input id="jobName" type="text" value="Custom print" /></div></div>
+                    <div class="field-row"><label for="material" data-i18n="material">Material</label><div class="control"><select id="material"><option value="PLA">PLA</option><option value="PETG">PETG</option><option value="ABS">ABS</option><option value="TPU">TPU</option><option value="Other" data-i18n="otherMaterial">Other</option></select></div></div>
+                    <div class="field-row"><label for="quantity" data-i18n="quantity">Quantity</label><div class="control"><input id="quantity" type="number" min="1" step="1" value="1" /><span class="unit" data-i18n="pieces">pcs</span></div></div>
+                  </div>
+                </div>
+                <div class="field-cluster">
+                  <div class="field-cluster-title" data-i18n="slicerData">Slicer data</div>
+                  <div class="fields">
+                    <div class="field-row"><label for="filament" data-i18n="filamentUsed">Filament used</label><div class="control"><input id="filament" type="number" min="0.01" step="1" value="120" /><span class="unit">g</span></div></div>
+                    <div class="field-row"><label data-i18n="printTime">Print time</label><div class="split"><div class="control"><input id="printHours" aria-label="Print hours" type="number" min="0" step="1" value="6" /><span class="unit">h</span></div><div class="control"><input id="printMinutes" aria-label="Print minutes" type="number" min="0" max="59" step="1" value="30" /><span class="unit">m</span></div></div></div>
+                  </div>
+                </div>
+                <details class="inner-disclosure">
+                  <summary><span data-i18n="itemCostDetails">Item costs &amp; labor</span><span class="disclosure-switch" aria-hidden="true"></span></summary>
+                  <div class="advanced-body">
+                    <div class="field-cluster">
+                      <div class="field-cluster-title" data-i18n="materialProfile">Material profile</div>
+                      <div class="fields">
+                        <div class="field-row"><label for="spoolPrice" data-i18n="spoolPrice">Spool price</label><div class="control"><input id="spoolPrice" type="number" min="0.01" step="0.01" value="24" /><span class="unit">$</span></div></div>
+                        <div class="field-row"><label for="spoolWeight" data-i18n="spoolWeight">Spool weight</label><div class="control"><input id="spoolWeight" type="number" min="1" step="1" value="1000" /><span class="unit">g</span></div></div>
+                      </div>
+                    </div>
+                    <div class="field-cluster">
+                      <div class="field-cluster-title" data-i18n="laborExtras">Labor &amp; extras</div>
+                      <div class="fields">
+                        <div class="field-row"><label for="designMinutes" data-i18n="designCad">Design / CAD</label><div class="control"><input id="designMinutes" type="number" min="0" step="1" value="0" /><span class="unit">min</span></div></div>
+                        <div class="field-row"><label for="prepMinutes" data-i18n="preparation">Preparation</label><div class="control"><input id="prepMinutes" type="number" min="0" step="1" value="10" /><span class="unit">min</span></div></div>
+                        <div class="field-row"><label for="postMinutes" data-i18n="postProcessing">Post-processing</label><div class="control"><input id="postMinutes" type="number" min="0" step="1" value="15" /><span class="unit">min</span></div></div>
+                        <div class="field-row"><label for="hardwareCost" data-i18n="hardware">Hardware</label><div class="control"><input id="hardwareCost" type="number" min="0" step="0.01" value="0" /><span class="unit">$</span></div></div>
+                        <div class="field-row"><label for="packagingCost" data-i18n="packaging">Packaging</label><div class="control"><input id="packagingCost" type="number" min="0" step="0.01" value="2" /><span class="unit">$</span></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </details>
+              </div>
+
+              <div class="form-section">
+                <div class="form-section-title"><h3 data-step="02" data-i18n="ratesRisk">Rates &amp; risk</h3><span class="hint" data-i18n="sharedByItems">Shared by items</span></div>
+                <div class="field-cluster">
+                  <div class="field-cluster-title" data-i18n="baseRates">Base rates</div>
+                  <div class="fields">
+                    <div class="field-row"><label for="machineRate" data-i18n="machineRate">Machine rate</label><div class="control"><input id="machineRate" type="number" min="0" step="0.01" value="0.5" /><span class="unit">$/h</span></div></div>
+                    <div class="field-row"><label for="laborRate" data-i18n="laborRate">Labor rate</label><div class="control"><input id="laborRate" type="number" min="0" step="0.01" value="20" /><span class="unit">$/h</span></div></div>
+                  </div>
+                </div>
+                <details class="inner-disclosure">
+                  <summary><span data-i18n="productionAssumptions">Production assumptions</span><span class="disclosure-switch" aria-hidden="true"></span></summary>
+                  <div class="advanced-body fields">
+                    <div class="helper-box">
+                      <div class="helper-title"><strong data-i18n="machineHelper">Machine rate helper</strong><span data-i18n="machineHelperCopy">Spread purchase and maintenance cost across useful print hours.</span></div>
+                      <div class="fields">
+                        <div class="field-row"><label for="printerPrice" data-i18n="printerPrice">Printer price</label><div class="control"><input id="printerPrice" type="number" min="0" step="1" value="500" /><span class="unit">$</span></div></div>
+                        <div class="field-row"><label for="lifetimeHours" data-i18n="usefulLife">Useful life</label><div class="control"><input id="lifetimeHours" type="number" min="1" step="100" value="5000" /><span class="unit">h</span></div></div>
+                        <div class="field-row"><label for="maintenanceRate" data-i18n="maintenance">Maintenance</label><div class="control"><input id="maintenanceRate" type="number" min="0" step="1" value="10" /><span class="unit">%</span></div></div>
+                      </div>
+                      <button class="button helper-action" id="applyMachineRate" type="button"><span data-i18n="useCalculatedRate">Use calculated rate:</span> <strong id="calculatedMachineRate">$0.11/h</strong></button>
+                    </div>
+                    <div class="field-cluster">
+                      <div class="field-cluster-title" data-i18n="riskEnergy">Risk &amp; energy</div>
+                      <div class="fields">
+                        <div class="field-row"><label for="wasteRate" data-i18n="materialWaste">Material waste</label><div class="control"><input id="wasteRate" type="number" min="0" max="100" step="1" value="5" /><span class="unit">%</span></div></div>
+                        <div class="field-row"><label for="failureRate" data-i18n="failureRate">Failure rate</label><div class="control"><input id="failureRate" type="number" min="0" max="50" step="1" value="5" /><span class="unit">%</span></div></div>
+                        <div class="field-row"><label for="powerDraw" data-i18n="powerDraw">Power draw</label><div class="control"><input id="powerDraw" type="number" min="0" step="1" value="120" /><span class="unit">W</span></div></div>
+                        <div class="field-row"><label for="energyRate" data-i18n="electricity">Electricity</label><div class="control"><input id="energyRate" type="number" min="0" step="0.01" value="0.16" /><span class="unit">$/kWh</span></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </details>
+              </div>
+
+              <div class="form-section">
+                <div class="form-section-title"><h3 data-step="03" data-i18n="pricing">Pricing</h3><span class="hint" data-i18n="quoteTotals">Quote totals</span></div>
+                <div class="field-cluster">
+                  <div class="field-cluster-title" data-i18n="priceRule">Price rule</div>
+                  <div class="fields">
+                    <div class="field-row"><label data-i18n="pricingMode">Pricing mode</label><div class="segmented"><button class="segment active" data-mode="margin" type="button" data-i18n="targetMargin">Target margin</button><button class="segment" data-mode="markup" type="button" data-i18n="markup">Markup</button></div></div>
+                    <div class="field-row"><label id="pricingRateLabel" for="pricingRate">Target margin</label><div class="control"><input id="pricingRate" type="number" min="0" max="99" step="1" value="35" /><span class="unit">%</span></div></div>
+                    <div class="field-row"><label for="minimumFee" data-i18n="minimumFee">Minimum job fee</label><div class="control"><input id="minimumFee" type="number" min="0" step="0.01" value="10" /><span class="unit">$</span></div></div>
+                  </div>
+                </div>
+                <div class="field-cluster">
+                  <div class="field-cluster-title" data-i18n="quoteCharges">Quote charges</div>
+                  <div class="fields">
+                    <div class="field-row"><label for="shippingCost" data-i18n="shipping">Shipping</label><div class="control"><input id="shippingCost" type="number" min="0" step="0.01" value="0" /><span class="unit">$</span></div></div>
+                    <div class="field-row"><label for="otherCost" data-i18n="otherCost">Other cost</label><div class="control"><input id="otherCost" type="number" min="0" step="0.01" value="0" /><span class="unit">$</span></div></div>
+                    <div class="field-row"><label for="taxRate" data-i18n="tax">Tax</label><div class="control"><input id="taxRate" type="number" min="0" max="100" step="0.1" value="0" /><span class="unit">%</span></div></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <div class="form-section-title"><h3 data-step="04" data-i18n="pdfDetails">PDF details</h3><span class="hint" data-i18n="customerDocument">Customer document</span></div>
+                <div class="fields">
+                  <div class="field-row"><label for="companyName" data-i18n="companyName">Company name</label><div class="control"><input id="companyName" type="text" value="Northline Studio" placeholder="Optional" data-i18n-placeholder="optional" /></div></div>
+                </div>
+                <div class="quote-options-toggle"><span data-i18n="additionalQuoteDetails">Additional quote details</span><label class="switch-control" for="quoteDetailsToggle"><input id="quoteDetailsToggle" type="checkbox" role="switch" aria-controls="optionalQuoteFields" aria-expanded="false" /><span class="switch-track" aria-hidden="true"></span></label></div>
+                <div class="fields optional-quote-fields" id="optionalQuoteFields" hidden>
+                  <div class="field-row"><label for="companyDetails" data-i18n="companyDetails">Company details</label><div class="control"><input id="companyDetails" type="text" value="" placeholder="hello@zaps.work" data-i18n-placeholder="companyDetailsPlaceholder" /></div></div>
+                  <div class="field-row"><label for="customerName" data-i18n="customerName">Customer name</label><div class="control"><input id="customerName" type="text" value="" placeholder="Optional" data-i18n-placeholder="optional" /></div></div>
+                  <div class="field-row"><label for="customerDetails" data-i18n="customerDetails">Customer details</label><div class="control"><input id="customerDetails" type="text" value="" placeholder="Email or address" data-i18n-placeholder="contactPlaceholder" /></div></div>
+                  <div class="field-row"><label for="quoteNumber" data-i18n="quoteNumber">Quote number</label><div class="control"><input id="quoteNumber" type="text" value="" placeholder="QT-2026-001" /></div></div>
+                  <div class="field-row"><label for="validDays" data-i18n="validFor">Valid for</label><div class="control"><input id="validDays" type="number" min="1" step="1" value="" placeholder="30" /><span class="unit" data-i18n="days">days</span></div></div>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div class="result-stack">
+            <section class="panel result-panel" aria-live="polite">
+              <div class="result-top">
+                <span class="result-label" id="resultLabelText">Target quote</span>
+                <div class="quote-amount" id="quoteAmount">$26.26</div>
+                <div class="price-scenarios" aria-label="Pricing scenarios">
+                  <button class="price-option" data-scenario="breakEven" type="button"><span data-i18n="breakEven">BREAK-EVEN</span><strong id="breakEvenPrice">$17.07</strong></button>
+                  <button class="price-option active" data-scenario="target" type="button"><span data-i18n="target">TARGET</span><strong id="targetPrice">$26.26</strong></button>
+                  <button class="price-option" data-scenario="safer" type="button"><span id="saferLabel">SAFER +10 PTS</span><strong id="saferPrice">$31.03</strong></button>
+                </div>
+                <div class="result-meta">
+                  <div class="metric"><span data-i18n="totalCost">Total cost</span><strong id="totalCost">$17.07</strong></div>
+                  <div class="metric profit"><span data-i18n="profit">Profit</span><strong id="profit">$9.19</strong></div>
+                  <div class="metric margin"><span data-i18n="margin">Margin</span><strong id="margin">35.0%</strong></div>
+                  <div class="metric"><span data-i18n="items">Items</span><strong id="itemMetric">1</strong></div>
+                </div>
+              </div>
+              <div class="result-actions">
+                <button class="button primary" id="printQuote" type="button">
+                  <svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg> <span data-i18n="exportPdf">Export PDF</span>
+                </button>
+                <button class="button" id="exportCsv" type="button">
+                  <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1"></rect><path d="M3 9h18M8 4v16M15 4v16"></path></svg> <span data-i18n="exportCsv">Export CSV</span>
+                </button>
+                <button class="button" id="copySummary" type="button">
+                  <svg viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="12" rx="1"></rect><path d="M16 8V4H5v12h3"></path></svg> <span data-i18n="copySummary">Copy summary</span>
+                </button>
+              </div>
+              <p class="notice" id="marginWarning" data-i18n="marginWarning">This quote is below a 20% margin. Check the pricing rate or minimum fee.</p>
+            </section>
+
+            <section class="panel tabs-panel">
+              <div class="tabs" role="tablist">
+                <button class="tab active" id="breakdownTab" role="tab" aria-selected="true" aria-controls="breakdownContent" type="button" data-i18n="breakdown">Breakdown</button>
+                <button class="tab" id="quoteTab" role="tab" aria-selected="false" aria-controls="quoteContent" type="button" data-i18n="quotePreview">Quote preview</button>
+                <button class="tab" id="assumptionsTab" role="tab" aria-selected="false" aria-controls="assumptionsContent" type="button" data-i18n="assumptions">Assumptions</button>
+              </div>
+
+              <div class="tab-content active" id="breakdownContent" role="tabpanel" aria-labelledby="breakdownTab">
+                <div class="breakdown" id="breakdownList">
+                  <div class="breakdown-row"><span>Material</span><div class="track"><i class="fill" style="width:36%"></i></div><strong>$3.02</strong></div>
+                  <div class="breakdown-row"><span>Machine</span><div class="track"><i class="fill" style="width:39%"></i></div><strong>$3.25</strong></div>
+                  <div class="breakdown-row"><span>Electricity</span><div class="track"><i class="fill" style="width:2%"></i></div><strong>$0.12</strong></div>
+                  <div class="breakdown-row"><span>Labor</span><div class="track"><i class="fill" style="width:100%"></i></div><strong>$8.33</strong></div>
+                  <div class="breakdown-row"><span>Failure risk</span><div class="track"><i class="fill" style="width:4%"></i></div><strong>$0.34</strong></div>
+                  <div class="breakdown-row"><span>Packaging</span><div class="track"><i class="fill" style="width:24%"></i></div><strong>$2.00</strong></div>
+                </div>
+                <div class="formula-note" id="formulaNote">Price = total cost / (1 - target margin). Tax is added after the pre-tax quote.</div>
+              </div>
+
+              <div class="tab-content" id="quoteContent" role="tabpanel" aria-labelledby="quoteTab">
+                <div class="quote-paper">
+                  <div class="paper-head">
+                    <div class="paper-title"><strong data-i18n="quoteLabel">QUOTE</strong><div class="paper-reference"><span id="paperDate"></span><span id="paperQuoteNumber"></span></div></div>
+                    <div class="paper-company"><strong id="paperCompany">Northline Studio</strong><span id="paperCompanyDetails"></span></div>
+                  </div>
+                  <div class="paper-parties single" id="paperParties">
+                    <div class="paper-party" id="paperCustomerParty" hidden><small data-i18n="preparedFor">Prepared for</small><strong id="paperCustomer"></strong><span id="paperCustomerDetails"></span></div>
+                    <div class="paper-party"><small data-i18n="project">Project</small><strong id="paperJob">3D print order</strong></div>
+                  </div>
+                  <div class="paper-columns" aria-hidden="true"><span data-i18n="descriptionColumn">Description</span><span data-i18n="quantityColumn">Qty</span><span data-i18n="unitPriceColumn">Unit price</span><span data-i18n="amountColumn">Amount</span></div>
+                  <div class="paper-table" id="paperLines"></div>
+                  <div class="paper-summary">
+                    <div class="paper-summary-row"><span data-i18n="subtotal">Subtotal</span><strong id="paperSubtotal">$26.26</strong></div>
+                    <div class="paper-summary-row" id="paperTaxRow" hidden><span data-i18n="tax">Tax</span><strong id="paperTax">$0.00</strong></div>
+                    <div class="paper-summary-row paper-total"><span data-i18n="total">Total</span><strong id="paperTotal">$26.26</strong></div>
+                  </div>
+                  <div class="paper-footer" id="paperFooter"><span id="paperValidity"></span><span id="paperFooterCompany">Northline Studio</span></div>
+                </div>
+              </div>
+
+              <div class="tab-content" id="assumptionsContent" role="tabpanel" aria-labelledby="assumptionsTab">
+                <div class="assumption-list">
+                  <div class="assumption"><span data-i18n="batchInput">Batch input</span><strong data-i18n="batchInputCopy">Time and filament are totals</strong></div>
+                  <div class="assumption"><span data-i18n="labor">Labor</span><strong data-i18n="laborCopy">Design, preparation, and finishing</strong></div>
+                  <div class="assumption"><span data-i18n="failedPrints">Failed prints</span><strong data-i18n="failedPrintsCopy">Production cost is risk-adjusted</strong></div>
+                  <div class="assumption"><span data-i18n="saferPrice">Safer price</span><strong data-i18n="saferPriceCopy">Target margin plus 10 points</strong></div>
+                  <div class="assumption"><span data-i18n="repeatedLabor">Repeated labor</span><strong data-i18n="repeatedLaborCopy">Not included after failure</strong></div>
+                  <div class="assumption"><span data-i18n="tax">Tax</span><strong data-i18n="taxCopy">Excluded from profit</strong></div>
+                  <div class="assumption"><span data-i18n="defaultsLabel">Defaults</span><strong data-i18n="defaultsCopy">Starter assumptions only</strong></div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="tool-footer">
+      <div class="page tool-footer-inner">
+        <div class="tool-footer-left"><a class="tool-footer-mark" href="zaps-work_homepage_mockup.html">zaps<span class="brand-dot">.</span>work</a><span>&copy; 2026</span></div>
+        <nav class="tool-footer-links" aria-label="Footer navigation">
+          <a href="zaps-work_homepage_mockup.html#tools" data-i18n="allTools">All tools</a><a href="#top" data-i18n="backToTop">Back to top</a>
+          <button class="icon-button footer-theme" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+            <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+            <svg class="moon" viewBox="0 0 24 24"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5 8.5 8.5 0 1 0 20.5 14.3Z"></path></svg>
+          </button>
+        </nav>
+      </div>
+    </footer>
+
+    <div class="toast" id="toast" role="status">Summary copied</div>
+
+    <script>
+      const $ = (id) => document.getElementById(id);
+      const form = $("calculatorForm");
+      const calculatorMessages = {
+        en: {
+          title: "3D Print Cost Calculator - zaps.work", description: "Calculate material, machine, labor, risk, and margin for an FDM 3D print quote.",
+          allTools: "All tools", backToTop: "Back to top", pageTitle: "3D Print Cost Calculator", pageCopy: "Price material, machine time, labor, failure risk, and margin.",
+          inputKicker: "INPUT", jobDetails: "Job details", reset: "Reset", printItems: "Print items", addItem: "Add item", editingItem: "Editing item",
+          jobName: "Job name", material: "Material", otherMaterial: "Other", spoolPrice: "Spool price", filamentUsed: "Filament used", printTime: "Print time", quantity: "Quantity", pieces: "pcs",
+          designCad: "Design / CAD", preparation: "Preparation", postProcessing: "Post-processing", hardware: "Hardware", packaging: "Packaging",
+          itemCostDetails: "Item costs & labor", itemDetails: "Item details", slicerData: "Slicer data", materialProfile: "Material profile", laborExtras: "Labor & extras", ratesRisk: "Rates & risk", baseRates: "Base rates", sharedByItems: "Shared by items", productionAssumptions: "Production assumptions", riskEnergy: "Risk & energy", quoteTotals: "Quote totals", priceRule: "Price rule", quoteCharges: "Quote charges", pdfDetails: "PDF details", customerDocument: "Customer document",
+          quoteDetails: "Quote details", pdfHeader: "PDF header", companyName: "Company name", additionalQuoteDetails: "Additional quote details", companyDetails: "Company details", customerName: "Customer name", customerDetails: "Customer details", quoteNumber: "Quote number", validFor: "Valid for", days: "days", companyDetailsPlaceholder: "hello@zaps.work", contactPlaceholder: "Email or address", optional: "Optional", sharedCosts: "Shared costs", oncePerQuote: "Once per quote",
+          machineRate: "Machine rate", laborRate: "Labor rate", shipping: "Shipping", pricing: "Pricing", beforeTax: "Before tax", pricingMode: "Pricing mode", targetMargin: "Target margin", markup: "Markup", minimumFee: "Minimum job fee",
+          advancedAssumptions: "Advanced assumptions", machineHelper: "Machine rate helper", machineHelperCopy: "Spread purchase and maintenance cost across useful print hours.", printerPrice: "Printer price", usefulLife: "Useful life", maintenance: "Maintenance", useCalculatedRate: "Use calculated rate:",
+          spoolWeight: "Spool weight", materialWaste: "Material waste", failureRate: "Failure rate", powerDraw: "Power draw", electricity: "Electricity", otherCost: "Other cost", tax: "Tax",
+          breakEven: "BREAK-EVEN", target: "TARGET", safer10: "SAFER +10 PTS", safer20: "SAFER +20 PTS", targetQuote: "Target quote", breakEvenQuote: "Break-even quote", saferQuote: "Safer quote",
+          totalCost: "Total cost", profit: "Profit", margin: "Margin", items: "Items", exportPdf: "Export PDF", exportCsv: "Export CSV", copySummary: "Copy summary", marginWarning: "This quote is below a 20% margin. Check the pricing rate or minimum fee.",
+          breakdown: "Breakdown", quotePreview: "Quote preview", assumptions: "Assumptions", materialCost: "Material", machine: "Machine", labor: "Labor", failureRisk: "Failure risk", minimumFeeShort: "Minimum fee",
+          formulaBreakEven: "Break-even covers the calculated cost and minimum fee, without planned profit.", formulaMargin: "{scenario} price = total cost / (1 - margin). Tax is added after the pre-tax quote.", formulaMarkup: "{scenario} price = total cost x (1 + markup). Tax is added after the pre-tax quote.", scenarioTarget: "Target", scenarioSafer: "Safer",
+          quoteLabel: "QUOTE", project: "Project", date: "Date", preparedFor: "Prepared for", descriptionColumn: "Description", quantityColumn: "Qty", unitPriceColumn: "Unit price", amountColumn: "Amount", subtotal: "Subtotal", validForDays: "Valid for {days} days", total: "Total", printOrder: "3D print order", printItemsProject: "{count} print items", other: "Other", minimumServiceFee: "Minimum service fee",
+          batchInput: "Batch input", batchInputCopy: "Time and filament are totals", laborCopy: "Design, preparation, and finishing", failedPrints: "Failed prints", failedPrintsCopy: "Production cost is risk-adjusted", saferPrice: "Safer price", saferPriceCopy: "Target margin plus 10 points", repeatedLabor: "Repeated labor", repeatedLaborCopy: "Not included after failure", taxCopy: "Excluded from profit", defaultsLabel: "Defaults", defaultsCopy: "Starter assumptions only",
+          item: "item", itemPlural: "items", qty: "Qty", printItem: "Print item", copySuffix: "copy", duplicate: "Duplicate", delete: "Delete", defaultJobName: "Custom print",
+          limitItems: "This preview supports up to 10 items", itemAdded: "Item added", itemDuplicated: "Item duplicated", itemDeleted: "Item deleted", machineRateApplied: "Machine rate applied", summaryCopied: "Summary copied", csvExported: "CSV exported", copyUnavailable: "Copy is unavailable in this preview", defaultsRestored: "Defaults restored", currencyUnchanged: "Currency changed to {currency}. Existing values were not converted.", currencyExampleUpdated: "Currency changed to {currency}. Example values were updated.",
+          summaryCost: "Cost", summaryQuote: "Quote", summaryProfit: "Profit", summaryMargin: "Margin",
+          language: "Language", currency: "Currency", currencyUsd: "US Dollar", currencyTwd: "New Taiwan Dollar", currencyEur: "Euro", currencyGbp: "British Pound", themeDark: "Switch to dark mode", themeLight: "Switch to light mode", printHours: "Print hours", printMinutes: "Print minutes", itemListLabel: "Print items", scenariosLabel: "Pricing scenarios", footerNavigation: "Footer navigation"
+        },
+        "zh-Hant": {
+          title: "3D 列印成本計算器 - zaps.work", description: "計算 FDM 3D 列印報價的材料、機器、人工、風險與利潤。",
+          allTools: "所有工具", backToTop: "回到頂端", pageTitle: "3D 列印成本計算器", pageCopy: "計算材料、機器時間、人工、失敗風險與利潤。",
+          inputKicker: "輸入", jobDetails: "工作資料", reset: "重設", printItems: "列印項目", addItem: "新增項目", editingItem: "正在編輯",
+          jobName: "項目名稱", material: "材料", otherMaterial: "其他", spoolPrice: "整卷耗材價格", filamentUsed: "耗材用量", printTime: "列印時間", quantity: "數量", pieces: "件",
+          designCad: "設計 / CAD", preparation: "前置準備", postProcessing: "後處理", hardware: "五金零件", packaging: "包裝",
+          itemCostDetails: "項目成本與人工", itemDetails: "項目資料", slicerData: "切片資料", materialProfile: "材料規格", laborExtras: "人工與附加成本", ratesRisk: "費率與風險", baseRates: "基礎費率", sharedByItems: "所有項目共用", productionAssumptions: "生產假設", riskEnergy: "風險與能源", quoteTotals: "整份報價", priceRule: "定價規則", quoteCharges: "報價附加費", pdfDetails: "PDF 資料", customerDocument: "客戶文件",
+          quoteDetails: "報價資料", pdfHeader: "PDF 抬頭", companyName: "公司名稱", additionalQuoteDetails: "更多報價資料", companyDetails: "公司資料", customerName: "客戶名稱", customerDetails: "客戶資料", quoteNumber: "報價單號", validFor: "有效期限", days: "天", companyDetailsPlaceholder: "hello@zaps.work", contactPlaceholder: "Email 或地址", optional: "選填", sharedCosts: "共用成本", oncePerQuote: "每份報價一次",
+          machineRate: "機器費率", laborRate: "人工費率", shipping: "運費", pricing: "定價", beforeTax: "未稅", pricingMode: "定價模式", targetMargin: "目標毛利率", markup: "加價率", minimumFee: "最低訂單金額",
+          advancedAssumptions: "進階假設", machineHelper: "機器費率助手", machineHelperCopy: "將購置與維護成本分攤至有效列印時數。", printerPrice: "印表機價格", usefulLife: "可用壽命", maintenance: "維護成本", useCalculatedRate: "套用計算費率：",
+          spoolWeight: "整卷耗材重量", materialWaste: "材料耗損", failureRate: "失敗率", powerDraw: "耗電功率", electricity: "電費", otherCost: "其他成本", tax: "稅額",
+          breakEven: "損益兩平", target: "目標報價", safer10: "保守 +10 點", safer20: "保守 +20 點", targetQuote: "目標報價", breakEvenQuote: "損益兩平報價", saferQuote: "保守報價",
+          totalCost: "總成本", profit: "利潤", margin: "毛利率", items: "項目數", exportPdf: "匯出 PDF", exportCsv: "匯出 CSV", copySummary: "複製摘要", marginWarning: "此報價毛利率低於 20%，請檢查定價費率或最低訂單金額。",
+          breakdown: "成本明細", quotePreview: "報價預覽", assumptions: "計算假設", materialCost: "材料", machine: "機器", labor: "人工", failureRisk: "失敗風險", minimumFeeShort: "最低費用",
+          formulaBreakEven: "損益兩平價涵蓋計算成本與最低費用，不包含預期利潤。", formulaMargin: "{scenario}價格 = 總成本 /（1 - 毛利率）。稅額於未稅報價後另計。", formulaMarkup: "{scenario}價格 = 總成本 ×（1 + 加價率）。稅額於未稅報價後另計。", scenarioTarget: "目標", scenarioSafer: "保守",
+          quoteLabel: "報價單", project: "專案", date: "日期", preparedFor: "報價對象", descriptionColumn: "項目說明", quantityColumn: "數量", unitPriceColumn: "單價", amountColumn: "金額", subtotal: "未稅小計", validForDays: "報價有效期 {days} 天", total: "總計", printOrder: "3D 列印訂單", printItemsProject: "{count} 個列印項目", other: "其他", minimumServiceFee: "最低服務費",
+          batchInput: "批次輸入", batchInputCopy: "時間與耗材為批次總量", laborCopy: "包含設計、準備與後處理", failedPrints: "列印失敗", failedPrintsCopy: "生產成本已納入失敗風險", saferPrice: "保守價格", saferPriceCopy: "目標毛利率再增加 10 點", repeatedLabor: "重複人工", repeatedLaborCopy: "失敗重印不重複計入", taxCopy: "不計入利潤", defaultsLabel: "預設值", defaultsCopy: "僅供起始估算",
+          item: "個項目", itemPlural: "個項目", qty: "數量", printItem: "列印項目", copySuffix: "副本", duplicate: "複製", delete: "刪除", defaultJobName: "自訂列印",
+          limitItems: "此預覽最多支援 10 個項目", itemAdded: "已新增項目", itemDuplicated: "已複製項目", itemDeleted: "已刪除項目", machineRateApplied: "已套用機器費率", summaryCopied: "已複製摘要", csvExported: "CSV 已匯出", copyUnavailable: "此預覽無法使用剪貼簿", defaultsRestored: "已恢復預設值", currencyUnchanged: "貨幣已切換為 {currency}，現有數值未自動換算。", currencyExampleUpdated: "貨幣已切換為 {currency}，示例數值已同步更新。",
+          summaryCost: "成本", summaryQuote: "報價", summaryProfit: "利潤", summaryMargin: "毛利率",
+          language: "語言", currency: "貨幣", currencyUsd: "美元", currencyTwd: "新台幣", currencyEur: "歐元", currencyGbp: "英鎊", themeDark: "切換至深色模式", themeLight: "切換至淺色模式", printHours: "列印小時", printMinutes: "列印分鐘", itemListLabel: "列印項目", scenariosLabel: "定價方案", footerNavigation: "頁尾導覽"
+        }
+      };
+      let currentLocale = localStorage.getItem("zaps-locale") === "zh-Hant" ? "zh-Hant" : "en";
+      let currentCurrency = ["USD", "TWD", "EUR", "GBP"].includes(localStorage.getItem("zaps-currency")) ? localStorage.getItem("zaps-currency") : "USD";
+      const currencySymbols = { USD: "$", TWD: "NT$", EUR: "€", GBP: "£" };
+      const materialPricesByCurrency = {
+        USD: { PLA: 24, PETG: 28, ABS: 26, TPU: 34, Other: 30 },
+        TWD: { PLA: 750, PETG: 880, ABS: 820, TPU: 1080, Other: 950 },
+        EUR: { PLA: 22, PETG: 26, ABS: 24, TPU: 31, Other: 28 },
+        GBP: { PLA: 19, PETG: 22, ABS: 21, TPU: 27, Other: 24 }
+      };
+      const currencyExamples = {
+        USD: { machineRate: 0.5, laborRate: 20, printerPrice: 500, minimumFee: 10, energyRate: 0.16, packagingCost: 2 },
+        TWD: { machineRate: 16, laborRate: 650, printerPrice: 16000, minimumFee: 300, energyRate: 3.2, packagingCost: 60 },
+        EUR: { machineRate: 0.46, laborRate: 18, printerPrice: 460, minimumFee: 9, energyRate: 0.3, packagingCost: 2 },
+        GBP: { machineRate: 0.4, laborRate: 16, printerPrice: 400, minimumFee: 8, energyRate: 0.28, packagingCost: 2 }
+      };
+
+      function text(key, values = {}) {
+        return Object.entries(values).reduce((value, [name, replacement]) => value.replaceAll(`{${name}}`, replacement), calculatorMessages[currentLocale][key] || calculatorMessages.en[key] || key);
+      }
+
+      function syncPreferenceMenu(type, value) {
+        const control = document.querySelector(`[data-preference="${type}"]`);
+        const selected = [...control.querySelectorAll(".preference-option")].find((option) => option.dataset.value === value);
+        if (!selected) return;
+        control.querySelector(".preference-value").textContent = selected.dataset.short;
+        control.querySelectorAll(".preference-option").forEach((option) => option.setAttribute("aria-selected", String(option === selected)));
+      }
+
+      function closePreferenceMenus(except = null) {
+        document.querySelectorAll(".preference-control.open").forEach((control) => {
+          if (control === except) return;
+          control.classList.remove("open");
+          control.querySelector(".preference-trigger").setAttribute("aria-expanded", "false");
+          control.querySelector(".preference-popover").hidden = true;
+        });
+      }
+
+      function setupPreferenceMenu(type, onSelect) {
+        const control = document.querySelector(`[data-preference="${type}"]`);
+        const trigger = control.querySelector(".preference-trigger");
+        const menu = control.querySelector(".preference-popover");
+        const options = [...menu.querySelectorAll(".preference-option")];
+        const open = (focusSelected = false) => {
+          closePreferenceMenus(control);
+          control.classList.add("open");
+          trigger.setAttribute("aria-expanded", "true");
+          menu.hidden = false;
+          if (focusSelected) (options.find((option) => option.getAttribute("aria-selected") === "true") || options[0]).focus();
+        };
+        const close = () => {
+          control.classList.remove("open");
+          trigger.setAttribute("aria-expanded", "false");
+          menu.hidden = true;
+        };
+        trigger.addEventListener("click", () => control.classList.contains("open") ? close() : open());
+        trigger.addEventListener("keydown", (event) => {
+          if (event.key === "ArrowDown") { event.preventDefault(); open(true); }
+        });
+        options.forEach((option) => option.addEventListener("click", () => { onSelect(option.dataset.value); close(); trigger.focus(); }));
+        menu.addEventListener("keydown", (event) => {
+          const index = options.indexOf(document.activeElement);
+          if (event.key === "Escape") { event.preventDefault(); close(); trigger.focus(); return; }
+          if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+            event.preventDefault();
+            const step = event.key === "ArrowDown" ? 1 : -1;
+            options[(index + step + options.length) % options.length].focus();
+          }
+        });
+      }
+
+      function makeDefaultItem() {
+        const example = currencyExamples[currentCurrency];
+        return {
+          jobName: text("defaultJobName"), material: "PLA", spoolPrice: materialPricesByCurrency[currentCurrency].PLA,
+          spoolWeight: 1000, filament: 120, printHours: 6, printMinutes: 30, quantity: 1, designMinutes: 0, prepMinutes: 10,
+          postMinutes: 15, hardwareCost: 0, packagingCost: example.packagingCost
+        };
+      }
+
+      function makeGlobalDefaults() {
+        const example = currencyExamples[currentCurrency];
+        return {
+          companyName: "Northline Studio", companyDetails: "", customerName: "", customerDetails: "", quoteNumber: "", validDays: "",
+          machineRate: example.machineRate, laborRate: example.laborRate, shippingCost: 0,
+          printerPrice: example.printerPrice, lifetimeHours: 5000, maintenanceRate: 10, pricingRate: 35,
+          minimumFee: example.minimumFee, wasteRate: 5, failureRate: 5, powerDraw: 120,
+          energyRate: example.energyRate, otherCost: 0, taxRate: 0
+        };
+      }
+
+      let defaultItem = makeDefaultItem();
+      let defaults = makeGlobalDefaults();
+      const itemFieldIds = Object.keys(defaultItem);
+      let pricingMode = "margin";
+      let selectedScenario = "target";
+      let latest = null;
+      let itemSequence = 1;
+      let items = [{ id: "item-1", ...defaultItem }];
+      let activeItemId = "item-1";
+      let quoteDirty = false;
+
+      function number(id) {
+        const value = Number($(id).value);
+        return Number.isFinite(value) ? Math.max(0, value) : 0;
+      }
+
+      function money(value) {
+        const amount = new Intl.NumberFormat(currentLocale === "zh-Hant" ? "zh-TW" : "en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(value || 0);
+        return `${currencySymbols[currentCurrency]}${amount}`;
+      }
+
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character]);
+      }
+
+      function updateCurrencyUnits() {
+        const symbol = currencySymbols[currentCurrency];
+        ["spoolPrice", "hardwareCost", "packagingCost", "shippingCost", "minimumFee", "printerPrice", "otherCost"].forEach((id) => {
+          $(id).nextElementSibling.textContent = symbol;
+        });
+        ["machineRate", "laborRate"].forEach((id) => { $(id).nextElementSibling.textContent = `${symbol}/h`; });
+        $("energyRate").nextElementSibling.textContent = `${symbol}/kWh`;
+      }
+
+      function applyCalculatorLocale() {
+        root.lang = currentLocale;
+        document.title = text("title");
+        document.querySelector('meta[name="description"]').setAttribute("content", text("description"));
+        document.querySelectorAll("[data-i18n]").forEach((element) => { element.textContent = text(element.dataset.i18n); });
+        document.querySelectorAll("[data-i18n-placeholder]").forEach((element) => { element.placeholder = text(element.dataset.i18nPlaceholder); });
+        syncPreferenceMenu("locale", currentLocale);
+        syncPreferenceMenu("currency", currentCurrency);
+        $("localeSelect").setAttribute("aria-label", text("language"));
+        $("currencySelect").setAttribute("aria-label", text("currency"));
+        $("printHours").setAttribute("aria-label", text("printHours"));
+        $("printMinutes").setAttribute("aria-label", text("printMinutes"));
+        $("itemList").setAttribute("aria-label", text("itemListLabel"));
+        document.querySelector(".price-scenarios").setAttribute("aria-label", text("scenariosLabel"));
+        document.querySelector(".tool-footer-links").setAttribute("aria-label", text("footerNavigation"));
+        $("pricingRateLabel").textContent = text(pricingMode === "margin" ? "targetMargin" : "markup");
+        $("paperDate").textContent = new Intl.DateTimeFormat(currentLocale === "zh-Hant" ? "zh-TW" : "en-US", { year: "numeric", month: "short", day: "numeric" }).format(new Date());
+        updateCurrencyUnits();
+      }
+
+      function activeItem() {
+        return items.find((item) => item.id === activeItemId) || items[0];
+      }
+
+      function saveActiveItem() {
+        const item = activeItem();
+        if (!item) return;
+        itemFieldIds.forEach((id) => {
+          if (id === "jobName" || id === "material") item[id] = $(id).value;
+          else item[id] = number(id);
+        });
+        item.quantity = Math.max(1, Math.floor(item.quantity));
+        item.printMinutes = Math.min(59, item.printMinutes);
+      }
+
+      function loadActiveItem() {
+        const item = activeItem();
+        if (!item) return;
+        itemFieldIds.forEach((id) => { $(id).value = item[id]; });
+      }
+
+      function newItem(source = null) {
+        itemSequence += 1;
+        return {
+          ...(source || defaultItem),
+          id: `item-${itemSequence}`,
+          jobName: source ? `${source.jobName || text("printItem")} ${text("copySuffix")}` : `${text("printItem")} ${itemSequence}`
+        };
+      }
+
+      function renderItemList() {
+        const itemResults = new Map((latest?.itemResults || []).map((result) => [result.id, result]));
+        $("itemCount").textContent = `${items.length} ${text(items.length === 1 ? "item" : "itemPlural")}`;
+        $("itemList").innerHTML = items.map((item, index) => {
+          const result = itemResults.get(item.id);
+          const name = item.jobName.trim() || `${text("printItem")} ${index + 1}`;
+          return `
+            <div class="item-row ${item.id === activeItemId ? "active" : ""}" data-item-id="${item.id}">
+              <button class="item-select" type="button" data-action="select" aria-pressed="${item.id === activeItemId}">
+                <span class="item-index">${String(index + 1).padStart(2, "0")}</span>
+                <span class="item-summary"><strong>${escapeHtml(name)}</strong><small>${escapeHtml(item.material)} · ${text("qty")} ${item.quantity}</small></span>
+                <span class="item-price">${money(result?.quoteAmount || 0)}</span>
+              </button>
+              <div class="item-actions">
+                <button class="item-action" type="button" data-action="duplicate" aria-label="${text("duplicate")} ${escapeHtml(name)}" title="${text("duplicate")}">
+                  <svg viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="12" rx="1"></rect><path d="M16 8V4H5v12h3"></path></svg>
+                </button>
+                <button class="item-action" type="button" data-action="delete" aria-label="${text("delete")} ${escapeHtml(name)}" title="${text("delete")}" ${items.length === 1 ? "disabled" : ""}>
+                  <svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M8 11v7M12 11v7M16 11v7M6 7l1 14h10l1-14"></path></svg>
+                </button>
+              </div>
+            </div>`;
+        }).join("");
+      }
+
+      function machineRateFromHelper() {
+        return number("printerPrice") * (1 + number("maintenanceRate") / 100) / Math.max(1, number("lifetimeHours"));
+      }
+
+      function calculateItem(item) {
+        const printHours = item.printHours + Math.min(59, item.printMinutes) / 60;
+        const spoolWeight = Math.max(1, item.spoolWeight);
+        const material = item.filament / spoolWeight * item.spoolPrice * (1 + number("wasteRate") / 100);
+        const electricity = number("powerDraw") / 1000 * printHours * number("energyRate");
+        const machine = printHours * number("machineRate");
+        const attemptCost = material + electricity + machine;
+        const failureRate = Math.min(50, number("failureRate")) / 100;
+        const expectedProduction = attemptCost / Math.max(0.5, 1 - failureRate);
+        const failure = expectedProduction - attemptCost;
+        const laborMinutes = item.designMinutes + item.prepMinutes + item.postMinutes;
+        const labor = laborMinutes / 60 * number("laborRate");
+        const hardware = item.hardwareCost;
+        const packaging = item.packagingCost;
+        const totalCost = expectedProduction + labor + hardware + packaging;
+        return { ...item, materialCost: material, machine, electricity, labor, hardware, packaging, failure, totalCost, printHours };
+      }
+
+      function calculate() {
+        const itemResults = items.map(calculateItem);
+        const summed = itemResults.reduce((total, item) => {
+          total.material += item.materialCost;
+          total.machine += item.machine;
+          total.electricity += item.electricity;
+          total.labor += item.labor;
+          total.hardware += item.hardware;
+          total.packaging += item.packaging;
+          total.failure += item.failure;
+          total.itemCost += item.totalCost;
+          total.quantity += item.quantity;
+          return total;
+        }, { material: 0, machine: 0, electricity: 0, labor: 0, hardware: 0, packaging: 0, failure: 0, itemCost: 0, quantity: 0 });
+        const shipping = number("shippingCost");
+        const other = number("otherCost");
+        const totalCost = summed.itemCost + shipping + other;
+        const rate = number("pricingRate") / 100;
+        const calculatedQuote = pricingMode === "margin" ? totalCost / Math.max(0.01, 1 - Math.min(.99, rate)) : totalCost * (1 + rate);
+        const saferRate = pricingMode === "margin" ? Math.min(.9, rate + .1) : rate + .2;
+        const saferQuote = pricingMode === "margin" ? totalCost / Math.max(.1, 1 - saferRate) : totalCost * (1 + saferRate);
+        const scenarioSubtotals = {
+          breakEven: Math.max(totalCost, number("minimumFee")),
+          target: Math.max(calculatedQuote, number("minimumFee")),
+          safer: Math.max(saferQuote, number("minimumFee"))
+        };
+        const subtotal = scenarioSubtotals[selectedScenario];
+        const minimumAdjustment = Math.max(0, number("minimumFee") - (selectedScenario === "breakEven" ? totalCost : selectedScenario === "safer" ? saferQuote : calculatedQuote));
+        const tax = subtotal * number("taxRate") / 100;
+        const total = subtotal + tax;
+        const profit = subtotal - totalCost;
+        const margin = subtotal > 0 ? profit / subtotal : 0;
+        const allocationFactor = totalCost > 0 ? subtotal / totalCost : 0;
+        itemResults.forEach((item) => { item.quoteAmount = item.totalCost * allocationFactor; });
+        const scenarioTotals = Object.fromEntries(Object.entries(scenarioSubtotals).map(([key, value]) => [key, value * (1 + number("taxRate") / 100)]));
+        latest = { ...summed, itemResults, shipping, other, minimumAdjustment, totalCost, subtotal, tax, total, profit, margin, allocationFactor, scenarioTotals, saferRate };
+        render();
+      }
+
+      function render() {
+        $("quoteAmount").textContent = money(latest.total);
+        $("totalCost").textContent = money(latest.totalCost);
+        $("profit").textContent = money(latest.profit);
+        $("margin").textContent = `${(latest.margin * 100).toFixed(1)}%`;
+        $("itemMetric").textContent = items.length;
+        $("breakEvenPrice").textContent = money(latest.scenarioTotals.breakEven);
+        $("targetPrice").textContent = money(latest.scenarioTotals.target);
+        $("saferPrice").textContent = money(latest.scenarioTotals.safer);
+        $("saferLabel").textContent = text(pricingMode === "margin" ? "safer10" : "safer20");
+        $("resultLabelText").textContent = text(selectedScenario === "breakEven" ? "breakEvenQuote" : selectedScenario === "safer" ? "saferQuote" : "targetQuote");
+        $("calculatedMachineRate").textContent = `${money(machineRateFromHelper())}/h`;
+        $("marginWarning").classList.toggle("show", latest.margin < .2);
+        $("quoteAmount").classList.remove("updated");
+        void $("quoteAmount").offsetWidth;
+        $("quoteAmount").classList.add("updated");
+        renderItemList();
+
+        const rows = [
+          [text("materialCost"), latest.material], [text("machine"), latest.machine], [text("electricity"), latest.electricity],
+          [text("labor"), latest.labor], [text("failureRisk"), latest.failure]
+        ];
+        if (latest.hardware > 0) rows.push([text("hardware"), latest.hardware]);
+        if (latest.packaging > 0) rows.push([text("packaging"), latest.packaging]);
+        if (latest.shipping > 0) rows.push([text("shipping"), latest.shipping]);
+        if (latest.other > 0) rows.push([text("other"), latest.other]);
+        if (latest.minimumAdjustment > 0) rows.push([text("minimumFeeShort"), latest.minimumAdjustment]);
+        const max = Math.max(...rows.map((row) => row[1]), .01);
+        $("breakdownList").innerHTML = rows.map(([label, value]) => `
+          <div class="breakdown-row"><span>${label}</span><div class="track"><i class="fill" style="width:${Math.max(2, value / max * 100)}%"></i></div><strong>${money(value)}</strong></div>
+        `).join("");
+
+        $("formulaNote").textContent = selectedScenario === "breakEven"
+          ? text("formulaBreakEven")
+          : pricingMode === "margin"
+            ? text("formulaMargin", { scenario: text(selectedScenario === "safer" ? "scenarioSafer" : "scenarioTarget") })
+            : text("formulaMarkup", { scenario: text(selectedScenario === "safer" ? "scenarioSafer" : "scenarioTarget") });
+        $("paperJob").textContent = items.length === 1 ? (items[0].jobName.trim() || text("defaultJobName")) : text("printItemsProject", { count: items.length });
+        const companyName = $("companyName").value.trim();
+        const quoteDetailsEnabled = $("quoteDetailsToggle").checked;
+        const companyDetails = quoteDetailsEnabled ? $("companyDetails").value.trim() : "";
+        const customerName = quoteDetailsEnabled ? $("customerName").value.trim() : "";
+        const customerDetails = quoteDetailsEnabled ? $("customerDetails").value.trim() : "";
+        const hasCustomer = Boolean(customerName || customerDetails);
+        const validDays = quoteDetailsEnabled ? Number($("validDays").value) : NaN;
+        const validity = Number.isFinite(validDays) && validDays > 0 ? text("validForDays", { days: Math.round(validDays) }) : "";
+        $("paperCompany").textContent = companyName;
+        $("paperCompanyDetails").textContent = companyDetails;
+        $("paperCustomer").textContent = customerName;
+        $("paperCustomerDetails").textContent = customerDetails;
+        $("paperCustomerParty").hidden = !hasCustomer;
+        $("paperParties").classList.toggle("single", !hasCustomer);
+        $("paperQuoteNumber").textContent = quoteDetailsEnabled ? $("quoteNumber").value.trim() : "";
+        $("paperFooterCompany").textContent = companyName;
+        $("paperValidity").textContent = validity;
+        $("paperFooter").hidden = !(companyName || validity);
+        const paperRows = latest.itemResults.map((item, index) => {
+          const name = item.jobName.trim() || `${text("printItem")} ${index + 1}`;
+          const unitPrice = item.quoteAmount / Math.max(1, item.quantity);
+          return `<div class="paper-line"><span class="paper-description"><strong>${escapeHtml(name)}</strong><small>${escapeHtml(item.material)}</small></span><span>${item.quantity}</span><span>${money(unitPrice)}</span><span>${money(item.quoteAmount)}</span></div>`;
+        });
+        if (latest.shipping > 0) paperRows.push(`<div class="paper-line"><span class="paper-description"><strong>${text("shipping")}</strong></span><span></span><span></span><span>${money(latest.shipping * latest.allocationFactor)}</span></div>`);
+        if (latest.other > 0) paperRows.push(`<div class="paper-line"><span class="paper-description"><strong>${text("other")}</strong></span><span></span><span></span><span>${money(latest.other * latest.allocationFactor)}</span></div>`);
+        if (latest.totalCost === 0 && latest.subtotal > 0) paperRows.push(`<div class="paper-line"><span class="paper-description"><strong>${text("minimumServiceFee")}</strong></span><span></span><span></span><span>${money(latest.subtotal)}</span></div>`);
+        $("paperLines").innerHTML = paperRows.join("");
+        $("paperSubtotal").textContent = money(latest.subtotal);
+        $("paperTax").textContent = money(latest.tax);
+        $("paperTaxRow").hidden = latest.tax <= 0;
+        $("paperTotal").textContent = money(latest.total);
+      }
+
+      form.addEventListener("input", (event) => {
+        quoteDirty = true;
+        if (itemFieldIds.includes(event.target.id)) saveActiveItem();
+        calculate();
+      });
+      $("material").addEventListener("change", () => {
+        $("spoolPrice").value = materialPricesByCurrency[currentCurrency][$("material").value];
+        saveActiveItem();
+        calculate();
+      });
+      $("addItem").addEventListener("click", () => {
+        if (items.length >= 10) {
+          showToast(text("limitItems"));
+          return;
+        }
+        saveActiveItem();
+        const item = newItem();
+        quoteDirty = true;
+        items.push(item);
+        activeItemId = item.id;
+        loadActiveItem();
+        calculate();
+        $("jobName").focus();
+        $("jobName").select();
+        showToast(text("itemAdded"));
+      });
+      $("itemList").addEventListener("click", (event) => {
+        const action = event.target.closest("[data-action]");
+        const row = event.target.closest("[data-item-id]");
+        if (!action || !row) return;
+        const itemId = row.dataset.itemId;
+        const index = items.findIndex((item) => item.id === itemId);
+        if (index < 0) return;
+        if (action.dataset.action === "select") {
+          saveActiveItem();
+          activeItemId = itemId;
+          loadActiveItem();
+          calculate();
+          return;
+        }
+        if (action.dataset.action === "duplicate") {
+          if (items.length >= 10) {
+            showToast(text("limitItems"));
+            return;
+          }
+          saveActiveItem();
+          const duplicate = newItem(items[index]);
+          quoteDirty = true;
+          items.splice(index + 1, 0, duplicate);
+          activeItemId = duplicate.id;
+          loadActiveItem();
+          calculate();
+          showToast(text("itemDuplicated"));
+          return;
+        }
+        if (action.dataset.action === "delete" && items.length > 1) {
+          quoteDirty = true;
+          items.splice(index, 1);
+          if (activeItemId === itemId) activeItemId = items[Math.min(index, items.length - 1)].id;
+          loadActiveItem();
+          calculate();
+          showToast(text("itemDeleted"));
+        }
+      });
+      $("applyMachineRate").addEventListener("click", () => {
+        quoteDirty = true;
+        $("machineRate").value = machineRateFromHelper().toFixed(2);
+        calculate();
+        showToast(text("machineRateApplied"));
+      });
+
+      document.querySelectorAll(".price-option").forEach((button) => {
+        button.addEventListener("click", () => {
+          quoteDirty = true;
+          selectedScenario = button.dataset.scenario;
+          document.querySelectorAll(".price-option").forEach((item) => item.classList.toggle("active", item === button));
+          calculate();
+        });
+      });
+
+      document.querySelectorAll(".segment").forEach((button) => {
+        button.addEventListener("click", () => {
+          if (button.dataset.mode === pricingMode) return;
+          quoteDirty = true;
+          const current = number("pricingRate") / 100;
+          pricingMode = button.dataset.mode;
+          document.querySelectorAll(".segment").forEach((item) => item.classList.toggle("active", item === button));
+          if (pricingMode === "markup") {
+            $("pricingRateLabel").textContent = text("markup");
+            $("pricingRate").value = Math.round(current / Math.max(.01, 1 - current) * 100);
+          } else {
+            $("pricingRateLabel").textContent = text("targetMargin");
+            $("pricingRate").value = Math.round(current / (1 + current) * 100);
+          }
+          calculate();
+        });
+      });
+
+      document.querySelectorAll(".tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll(".tab").forEach((item) => { item.classList.toggle("active", item === tab); item.setAttribute("aria-selected", String(item === tab)); });
+          document.querySelectorAll(".tab-content").forEach((panel) => panel.classList.toggle("active", panel.id === tab.getAttribute("aria-controls")));
+        });
+      });
+
+      function showToast(message) {
+        $("toast").textContent = message;
+        $("toast").classList.add("show");
+        clearTimeout(showToast.timer);
+        showToast.timer = setTimeout(() => $("toast").classList.remove("show"), 1800);
+      }
+
+      function csvCell(value) {
+        const raw = String(value ?? "");
+        const safe = /^[\t\r ]*[=+\-@]/.test(raw) ? `'${raw}` : raw;
+        return /[",\r\n]/.test(safe) ? `"${safe.replaceAll('"', '""')}"` : safe;
+      }
+
+      function localIsoDate(date = new Date()) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      }
+
+      function exportQuoteCsv() {
+        saveActiveItem();
+        calculate();
+        const detailsEnabled = $("quoteDetailsToggle").checked;
+        const date = localIsoDate();
+        const quoteNumber = detailsEnabled ? $("quoteNumber").value.trim() : "";
+        const shared = [
+          $("companyName").value.trim(),
+          detailsEnabled ? $("companyDetails").value.trim() : "",
+          quoteNumber,
+          date,
+          detailsEnabled ? $("customerName").value.trim() : "",
+          detailsEnabled ? $("customerDetails").value.trim() : "",
+          $("paperJob").textContent
+        ];
+        const rows = [[
+          text("companyName"), text("companyDetails"), text("quoteNumber"), text("date"), text("customerName"), text("customerDetails"), text("project"),
+          text("descriptionColumn"), text("material"), text("quantityColumn"), text("unitPriceColumn"), text("amountColumn"), text("currency")
+        ]];
+        latest.itemResults.forEach((item, index) => {
+          const name = item.jobName.trim() || `${text("printItem")} ${index + 1}`;
+          rows.push([...shared, name, item.material, item.quantity, (item.quoteAmount / Math.max(1, item.quantity)).toFixed(2), item.quoteAmount.toFixed(2), currentCurrency]);
+        });
+        const addCharge = (label, amount) => rows.push([...shared, label, "", "", "", amount.toFixed(2), currentCurrency]);
+        if (latest.shipping > 0) addCharge(text("shipping"), latest.shipping * latest.allocationFactor);
+        if (latest.other > 0) addCharge(text("other"), latest.other * latest.allocationFactor);
+        if (latest.totalCost === 0 && latest.subtotal > 0) addCharge(text("minimumServiceFee"), latest.subtotal);
+        const addSummary = (label, amount) => rows.push(["", "", "", "", "", "", "", label, "", "", "", amount.toFixed(2), currentCurrency]);
+        addSummary(text("subtotal"), latest.subtotal);
+        if (latest.tax > 0) addSummary(text("tax"), latest.tax);
+        addSummary(text("total"), latest.total);
+        const csv = `\uFEFF${rows.map((row) => row.map(csvCell).join(",")).join("\r\n")}`;
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        const baseName = (quoteNumber || `3d-print-quote-${date}`).replace(/[\\/:*?"<>|]/g, "-").trim() || "3d-print-quote";
+        link.href = url;
+        link.download = `${baseName}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 0);
+        showToast(text("csvExported"));
+      }
+
+      $("copySummary").addEventListener("click", async () => {
+        const itemSummary = latest.itemResults.map((item, index) => `${item.jobName.trim() || `${text("printItem")} ${index + 1}`} x ${item.quantity}: ${money(item.quoteAmount)}`).join("\n");
+        const summary = `${$("paperJob").textContent}\n${itemSummary}\n${text("summaryCost")}: ${money(latest.totalCost)}\n${text("summaryQuote")}: ${money(latest.total)}\n${text("summaryProfit")}: ${money(latest.profit)}\n${text("summaryMargin")}: ${(latest.margin * 100).toFixed(1)}%`;
+        try { await navigator.clipboard.writeText(summary); showToast(text("summaryCopied")); }
+        catch { showToast(text("copyUnavailable")); }
+      });
+      function setQuoteDetailsVisibility(enabled) {
+        $("quoteDetailsToggle").checked = enabled;
+        $("quoteDetailsToggle").setAttribute("aria-expanded", String(enabled));
+        $("optionalQuoteFields").hidden = !enabled;
+      }
+      $("quoteDetailsToggle").addEventListener("change", () => {
+        setQuoteDetailsVisibility($("quoteDetailsToggle").checked);
+        calculate();
+      });
+      $("exportCsv").addEventListener("click", exportQuoteCsv);
+      $("printQuote").addEventListener("click", () => window.print());
+      $("resetForm").addEventListener("click", () => {
+        defaultItem = makeDefaultItem();
+        defaults = makeGlobalDefaults();
+        Object.entries(defaults).forEach(([id, value]) => { if ($(id)) $(id).value = value; });
+        itemSequence = 1;
+        items = [{ id: "item-1", ...defaultItem }];
+        activeItemId = "item-1";
+        loadActiveItem();
+        pricingMode = "margin";
+        selectedScenario = "target";
+        document.querySelectorAll(".segment").forEach((item) => item.classList.toggle("active", item.dataset.mode === "margin"));
+        document.querySelectorAll(".price-option").forEach((item) => item.classList.toggle("active", item.dataset.scenario === "target"));
+        $("pricingRateLabel").textContent = text("targetMargin");
+        setQuoteDetailsVisibility(false);
+        calculate();
+        quoteDirty = false;
+        showToast(text("defaultsRestored"));
+      });
+
+      const root = document.documentElement;
+      const savedTheme = localStorage.getItem("zaps-theme");
+      function setTheme(theme) {
+        root.dataset.theme = theme;
+        const dark = theme === "dark";
+        $("themeToggle").setAttribute("aria-pressed", String(dark));
+        $("themeToggle").setAttribute("aria-label", dark ? text("themeLight") : text("themeDark"));
+      }
+      Object.entries(defaults).forEach(([id, value]) => { if ($(id)) $(id).value = value; });
+      loadActiveItem();
+      setQuoteDetailsVisibility(false);
+      root.dataset.currency = currentCurrency;
+      applyCalculatorLocale();
+      setTheme(savedTheme || "light");
+      $("themeToggle").addEventListener("click", () => { const theme = root.dataset.theme === "dark" ? "light" : "dark"; setTheme(theme); localStorage.setItem("zaps-theme", theme); });
+      setupPreferenceMenu("locale", (value) => {
+        saveActiveItem();
+        const updateExample = !quoteDirty;
+        currentLocale = value;
+        localStorage.setItem("zaps-locale", currentLocale);
+        if (updateExample) {
+          defaultItem = makeDefaultItem();
+          itemSequence = 1;
+          items = [{ id: "item-1", ...defaultItem }];
+          activeItemId = "item-1";
+          loadActiveItem();
+        }
+        applyCalculatorLocale();
+        setTheme(root.dataset.theme);
+        calculate();
+      });
+      setupPreferenceMenu("currency", (value) => {
+        saveActiveItem();
+        const updateExample = !quoteDirty;
+        currentCurrency = value;
+        root.dataset.currency = currentCurrency;
+        localStorage.setItem("zaps-currency", currentCurrency);
+        defaultItem = makeDefaultItem();
+        defaults = makeGlobalDefaults();
+        if (updateExample) {
+          Object.entries(defaults).forEach(([id, value]) => { if ($(id)) $(id).value = value; });
+          itemSequence = 1;
+          items = [{ id: "item-1", ...defaultItem }];
+          activeItemId = "item-1";
+          loadActiveItem();
+        }
+        syncPreferenceMenu("currency", currentCurrency);
+        updateCurrencyUnits();
+        calculate();
+        showToast(text(updateExample ? "currencyExampleUpdated" : "currencyUnchanged", { currency: currentCurrency }));
+      });
+      document.addEventListener("click", (event) => {
+        if (!event.target.closest(".preference-control")) closePreferenceMenus();
+      });
+      calculate();
+    </script>
+  </body>
+</html>

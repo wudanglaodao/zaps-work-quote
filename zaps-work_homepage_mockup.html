@@ -1,0 +1,1042 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Cost calculators and quote generators for real-world work." />
+    <title>zaps.work - Cost in. Quote out.</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --canvas: #f7f9f7;
+        --surface: #ffffff;
+        --surface-2: #f0f4f1;
+        --ink: #0b110d;
+        --muted: #5e6a62;
+        --subtle: #839087;
+        --line: #dce4de;
+        --line-strong: #b8c5bc;
+        --green: #16a34a;
+        --green-dark: #0f7a38;
+        --green-soft: #eaf8ef;
+        --blue: #2563eb;
+        --blue-soft: #edf4ff;
+        --amber: #f59e0b;
+        --amber-soft: #fff7e6;
+        --red: #dc2626;
+        --shadow-sm: 0 8px 22px rgba(11, 17, 13, 0.06);
+        --shadow-lg: 0 28px 72px rgba(11, 17, 13, 0.1);
+      }
+
+      [data-theme="dark"] {
+        color-scheme: dark;
+        --canvas: #080c09;
+        --surface: #101612;
+        --surface-2: #151d18;
+        --ink: #f5f8f6;
+        --muted: #aab5ae;
+        --subtle: #76827a;
+        --line: #273129;
+        --line-strong: #465248;
+        --green: #4ade80;
+        --green-dark: #86efac;
+        --green-soft: #0d2b18;
+        --blue: #73a2ff;
+        --blue-soft: #101d35;
+        --amber: #fbbf24;
+        --amber-soft: #30230a;
+        --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.2);
+        --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.34);
+      }
+
+      * { box-sizing: border-box; }
+
+      html {
+        background: var(--canvas);
+        color: var(--ink);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+        scroll-behavior: smooth;
+      }
+      html[lang="zh-Hant"] { font-family: "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif; }
+
+      body { margin: 0; min-width: 320px; background: var(--canvas); }
+      a { color: inherit; text-decoration: none; }
+      button { color: inherit; font: inherit; }
+      img { display: block; max-width: 100%; }
+
+      .page {
+        width: min(1180px, calc(100% - 48px));
+        margin: 0 auto;
+      }
+
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        border-bottom: 1px solid color-mix(in srgb, var(--line) 76%, transparent);
+        background: color-mix(in srgb, var(--canvas) 88%, transparent);
+        backdrop-filter: blur(18px);
+      }
+
+      .nav {
+        min-height: 64px;
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 24px;
+      }
+
+      .brand, .footer-brand {
+        display: inline-flex;
+        align-items: baseline;
+        width: max-content;
+        color: var(--ink);
+        font-size: 24px;
+        font-weight: 730;
+        line-height: 1;
+      }
+
+      .brand-dot { color: var(--green); }
+
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 620;
+      }
+
+      .nav-links a { transition: color 160ms ease; }
+      .nav-links a:hover, .nav-links a:first-child { color: var(--ink); }
+
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+      }
+
+      .preference-control { min-height: 38px; position: relative; display: inline-flex; align-items: center; border-radius: 2px; color: var(--muted); }
+      .preference-trigger { min-height: 38px; display: inline-grid; grid-template-columns: 16px auto 14px; align-items: center; gap: 7px; padding: 0 8px; border: 0; border-radius: 2px; outline: 0; background: transparent; color: inherit; cursor: pointer; font: inherit; font-size: 12px; font-weight: 650; transition: background 150ms ease, color 150ms ease; }
+      .preference-trigger:hover, .preference-control.open .preference-trigger { background: var(--surface-2); color: var(--ink); }
+      .preference-trigger:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+      .preference-icon, .preference-chevron { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .preference-chevron { width: 13px; height: 13px; transition: transform 150ms ease; }
+      .preference-control.open .preference-chevron { transform: rotate(180deg); }
+      .locale-trigger { min-width: 82px; }
+      .currency-trigger { min-width: 78px; }
+      .preference-popover { min-width: 184px; position: absolute; z-index: 40; inset-block-start: calc(100% + 8px); inset-inline-end: 0; padding: 5px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); box-shadow: var(--shadow-sm); }
+      .preference-popover[hidden] { display: none; }
+      .preference-option { width: 100%; min-height: 40px; display: block; padding: 6px 9px; border: 0; border-radius: 2px; background: transparent; color: var(--muted); cursor: pointer; text-align: start; }
+      .preference-option:hover, .preference-option:focus-visible { outline: 0; background: var(--surface-2); color: var(--ink); }
+      .preference-option[aria-selected="true"] { background: var(--green-soft); color: var(--green-dark); }
+      .option-copy { min-width: 0; display: flex; align-items: baseline; justify-content: space-between; gap: 14px; }
+      .option-copy strong { color: inherit; font-size: 12px; font-weight: 680; }
+      .option-copy small { color: var(--subtle); font-size: 10px; font-weight: 600; white-space: nowrap; }
+
+      .button {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 0 17px;
+        border: 1px solid var(--line-strong);
+        border-radius: 2px;
+        background: var(--surface);
+        color: var(--ink);
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 660;
+        transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+      }
+
+      .button:hover { transform: translateY(-1px); border-color: var(--ink); }
+      .button.primary { border-color: var(--green); background: var(--green); color: #fff; }
+      .button.primary:hover { border-color: var(--green-dark); background: var(--green-dark); }
+      [data-theme="dark"] .button.primary { color: #071109; }
+
+      .button svg, .icon-button svg {
+        width: 16px;
+        height: 16px;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2;
+      }
+
+      .icon-button {
+        width: 42px;
+        height: 42px;
+        display: inline-grid;
+        place-items: center;
+        padding: 0;
+        border: 1px solid var(--line-strong);
+        border-radius: 2px;
+        background: var(--surface);
+        color: var(--ink);
+        cursor: pointer;
+        transition: border-color 160ms ease, background 160ms ease;
+      }
+
+      .icon-button:hover { border-color: var(--ink); background: var(--surface-2); }
+      .moon { display: none; }
+      [data-theme="dark"] .sun { display: none; }
+      [data-theme="dark"] .moon { display: block; }
+
+      :focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+      .hero {
+        position: relative;
+        min-height: 468px;
+        display: grid;
+        place-items: center;
+        padding: 76px 0 102px;
+        overflow: hidden;
+        text-align: center;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: min(900px, 84vw);
+        height: 1px;
+        transform: translateX(-50%);
+        background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+      }
+
+      .hero-inner { position: relative; z-index: 1; max-width: 860px; }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        margin: 0 0 22px;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+        box-shadow: 0 0 0 5px color-mix(in srgb, var(--green) 12%, transparent);
+      }
+
+      h1 {
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(48px, 5.2vw, 60px);
+        font-weight: 680;
+        letter-spacing: 0;
+        line-height: 1.02;
+      }
+
+      .hero-copy {
+        max-width: 650px;
+        margin: 20px auto 0;
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1.55;
+      }
+
+      .hero-actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-top: 30px;
+      }
+
+      .text-link {
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 6px;
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 660;
+      }
+
+      .text-link span { transition: transform 160ms ease; }
+      .text-link:hover span { transform: translateX(3px); }
+
+      .workflow-section { padding: 66px 0 94px; background: var(--canvas); }
+
+      .section-intro {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 34px;
+        margin-bottom: 26px;
+      }
+
+      .section-kicker {
+        margin: 0 0 9px;
+        color: var(--green-dark);
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .section-intro h2, .tools-heading h2, .steps-copy h2, .closing h2 {
+        margin: 0;
+        color: var(--ink);
+        font-size: clamp(31px, 3.2vw, 40px);
+        font-weight: 650;
+        letter-spacing: 0;
+        line-height: 1.08;
+      }
+
+      .section-note {
+        max-width: 390px;
+        margin: 0;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.55;
+      }
+
+      .workflow-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .workflow-card {
+        --accent: var(--blue);
+        --soft: var(--blue-soft);
+        min-width: 0;
+        padding: 14px;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: var(--surface);
+        box-shadow: var(--shadow-sm);
+        transition: transform 220ms cubic-bezier(.2,.8,.2,1), border-color 180ms ease, box-shadow 220ms ease;
+      }
+
+      .workflow-card:nth-child(2) { --accent: var(--green); --soft: var(--green-soft); }
+      .workflow-card:nth-child(3) { --accent: var(--amber); --soft: var(--amber-soft); }
+      .workflow-card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 42%, var(--line)); box-shadow: var(--shadow-lg); }
+
+      .workflow-scene {
+        position: relative;
+        height: 228px;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        border-radius: 2px;
+        background: var(--soft);
+      }
+
+      .workflow-scene::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        opacity: .34;
+        background-image: radial-gradient(circle, color-mix(in srgb, var(--accent) 25%, transparent) 1px, transparent 1px);
+        background-size: 15px 15px;
+        mask-image: linear-gradient(180deg, transparent 3%, #000 34%, #000 72%, transparent 100%);
+      }
+
+      .mini-window {
+        position: relative;
+        z-index: 1;
+        width: 72%;
+        min-height: 120px;
+        padding: 18px;
+        border: 1px solid color-mix(in srgb, var(--accent) 14%, var(--line));
+        border-radius: 4px;
+        background: color-mix(in srgb, var(--surface) 94%, transparent);
+        box-shadow: 0 22px 54px color-mix(in srgb, var(--accent) 12%, transparent);
+        transition: transform 230ms cubic-bezier(.2,.8,.2,1);
+      }
+
+      .workflow-card:hover .mini-window { transform: translateY(-4px); }
+
+      .input-line {
+        min-height: 29px;
+        display: grid;
+        grid-template-columns: 15px 1fr 44px;
+        align-items: center;
+        gap: 10px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .input-line:last-child { border-bottom: 0; }
+      .input-box { width: 15px; height: 15px; border: 1px solid var(--accent); border-radius: 2px; background: var(--soft); }
+      .input-bar { height: 6px; border-radius: 2px; background: color-mix(in srgb, var(--accent) 22%, var(--line)); }
+      .input-value { height: 17px; border-radius: 2px; background: var(--surface-2); }
+
+      .margin-window { display: grid; grid-template-columns: 78px 1fr; align-items: center; gap: 16px; }
+
+      .margin-ring {
+        width: 74px;
+        height: 74px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--surface) 0 51%, transparent 52%), conic-gradient(var(--accent) 0 68%, var(--line) 68% 100%);
+      }
+
+      .margin-ring strong { color: var(--ink); font-size: 20px; }
+      .result-bars { display: grid; gap: 9px; }
+      .result-bars span { height: 7px; border-radius: 2px; background: var(--line); }
+      .result-bars span::before { content: ""; display: block; width: var(--w); height: 100%; border-radius: inherit; background: var(--accent); transform-origin: left; }
+
+      .quote-window { padding: 18px 18px 16px; }
+      .quote-head { display: flex; justify-content: space-between; color: var(--ink); font-size: 10px; font-weight: 750; }
+      .quote-lines { display: grid; gap: 8px; margin-top: 22px; }
+      .quote-lines span { height: 6px; border-radius: 2px; background: var(--line); }
+      .quote-lines span:nth-child(2) { width: 72%; }
+      .quote-lines span:nth-child(3) { width: 86%; }
+      .quote-total { height: 2px; margin-top: 16px; background: var(--accent); }
+
+      .workflow-caption {
+        display: grid;
+        grid-template-columns: 32px 1fr auto;
+        align-items: center;
+        gap: 12px;
+        min-height: 58px;
+        padding: 13px 3px 0;
+      }
+
+      .workflow-icon {
+        width: 32px;
+        height: 32px;
+        display: grid;
+        place-items: center;
+        border: 1px solid color-mix(in srgb, var(--accent) 44%, var(--line));
+        border-radius: 2px;
+        background: var(--soft);
+        color: var(--accent);
+      }
+
+      .workflow-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 2; }
+      .workflow-caption h3 { margin: 0; font-size: 17px; font-weight: 660; }
+      .step-number { color: var(--accent); font-size: 12px; font-weight: 740; }
+
+      .tools-section {
+        position: relative;
+        padding: 94px 0 104px;
+        border-top: 1px solid var(--line);
+        background: var(--surface);
+      }
+
+      .tools-heading {
+        display: grid;
+        grid-template-columns: 1fr minmax(280px, 390px);
+        align-items: end;
+        gap: 44px;
+        margin-bottom: 26px;
+      }
+
+      .tools-heading p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
+
+      .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+      .filter {
+        min-height: 36px;
+        padding: 0 13px;
+        border: 1px solid var(--line);
+        border-radius: 2px;
+        background: var(--surface);
+        color: var(--muted);
+        cursor: pointer;
+        font-size: 13px;
+        font-weight: 640;
+      }
+      .filter:hover { border-color: var(--line-strong); color: var(--ink); }
+      .filter.active { border-color: var(--ink); background: var(--ink); color: var(--surface); }
+
+      .tool-layout { display: grid; grid-template-columns: 1.35fr .85fr; gap: 16px; }
+
+      .featured-tool {
+        min-height: 500px;
+        display: grid;
+        grid-template-rows: minmax(0, 1fr) auto;
+        overflow: hidden;
+        border: 1px solid var(--line-strong);
+        border-radius: 4px;
+        background: var(--canvas);
+        transition: transform 200ms ease, border-color 180ms ease, box-shadow 200ms ease;
+      }
+
+      .featured-tool:hover { transform: translateY(-4px); border-color: var(--green); box-shadow: var(--shadow-lg); }
+      .tool-preview { min-height: 330px; display: grid; place-items: center; overflow: hidden; padding: 34px; background: #f3f8f5; }
+      [data-theme="dark"] .tool-preview { background: #172019; }
+      .tool-preview img { width: 100%; border: 1px solid #d6e1da; border-radius: 2px; box-shadow: 0 22px 52px rgba(11, 17, 13, .12); transition: transform 260ms ease; }
+      .featured-tool:hover .tool-preview img { transform: scale(1.012); }
+
+      .featured-copy {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: end;
+        gap: 24px;
+        padding: 26px;
+        border-top: 1px solid var(--line);
+        background: var(--surface);
+      }
+
+      .status { display: inline-flex; align-items: center; gap: 7px; margin-bottom: 12px; color: var(--green-dark); font-size: 11px; font-weight: 720; }
+      .status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+      .featured-copy h3 { margin: 0; font-size: 23px; line-height: 1.15; font-weight: 670; }
+      .featured-copy p { max-width: 510px; margin: 9px 0 0; color: var(--muted); font-size: 15px; line-height: 1.5; }
+
+      .planned-tools { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+      .tool-card {
+        min-height: 242px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 22px;
+        padding: 22px;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: var(--surface-2);
+      }
+      .tool-card[hidden], .featured-tool[hidden] { display: none; }
+      .tool-card.disabled { color: var(--subtle); cursor: not-allowed; }
+      .tool-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+      .tool-icon { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 2px; background: var(--surface); color: var(--subtle); }
+      .tool-icon svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+      .tag { min-height: 24px; display: inline-flex; align-items: center; padding: 0 8px; border: 1px solid var(--line); border-radius: 2px; color: var(--subtle); font-size: 10px; font-weight: 720; }
+      .tag.next { border-color: color-mix(in srgb, var(--green) 28%, var(--line)); color: var(--green-dark); }
+      .tool-card h3 { margin: 0; color: var(--muted); font-size: 18px; line-height: 1.25; font-weight: 650; }
+      .tool-card p { margin: 10px 0 0; color: var(--subtle); font-size: 13px; line-height: 1.48; }
+      .tool-state { padding-top: 13px; border-top: 1px solid var(--line); color: var(--subtle); font-size: 12px; font-weight: 640; }
+
+      .steps-section { padding: 94px 0; border-top: 1px solid var(--line); background: var(--surface-2); }
+      .steps-layout { display: grid; grid-template-columns: .82fr 1.18fr; gap: 80px; align-items: start; }
+      .steps-copy { position: sticky; top: 102px; }
+      .steps-copy p { max-width: 430px; margin: 18px 0 0; color: var(--muted); font-size: 16px; line-height: 1.6; }
+      .steps-list { display: grid; border-top: 1px solid var(--line-strong); }
+      .step-row { display: grid; grid-template-columns: 48px 1fr auto; align-items: center; gap: 20px; min-height: 116px; border-bottom: 1px solid var(--line-strong); }
+      .step-index { color: var(--green-dark); font-size: 12px; font-weight: 720; }
+      .step-row h3 { margin: 0; font-size: 20px; font-weight: 650; }
+      .step-row p { margin: 7px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
+      .step-mark { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--line-strong); border-radius: 50%; color: var(--green-dark); }
+      .step-mark svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+      .closing-section { padding: 104px 0; background: var(--ink); color: var(--surface); }
+      .closing { display: flex; align-items: center; justify-content: space-between; gap: 42px; }
+      .closing h2 { max-width: 610px; color: var(--surface); }
+      .closing p { margin: 13px 0 0; color: color-mix(in srgb, var(--surface) 62%, transparent); font-size: 16px; }
+      [data-theme="dark"] .closing-section { background: #eef4f0; color: #0b110d; }
+      [data-theme="dark"] .closing h2 { color: #0b110d; }
+      [data-theme="dark"] .closing p { color: #56645b; }
+
+      .site-footer { border-top: 1px solid var(--line); background: var(--surface); }
+      .footer-top { display: grid; grid-template-columns: 1.4fr repeat(3, .6fr); gap: 52px; padding: 58px 0 46px; }
+      .footer-summary { max-width: 340px; }
+      .footer-summary p { margin: 16px 0 0; color: var(--muted); font-size: 14px; line-height: 1.6; }
+      .footer-column h3 { margin: 0 0 14px; font-size: 12px; font-weight: 720; }
+      .footer-column a, .footer-column span { display: block; margin-top: 11px; color: var(--muted); font-size: 13px; }
+      .footer-column span { color: var(--subtle); }
+      .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 0 28px; border-top: 1px solid var(--line); color: var(--subtle); font-size: 12px; }
+      .footer-bottom-actions { display: flex; align-items: center; gap: 14px; }
+      .footer-theme { width: 36px; height: 36px; }
+      .online { display: inline-flex; align-items: center; gap: 7px; color: var(--muted); }
+      .online::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+
+      .reveal { opacity: 1; transform: translateY(0); transition: opacity 650ms cubic-bezier(.2,.8,.2,1), transform 650ms cubic-bezier(.2,.8,.2,1); transition-delay: var(--delay, 0ms); }
+      .reveal.reveal-ready { opacity: 0; transform: translateY(18px); }
+      .reveal.reveal-ready.visible { opacity: 1; transform: translateY(0); }
+      .visible .result-bars span::before { animation: grow 750ms cubic-bezier(.2,.8,.2,1) both; }
+      .visible .margin-ring { animation: ring-in 650ms cubic-bezier(.2,.8,.2,1) both; }
+      .hero .eyebrow, .hero h1, .hero-copy, .hero-actions { animation: rise 700ms cubic-bezier(.2,.8,.2,1) both; }
+      .hero h1 { animation-delay: 60ms; }
+      .hero-copy { animation-delay: 120ms; }
+      .hero-actions { animation-delay: 180ms; }
+
+      @keyframes rise { from { opacity: .86; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+      @keyframes grow { from { transform: scaleX(.2); } to { transform: scaleX(1); } }
+      @keyframes ring-in { from { transform: scale(.9) rotate(-12deg); } to { transform: scale(1) rotate(0); } }
+
+      @media (max-width: 980px) {
+        .nav { grid-template-columns: 1fr auto; }
+        .nav-links { display: none; }
+        .tool-layout { grid-template-columns: 1fr; }
+        .planned-tools { grid-template-columns: repeat(3, 1fr); }
+        .tool-card { min-height: 214px; }
+        .steps-layout { gap: 48px; }
+      }
+
+      @media (max-width: 820px) {
+        .workflow-grid { grid-template-columns: 1fr; }
+        .workflow-card { display: grid; grid-template-columns: 1.25fr .75fr; align-items: center; gap: 16px; }
+        .workflow-scene { height: 210px; }
+        .workflow-caption { grid-template-columns: 32px 1fr; padding: 0 4px; }
+        .step-number { grid-column: 2; }
+        .planned-tools { grid-template-columns: repeat(2, 1fr); }
+        .steps-layout { grid-template-columns: 1fr; }
+        .steps-copy { position: static; }
+        .closing { align-items: flex-start; flex-direction: column; }
+        .footer-top { grid-template-columns: repeat(3, 1fr); }
+        .footer-summary { grid-column: 1 / -1; }
+      }
+
+      @media (max-width: 640px) {
+        .page { width: min(100% - 28px, 1180px); }
+        .nav-actions .button { display: none; }
+        .nav { gap: 8px; }
+        .nav-actions { gap: 5px; }
+        .preference-control, .preference-trigger { min-height: 36px; }
+        .preference-trigger { gap: 5px; padding-inline: 6px; font-size: 11px; }
+        .preference-icon { width: 14px; height: 14px; }
+        .locale-trigger { width: 72px; min-width: 72px; }
+        .currency-trigger { width: 68px; min-width: 68px; }
+        .icon-button { width: 36px; height: 36px; }
+        .hero { min-height: 430px; place-items: start; padding: 64px 0 84px; text-align: left; }
+        .hero-inner { max-width: 100%; }
+        h1 { font-size: 40px; line-height: 1.04; }
+        .hero-copy { margin-left: 0; font-size: 16px; }
+        .hero-actions { align-items: stretch; flex-direction: column; }
+        .hero-actions .button { width: 100%; }
+        .text-link { justify-content: center; }
+        .workflow-section, .tools-section, .steps-section { padding: 64px 0 72px; }
+        .section-intro, .tools-heading { display: block; }
+        .section-note, .tools-heading > p { margin-top: 14px; }
+        .workflow-card { display: block; }
+        .workflow-caption { grid-template-columns: 32px 1fr auto; padding-top: 13px; }
+        .step-number { grid-column: auto; }
+        .tool-preview { min-height: 230px; padding: 14px; }
+        .featured-copy { display: block; padding: 21px; }
+        .featured-copy .button { width: 100%; margin-top: 20px; }
+        .planned-tools { grid-template-columns: 1fr; }
+        .tool-card { min-height: 190px; }
+        .step-row { grid-template-columns: 36px 1fr; padding: 20px 0; }
+        .step-mark { display: none; }
+        .closing-section { padding: 74px 0; }
+        .closing .button { width: 100%; }
+        .footer-top { grid-template-columns: repeat(2, 1fr); gap: 34px 24px; }
+        .footer-column:last-child { grid-column: 1 / -1; }
+        .footer-bottom { align-items: flex-start; flex-direction: column; }
+        .footer-bottom-actions { width: 100%; justify-content: space-between; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+        *, *::before, *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+        .reveal { opacity: 1; transform: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="page nav" aria-label="Primary navigation">
+        <a class="brand" href="#top" aria-label="zaps.work home">zaps<span class="brand-dot">.</span>work</a>
+        <div class="nav-links">
+          <a href="#tools" data-i18n="navTools">Tools</a>
+          <a href="#how" data-i18n="navHow">How it works</a>
+          <a href="#guides" data-i18n="navGuides">Guides</a>
+        </div>
+        <div class="nav-actions">
+          <span class="preference-control" data-preference="locale">
+            <button class="preference-trigger locale-trigger" id="localeSelect" type="button" aria-label="Language" aria-haspopup="listbox" aria-expanded="false" aria-controls="localeMenu"><svg class="preference-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c3 3 4 6 4 9s-1 6-4 9M12 3c-3 3-4 6-4 9s1 6 4 9"></path></svg><span class="preference-value" id="localeValue">EN</span><svg class="preference-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"></path></svg></button>
+            <div class="preference-popover" id="localeMenu" role="listbox" hidden><button class="preference-option" type="button" role="option" data-value="en" data-short="EN" aria-selected="true"><span class="option-copy"><strong>English</strong><small>EN</small></span></button><button class="preference-option" type="button" role="option" data-value="zh-Hant" data-short="繁中" aria-selected="false"><span class="option-copy"><strong>繁體中文</strong><small>繁中</small></span></button></div>
+          </span>
+          <span class="preference-control" data-preference="currency">
+            <button class="preference-trigger currency-trigger" id="currencySelect" type="button" aria-label="Currency" aria-haspopup="listbox" aria-expanded="false" aria-controls="currencyMenu"><svg class="preference-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="9" r="6"></circle><path d="M7 9h4M9 6v6M13 13a6 6 0 1 0 5-5"></path></svg><span class="preference-value" id="currencyValue">USD</span><svg class="preference-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"></path></svg></button>
+            <div class="preference-popover" id="currencyMenu" role="listbox" hidden><button class="preference-option" type="button" role="option" data-value="USD" data-short="USD" aria-selected="true"><span class="option-copy"><strong>USD</strong><small data-i18n="currencyUsd">US Dollar</small></span></button><button class="preference-option" type="button" role="option" data-value="TWD" data-short="TWD" aria-selected="false"><span class="option-copy"><strong>TWD</strong><small data-i18n="currencyTwd">New Taiwan Dollar</small></span></button><button class="preference-option" type="button" role="option" data-value="EUR" data-short="EUR" aria-selected="false"><span class="option-copy"><strong>EUR</strong><small data-i18n="currencyEur">Euro</small></span></button><button class="preference-option" type="button" role="option" data-value="GBP" data-short="GBP" aria-selected="false"><span class="option-copy"><strong>GBP</strong><small data-i18n="currencyGbp">British Pound</small></span></button></div>
+          </span>
+          <a class="button" href="#tools" data-i18n="browseTools">Browse tools</a>
+        </div>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="page hero">
+        <div class="hero-inner">
+          <p class="eyebrow" data-i18n="heroEyebrow">3D Print Cost Calculator is live</p>
+          <h1 data-i18n="heroTitle">Cost in. Quote out.</h1>
+          <p class="hero-copy" data-i18n="heroCopy">Know what the job costs, protect your margin, and send a clear quote.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="zaps-work_3d_print_calculator_mockup.html" data-i18n="open3d">Open 3D print calculator</a>
+            <a class="text-link" href="#workflow"><span data-i18n="seeHow">See how it works</span> <span aria-hidden="true">&#8594;</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="workflow-section" id="workflow" aria-labelledby="workflow-title">
+        <div class="page">
+          <div class="section-intro reveal">
+            <div>
+              <p class="section-kicker" data-i18n="workflowKicker">One useful path</p>
+              <h2 id="workflow-title" data-i18n="workflowTitle">From job details to a ready quote.</h2>
+            </div>
+            <p class="section-note" data-i18n="workflowNote">Every tool follows the same clear flow, while keeping the inputs specific to the work.</p>
+          </div>
+
+          <div class="workflow-grid">
+            <article class="workflow-card reveal" style="--delay: 0ms">
+              <div class="workflow-scene">
+                <div class="mini-window">
+                  <div class="input-line"><span class="input-box"></span><span class="input-bar"></span><span class="input-value"></span></div>
+                  <div class="input-line"><span class="input-box"></span><span class="input-bar" style="width:76%"></span><span class="input-value"></span></div>
+                  <div class="input-line"><span class="input-box"></span><span class="input-bar" style="width:88%"></span><span class="input-value"></span></div>
+                </div>
+              </div>
+              <div class="workflow-caption">
+                <span class="workflow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1"></rect><path d="M8 8h8M8 12h5M8 16h7"></path></svg></span>
+                <h3 data-i18n="workflowInput">Input</h3>
+                <span class="step-number">01</span>
+              </div>
+            </article>
+
+            <article class="workflow-card reveal" style="--delay: 80ms">
+              <div class="workflow-scene">
+                <div class="mini-window margin-window">
+                  <div class="margin-ring"><strong>34%</strong></div>
+                  <div class="result-bars">
+                    <span style="--w:74%"></span><span style="--w:54%"></span><span style="--w:88%"></span><span style="--w:42%"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="workflow-caption">
+                <span class="workflow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M7 15l4-4 3 2 5-6"></path></svg></span>
+                <h3 data-i18n="workflowMargin">Cost + margin</h3>
+                <span class="step-number">02</span>
+              </div>
+            </article>
+
+            <article class="workflow-card reveal" style="--delay: 160ms">
+              <div class="workflow-scene">
+                <div class="mini-window quote-window">
+                  <div class="quote-head"><span data-i18n="yourCompany">YOUR COMPANY</span><span data-i18n="quoteLabel">QUOTE</span></div>
+                  <div class="quote-lines"><span></span><span></span><span></span></div>
+                  <div class="quote-total"></div>
+                </div>
+              </div>
+              <div class="workflow-caption">
+                <span class="workflow-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"></path><path d="M14 3v4h4M9 12h6M9 16h6"></path></svg></span>
+                <h3 data-i18n="workflowQuote">Quote</h3>
+                <span class="step-number">03</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="tools-section" id="tools" aria-labelledby="tools-title">
+        <div class="page">
+          <div class="tools-heading reveal">
+            <div>
+              <p class="section-kicker" data-i18n="toolsKicker">Tool library</p>
+              <h2 id="tools-title" data-i18n="toolsTitle">Start with the work in front of you.</h2>
+            </div>
+            <p data-i18n="toolsNote">One calculator is live. New fabrication and service quote tools will open as they become genuinely useful.</p>
+          </div>
+
+          <div class="filters reveal" role="group" aria-label="Filter tools">
+            <button class="filter active" type="button" data-filter="all" data-i18n="filterAll">All</button>
+            <button class="filter" type="button" data-filter="fabrication" data-i18n="filterFabrication">Fabrication</button>
+            <button class="filter" type="button" data-filter="services" data-i18n="filterServices">Local services</button>
+            <button class="filter" type="button" data-filter="creative" data-i18n="filterCreative">Creative</button>
+          </div>
+
+          <div class="tool-layout">
+            <a class="featured-tool reveal" href="zaps-work_3d_print_calculator_mockup.html" data-category="fabrication" aria-label="Open 3D Print Cost Calculator">
+              <div class="tool-preview">
+                <img src="zaps-work_homepage_workflow_preview.png" alt="3D Print Cost Calculator showing job inputs, cost and margin, and a quote preview" />
+              </div>
+              <div class="featured-copy">
+                <div>
+                  <span class="status" data-i18n="liveNow">Live now</span>
+                  <h3 data-i18n="tool3dTitle">3D Print Cost Calculator</h3>
+                  <p data-i18n="tool3dCopy">Price material, machine time, labor, overhead, and margin in one place.</p>
+                </div>
+                <span class="button primary" data-i18n="openCalculator">Open calculator</span>
+              </div>
+            </a>
+
+            <div class="planned-tools">
+              <article class="tool-card disabled reveal" data-category="services" aria-disabled="true" style="--delay: 0ms">
+                <div class="tool-card-head">
+                  <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 15c4-1 6-3 7-8 3 4 5 6 9 7-2 5-5 7-9 7-3 0-5-2-7-6Z"></path><path d="m15 5 1-2M19 8l2-1"></path></svg></span>
+                  <span class="tag next" data-i18n="next">NEXT</span>
+                </div>
+                <div><h3 data-i18n="cleaningTitle">Cleaning Quote Generator</h3><p data-i18n="cleaningCopy">Rooms, area, frequency, labor, and service add-ons.</p></div>
+                <div class="tool-state" data-i18n="inDevelopment">In development</div>
+              </article>
+
+              <article class="tool-card disabled reveal" data-category="fabrication" aria-disabled="true" style="--delay: 70ms">
+                <div class="tool-card-head">
+                  <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5h14v14H5zM8 8h8v8H8z"></path><path d="M3 12h2M19 12h2M12 3v2M12 19v2"></path></svg></span>
+                  <span class="tag" data-i18n="soon">SOON</span>
+                </div>
+                <div><h3 data-i18n="laserTitle">Laser Cutting Cost</h3><p data-i18n="laserCopy">Sheet material, cutting time, setup, and waste.</p></div>
+                <div class="tool-state" data-i18n="planned">Planned</div>
+              </article>
+
+              <article class="tool-card disabled reveal" data-category="services" aria-disabled="true" style="--delay: 140ms">
+                <div class="tool-card-head">
+                  <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 18c2-5 5-8 10-10M15 4l5 5-4 4-5-5z"></path><path d="M4 20h7"></path></svg></span>
+                  <span class="tag" data-i18n="soon">SOON</span>
+                </div>
+                <div><h3 data-i18n="handymanTitle">Handyman Quote</h3><p data-i18n="handymanCopy">Time, materials, travel, minimum charge, and markup.</p></div>
+                <div class="tool-state" data-i18n="planned">Planned</div>
+              </article>
+
+              <article class="tool-card disabled reveal" data-category="creative" aria-disabled="true" style="--delay: 210ms">
+                <div class="tool-card-head">
+                  <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 6h14v12H5zM8 3v3M16 3v3M8 11h3M8 15h7"></path></svg></span>
+                  <span class="tag" data-i18n="soon">SOON</span>
+                </div>
+                <div><h3 data-i18n="freelanceTitle">Freelance Job Quote</h3><p data-i18n="freelanceCopy">Scope, hours, revisions, rush fees, and deposits.</p></div>
+                <div class="tool-state" data-i18n="planned">Planned</div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="steps-section" id="how" aria-labelledby="how-title">
+        <div class="page steps-layout">
+          <div class="steps-copy reveal">
+            <p class="section-kicker" data-i18n="stepsKicker">Built for repeatable quoting</p>
+            <h2 id="how-title" data-i18n="stepsTitle">The same logic, adapted to each job.</h2>
+            <p data-i18n="stepsCopy">Each calculator keeps the workflow familiar while changing the assumptions, units, and cost model for the scenario.</p>
+          </div>
+          <div class="steps-list">
+            <article class="step-row reveal">
+              <span class="step-index">01</span>
+              <div><h3 data-i18n="step1Title">Enter the job</h3><p data-i18n="step1Copy">Use inputs that match the material, service, or project.</p></div>
+              <span class="step-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+            </article>
+            <article class="step-row reveal" style="--delay: 80ms">
+              <span class="step-index">02</span>
+              <div><h3 data-i18n="step2Title">Check the numbers</h3><p data-i18n="step2Copy">See total cost, profit, margin, and the assumptions behind them.</p></div>
+              <span class="step-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+            </article>
+            <article class="step-row reveal" style="--delay: 160ms">
+              <span class="step-index">03</span>
+              <div><h3 data-i18n="step3Title">Send the quote</h3><p data-i18n="step3Copy">Copy a summary or export a clean customer-facing document.</p></div>
+              <span class="step-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="closing-section">
+        <div class="page closing reveal">
+          <div><h2 data-i18n="closingTitle">Price the job before the job prices you.</h2><p data-i18n="closingCopy">Start with the free 3D Print Cost Calculator.</p></div>
+          <a class="button primary" href="zaps-work_3d_print_calculator_mockup.html" data-i18n="openCalculator">Open calculator</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="guides">
+      <div class="page footer-top">
+        <div class="footer-summary">
+          <a class="footer-brand" href="#top">zaps<span class="brand-dot">.</span>work</a>
+          <p data-i18n="footerSummary">Practical cost calculators and quote generators for fabrication, local services, and independent work.</p>
+        </div>
+        <div class="footer-column"><h3 data-i18n="navTools">Tools</h3><a href="#tools" data-i18n="footer3d">3D Print Cost</a><span data-i18n="footerCleaning">Cleaning Quote</span><span data-i18n="footerLaser">Laser Cutting</span></div>
+        <div class="footer-column"><h3 data-i18n="resources">Resources</h3><span data-i18n="navGuides">Guides</span><span data-i18n="templates">Templates</span><span data-i18n="pricingBasics">Pricing basics</span></div>
+        <div class="footer-column"><h3>zaps.work</h3><a href="#how" data-i18n="navHow">How it works</a><span data-i18n="privacy">Privacy</span><span data-i18n="contact">Contact</span></div>
+      </div>
+      <div class="page footer-bottom">
+        <span>&copy; 2026 zaps.work</span>
+        <div class="footer-bottom-actions">
+          <span class="online" data-i18n="footerLive">3D Print Calculator live</span>
+          <button class="icon-button footer-theme" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+            <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path></svg>
+            <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5 8.5 8.5 0 1 0 20.5 14.3Z"></path></svg>
+          </button>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const root = document.documentElement;
+      const themeToggle = document.getElementById("themeToggle");
+      const localeSelect = document.getElementById("localeSelect");
+      const currencySelect = document.getElementById("currencySelect");
+      const homeMessages = {
+        en: {
+          title: "zaps.work - Cost in. Quote out.", description: "Cost calculators and quote generators for real-world work.",
+          navTools: "Tools", navHow: "How it works", navGuides: "Guides", browseTools: "Browse tools",
+          heroEyebrow: "3D Print Cost Calculator is live", heroTitle: "Cost in. Quote out.", heroCopy: "Know what the job costs, protect your margin, and send a clear quote.",
+          open3d: "Open 3D print calculator", seeHow: "See how it works", workflowKicker: "One useful path",
+          workflowTitle: "From job details to a ready quote.", workflowNote: "Every tool follows the same clear flow, while keeping the inputs specific to the work.",
+          workflowInput: "Input", workflowMargin: "Cost + margin", workflowQuote: "Quote", yourCompany: "YOUR COMPANY", quoteLabel: "QUOTE",
+          toolsKicker: "Tool library", toolsTitle: "Start with the work in front of you.", toolsNote: "One calculator is live. New fabrication and service quote tools will open as they become genuinely useful.",
+          filterAll: "All", filterFabrication: "Fabrication", filterServices: "Local services", filterCreative: "Creative",
+          liveNow: "Live now", tool3dTitle: "3D Print Cost Calculator", tool3dCopy: "Price material, machine time, labor, overhead, and margin in one place.", openCalculator: "Open calculator",
+          next: "NEXT", soon: "SOON", planned: "Planned", inDevelopment: "In development",
+          cleaningTitle: "Cleaning Quote Generator", cleaningCopy: "Rooms, area, frequency, labor, and service add-ons.",
+          laserTitle: "Laser Cutting Cost", laserCopy: "Sheet material, cutting time, setup, and waste.",
+          handymanTitle: "Handyman Quote", handymanCopy: "Time, materials, travel, minimum charge, and markup.",
+          freelanceTitle: "Freelance Job Quote", freelanceCopy: "Scope, hours, revisions, rush fees, and deposits.",
+          stepsKicker: "Built for repeatable quoting", stepsTitle: "The same logic, adapted to each job.", stepsCopy: "Each calculator keeps the workflow familiar while changing the assumptions, units, and cost model for the scenario.",
+          step1Title: "Enter the job", step1Copy: "Use inputs that match the material, service, or project.",
+          step2Title: "Check the numbers", step2Copy: "See total cost, profit, margin, and the assumptions behind them.",
+          step3Title: "Send the quote", step3Copy: "Copy a summary or export a clean customer-facing document.",
+          closingTitle: "Price the job before the job prices you.", closingCopy: "Start with the free 3D Print Cost Calculator.",
+          footerSummary: "Practical cost calculators and quote generators for fabrication, local services, and independent work.",
+          footer3d: "3D Print Cost", footerCleaning: "Cleaning Quote", footerLaser: "Laser Cutting", resources: "Resources", templates: "Templates", pricingBasics: "Pricing basics", privacy: "Privacy", contact: "Contact", footerLive: "3D Print Calculator live",
+          language: "Language", currency: "Currency", currencyUsd: "US Dollar", currencyTwd: "New Taiwan Dollar", currencyEur: "Euro", currencyGbp: "British Pound", themeDark: "Switch to dark mode", themeLight: "Switch to light mode", primaryNav: "Primary navigation", homeLabel: "zaps.work home", filterTools: "Filter tools", featuredAria: "Open 3D Print Cost Calculator", featuredAlt: "3D Print Cost Calculator showing job inputs, cost and margin, and a quote preview"
+        },
+        "zh-Hant": {
+          title: "zaps.work - 算清成本，再送出報價", description: "為實際工作打造的成本計算器與報價產生工具。",
+          navTools: "工具", navHow: "使用方式", navGuides: "指南", browseTools: "瀏覽工具",
+          heroEyebrow: "3D 列印成本計算器已上線", heroTitle: "算清成本，再送出報價。", heroCopy: "掌握工作真正成本、守住利潤，送出清楚的報價。",
+          open3d: "開啟 3D 列印計算器", seeHow: "查看運作方式", workflowKicker: "一條清楚的路徑",
+          workflowTitle: "從工作資料到可直接使用的報價。", workflowNote: "每個工具都遵循相同流程，同時保留該工作真正需要的輸入。",
+          workflowInput: "輸入", workflowMargin: "成本與利潤", workflowQuote: "報價", yourCompany: "您的公司", quoteLabel: "報價單",
+          toolsKicker: "工具庫", toolsTitle: "先處理眼前的工作。", toolsNote: "目前已有一個計算器上線；其他製造與服務報價工具會在真正可用後陸續開放。",
+          filterAll: "全部", filterFabrication: "製造加工", filterServices: "在地服務", filterCreative: "創意工作",
+          liveNow: "已上線", tool3dTitle: "3D 列印成本計算器", tool3dCopy: "一次計算材料、機器時間、人工、營運成本與利潤。", openCalculator: "開啟計算器",
+          next: "下一個", soon: "即將推出", planned: "規劃中", inDevelopment: "開發中",
+          cleaningTitle: "清潔服務報價產生器", cleaningCopy: "依房間、面積、頻率、人工與加購服務報價。",
+          laserTitle: "雷射切割成本計算器", laserCopy: "計算板材、切割時間、設定與耗損。",
+          handymanTitle: "居家修繕報價", handymanCopy: "計算工時、材料、交通、最低費用與加價。",
+          freelanceTitle: "自由工作者專案報價", freelanceCopy: "依範圍、工時、修改、急件費與訂金報價。",
+          stepsKicker: "為重複報價而設計", stepsTitle: "相同邏輯，適應不同工作。", stepsCopy: "每個計算器維持熟悉流程，再依情境調整假設、單位與成本模型。",
+          step1Title: "輸入工作內容", step1Copy: "填入符合材料、服務或專案的資料。",
+          step2Title: "檢查數字", step2Copy: "查看總成本、利潤、毛利率與背後假設。",
+          step3Title: "送出報價", step3Copy: "複製摘要或匯出乾淨的客戶版文件。",
+          closingTitle: "先替工作定價，別讓工作反過來消耗你。", closingCopy: "從免費的 3D 列印成本計算器開始。",
+          footerSummary: "為製造加工、在地服務與獨立工作者打造的實用成本與報價工具。",
+          footer3d: "3D 列印成本", footerCleaning: "清潔報價", footerLaser: "雷射切割", resources: "資源", templates: "範本", pricingBasics: "定價基礎", privacy: "隱私權", contact: "聯絡我們", footerLive: "3D 列印計算器已上線",
+          language: "語言", currency: "貨幣", currencyUsd: "美元", currencyTwd: "新台幣", currencyEur: "歐元", currencyGbp: "英鎊", themeDark: "切換至深色模式", themeLight: "切換至淺色模式", primaryNav: "主要導覽", homeLabel: "zaps.work 首頁", filterTools: "篩選工具", featuredAria: "開啟 3D 列印成本計算器", featuredAlt: "顯示工作輸入、成本、毛利與報價預覽的 3D 列印成本計算器"
+        }
+      };
+      let currentLocale = localStorage.getItem("zaps-locale") === "zh-Hant" ? "zh-Hant" : "en";
+      let currentCurrency = ["USD", "TWD", "EUR", "GBP"].includes(localStorage.getItem("zaps-currency")) ? localStorage.getItem("zaps-currency") : "USD";
+      const savedTheme = localStorage.getItem("zaps-theme");
+      const initialTheme = savedTheme || "light";
+
+      function homeText(key) { return homeMessages[currentLocale][key] || homeMessages.en[key] || key; }
+
+      function syncPreferenceMenu(type, value) {
+        const control = document.querySelector(`[data-preference="${type}"]`);
+        const selected = [...control.querySelectorAll(".preference-option")].find((option) => option.dataset.value === value);
+        if (!selected) return;
+        control.querySelector(".preference-value").textContent = selected.dataset.short;
+        control.querySelectorAll(".preference-option").forEach((option) => option.setAttribute("aria-selected", String(option === selected)));
+      }
+
+      function closePreferenceMenus(except = null) {
+        document.querySelectorAll(".preference-control.open").forEach((control) => {
+          if (control === except) return;
+          control.classList.remove("open");
+          control.querySelector(".preference-trigger").setAttribute("aria-expanded", "false");
+          control.querySelector(".preference-popover").hidden = true;
+        });
+      }
+
+      function setupPreferenceMenu(type, onSelect) {
+        const control = document.querySelector(`[data-preference="${type}"]`);
+        const trigger = control.querySelector(".preference-trigger");
+        const menu = control.querySelector(".preference-popover");
+        const options = [...menu.querySelectorAll(".preference-option")];
+        const open = (focusSelected = false) => {
+          closePreferenceMenus(control);
+          control.classList.add("open");
+          trigger.setAttribute("aria-expanded", "true");
+          menu.hidden = false;
+          if (focusSelected) (options.find((option) => option.getAttribute("aria-selected") === "true") || options[0]).focus();
+        };
+        const close = () => {
+          control.classList.remove("open");
+          trigger.setAttribute("aria-expanded", "false");
+          menu.hidden = true;
+        };
+        trigger.addEventListener("click", () => control.classList.contains("open") ? close() : open());
+        trigger.addEventListener("keydown", (event) => {
+          if (event.key === "ArrowDown") { event.preventDefault(); open(true); }
+        });
+        options.forEach((option) => option.addEventListener("click", () => { onSelect(option.dataset.value); close(); trigger.focus(); }));
+        menu.addEventListener("keydown", (event) => {
+          const index = options.indexOf(document.activeElement);
+          if (event.key === "Escape") { event.preventDefault(); close(); trigger.focus(); return; }
+          if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+            event.preventDefault();
+            const step = event.key === "ArrowDown" ? 1 : -1;
+            options[(index + step + options.length) % options.length].focus();
+          }
+        });
+      }
+
+      function applyLocale() {
+        root.lang = currentLocale;
+        document.title = homeText("title");
+        document.querySelector('meta[name="description"]').setAttribute("content", homeText("description"));
+        document.querySelectorAll("[data-i18n]").forEach((element) => { element.textContent = homeText(element.dataset.i18n); });
+        syncPreferenceMenu("locale", currentLocale);
+        syncPreferenceMenu("currency", currentCurrency);
+        localeSelect.setAttribute("aria-label", homeText("language"));
+        currencySelect.setAttribute("aria-label", homeText("currency"));
+        document.querySelector(".nav").setAttribute("aria-label", homeText("primaryNav"));
+        document.querySelector(".brand").setAttribute("aria-label", homeText("homeLabel"));
+        document.querySelector(".filters").setAttribute("aria-label", homeText("filterTools"));
+        document.querySelector(".featured-tool").setAttribute("aria-label", homeText("featuredAria"));
+        document.querySelector(".tool-preview img").alt = homeText("featuredAlt");
+      }
+
+      function setTheme(theme) {
+        root.dataset.theme = theme;
+        const dark = theme === "dark";
+        themeToggle.setAttribute("aria-pressed", String(dark));
+        themeToggle.setAttribute("aria-label", dark ? homeText("themeLight") : homeText("themeDark"));
+      }
+
+      applyLocale();
+      root.dataset.currency = currentCurrency;
+      setTheme(initialTheme);
+      setupPreferenceMenu("locale", (value) => {
+        currentLocale = value;
+        localStorage.setItem("zaps-locale", currentLocale);
+        applyLocale();
+        setTheme(root.dataset.theme);
+      });
+      setupPreferenceMenu("currency", (value) => {
+        currentCurrency = value;
+        root.dataset.currency = currentCurrency;
+        localStorage.setItem("zaps-currency", currentCurrency);
+        syncPreferenceMenu("currency", currentCurrency);
+      });
+      document.addEventListener("click", (event) => { if (!event.target.closest(".preference-control")) closePreferenceMenus(); });
+      themeToggle.addEventListener("click", () => {
+        const next = root.dataset.theme === "dark" ? "light" : "dark";
+        setTheme(next);
+        localStorage.setItem("zaps-theme", next);
+      });
+
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll(".reveal").forEach((element) => {
+        element.classList.add("reveal-ready");
+        revealObserver.observe(element);
+      });
+
+      const filters = document.querySelectorAll(".filter");
+      const tools = document.querySelectorAll("[data-category]");
+
+      filters.forEach((filter) => {
+        filter.addEventListener("click", () => {
+          filters.forEach((item) => item.classList.remove("active"));
+          filter.classList.add("active");
+          const category = filter.dataset.filter;
+          tools.forEach((tool) => {
+            tool.hidden = category !== "all" && tool.dataset.category !== category;
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

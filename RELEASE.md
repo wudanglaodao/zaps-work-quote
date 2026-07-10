@@ -1,0 +1,69 @@
+# zaps.work Release Runbook
+
+## Production Stack
+
+- GitHub: `wudanglaodao/zaps-work-quote`
+- Hosting and previews: Vercel
+- Database and aggregate product analytics: Supabase Postgres
+- Public traffic analytics: Vercel Web Analytics and Speed Insights
+
+## Launch Routes
+
+- `/en`
+- `/zh-hant`
+- `/en/tools/3d-print-cost-calculator`
+- `/zh-hant/tools/3d-print-cost-calculator`
+- `/sitemap.xml`
+- `/robots.txt`
+- `/api/health`
+
+## Environment Variables
+
+Copy `.env.example` to `.env.local` for local development. Configure the same names in Vercel for Preview and Production.
+
+`SUPABASE_SERVICE_ROLE_KEY` is server-only. Never prefix it with `NEXT_PUBLIC_`.
+
+## Supabase
+
+1. Create a Supabase project in the region closest to the expected users.
+2. Run `supabase/migrations/202607100001_analytics_events.sql` in the SQL editor or with the Supabase CLI.
+3. Set `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in Vercel.
+4. Confirm that `anon` and `authenticated` cannot select or insert into `analytics_events`.
+
+## Vercel
+
+1. Import the GitHub repository.
+2. Keep `main` as the production branch.
+3. Add `zaps.work` and `www.zaps.work`; redirect one host to the canonical host.
+4. Set `NEXT_PUBLIC_SITE_URL=https://zaps.work` in every environment.
+5. Enable Web Analytics and Speed Insights.
+6. Verify the Preview deployment before merging to `main`.
+
+## GitHub
+
+1. Push this repository to `wudanglaodao/zaps-work-quote`.
+2. Keep branch protection on `main` after the first release.
+3. Require the `quality` GitHub Actions job before merging.
+4. Let Vercel create Preview deployments for pull requests and Production deployments from `main`.
+
+## SEO Launch Checklist
+
+- Verify both locale routes return `200` and contain one language only.
+- Confirm `/` permanently redirects to `/en` and is not indexed as duplicate content.
+- Inspect canonical and `hreflang` links, including `x-default`.
+- Submit `https://zaps.work/sitemap.xml` to Google Search Console and Bing Webmaster Tools.
+- Verify the domain property and both protocol/host redirects.
+- Run Rich Results Test for the tool page.
+- Confirm localized visible FAQ matches FAQ structured data.
+- Confirm `/api`, Preview URLs, and admin routes are not indexed.
+- Confirm the PDF includes only filled optional fields and no zaps.work branding.
+- Open the CSV in Excel or Numbers and verify UTF-8 text, currency, and formulas remain inert.
+- Check Core Web Vitals on mobile after production traffic begins.
+
+## Release Gate
+
+```bash
+npm run check
+```
+
+The command must pass lint, TypeScript, unit tests, and production build.
