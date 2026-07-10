@@ -45,6 +45,7 @@ export type Dictionary = {
     intro: string;
     methodologyTitle: string;
     methodologyBody: string;
+    privacyNote: string;
     faqTitle: string;
     faq: Array<{ question: string; answer: string }>;
   };
@@ -160,6 +161,7 @@ const en: Dictionary = {
     intro: "Price an FDM print with material, machine time, labor, failure risk, margin, and customer-ready PDF or CSV output.",
     methodologyTitle: "What the calculator includes",
     methodologyBody: "The estimate combines filament usage, waste, machine time, electricity, labor, packaging, expected failure cost, minimum fees, margin, shipping, and tax. Inputs stay editable so the result reflects your own shop rather than a generic market average.",
+    privacyNote: "Customer details stay in your browser. Names, emails, addresses, and quote details are not sent to or stored in our database.",
     faqTitle: "3D printing cost questions",
     faq: [
       { question: "How is the suggested quote calculated?", answer: "The calculator totals production and labor costs, adjusts for expected failures, then applies your target margin and minimum fee before tax." },
@@ -217,6 +219,7 @@ const zhHant: Dictionary = {
     intro: "用材料、機器時間、人工、失敗風險與目標毛利，完成 FDM 列印定價並匯出 PDF 或 CSV。",
     methodologyTitle: "計算器包含哪些成本",
     methodologyBody: "估算包含耗材用量、損耗、機器時間、電費、人工、包裝、預期失敗成本、最低費用、毛利、運費與稅額。所有假設都能調整，結果反映你的實際工作室，而不是通用市場均價。",
+    privacyNote: "客戶資料只會保留在你的瀏覽器中。姓名、Email、地址與報價資料不會傳送或儲存在我們的資料庫。",
     faqTitle: "3D 列印成本常見問題",
     faq: [
       { question: "建議報價如何計算？", answer: "系統先合計生產與人工成本，納入預期失敗，再套用目標毛利與最低費用，最後計算稅額。" },

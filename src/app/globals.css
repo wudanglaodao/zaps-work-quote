@@ -69,8 +69,8 @@ svg { flex: 0 0 auto; }
 .icon-button { width: 42px; height: 42px; padding: 0; }
 .icon-button:hover { border-color: var(--ink); background: var(--surface-2); color: var(--ink); }
 .icon-button svg, .button svg { width: 16px; height: 16px; }
-.icon-button.theme-button, .icon-button.footer-theme { border-color: transparent; background: transparent; }
-.icon-button.theme-button:hover, .icon-button.footer-theme:hover { border-color: transparent; background: var(--surface-2); }
+.icon-button.theme-button, .icon-button.footer-theme { border: 0; background: transparent; box-shadow: none; }
+.icon-button.theme-button:hover, .icon-button.footer-theme:hover { border: 0; background: var(--surface-2); }
 .icon-button.theme-button:focus-visible, .icon-button.footer-theme:focus-visible { outline-color: var(--green); }
 .button:hover { border-color: var(--ink); transform: translateY(-1px); }
 .button.primary { border-color: var(--green); background: var(--green); color: #fff; }
@@ -284,6 +284,7 @@ svg { flex: 0 0 auto; }
 .toast { position: fixed; inset-inline-end: 22px; inset-block-end: 22px; z-index: 80; padding: 11px 14px; border: 1px solid var(--line-strong); border-radius: 2px; background: var(--ink); color: var(--surface); box-shadow: var(--shadow); font-size: 12px; font-weight: 680; animation: toast 1.8s ease both; }
 @keyframes toast { 0% { opacity: 0; transform: translateY(8px); } 12%, 82% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; } }
 .seo-content { border-top: 1px solid var(--line); background: var(--surface); }
+.tool-privacy-note { margin-block: 0; padding-block: 22px 26px; color: var(--muted); font-size: 12px; line-height: 1.5; text-align: center; }
 .seo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
 .seo-content h2 { font-size: 30px; }
 .seo-content h2 + p { margin-top: 18px; }
