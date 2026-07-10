@@ -11,8 +11,20 @@
 
 - `/`
 - `/zh-hant`
+- `/de`
+- `/ja`
+- `/es`
+- `/fr`
+- `/pt-br`
+- `/ko`
 - `/tools/3d-print-cost-calculator`
 - `/zh-hant/tools/3d-print-cost-calculator`
+- `/de/tools/3d-print-cost-calculator`
+- `/ja/tools/3d-print-cost-calculator`
+- `/es/tools/3d-print-cost-calculator`
+- `/fr/tools/3d-print-cost-calculator`
+- `/pt-br/tools/3d-print-cost-calculator`
+- `/ko/tools/3d-print-cost-calculator`
 - `/sitemap.xml`
 - `/robots.txt`
 - `/llms.txt`
@@ -59,7 +71,7 @@ Copy `.env.example` to `.env.local` for local development. Configure the same na
 
 ## SEO Launch Checklist
 
-- Verify both locale routes return `200` and contain one language only.
+- Verify every supported locale route returns `200` and contains one language only.
 - Confirm legacy `/en` routes permanently redirect to unprefixed English equivalents and are not indexed as duplicate content.
 - Inspect canonical and `hreflang` links, including `x-default`.
 - Verify `/llms.txt` returns the current public page map and privacy boundary.

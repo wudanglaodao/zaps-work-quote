@@ -21,6 +21,11 @@ Calculations and PDF or CSV generation run in the user's browser. Customer names
 - [繁體中文 3D 列印成本計算器](https://zaps.work/zh-hant/tools/3d-print-cost-calculator): Traditional Chinese calculator page.
 - [Deutsch Startseite](https://zaps.work/de): German site navigation.
 - [Deutscher 3D-Druckkostenrechner](https://zaps.work/de/tools/3d-print-cost-calculator): German calculator page.
+- [日本語 3Dプリントコスト計算機](https://zaps.work/ja/tools/3d-print-cost-calculator): Japanese calculator page.
+- [Calculadora de costes de impresión 3D](https://zaps.work/es/tools/3d-print-cost-calculator): Spanish calculator page.
+- [Calculateur de coût d’impression 3D](https://zaps.work/fr/tools/3d-print-cost-calculator): French calculator page.
+- [Calculadora de custos de impressão 3D](https://zaps.work/pt-br/tools/3d-print-cost-calculator): Brazilian Portuguese calculator page.
+- [3D 프린팅 비용 계산기](https://zaps.work/ko/tools/3d-print-cost-calculator): Korean calculator page.
 
 ## Tool capabilities
 

@@ -1,9 +1,10 @@
 import type { QuoteSnapshot } from "./schema";
 import type { Currency } from "@/lib/currency";
+import type { Locale } from "@/lib/i18n/config";
 
 type EventBase = {
   toolSlug: "3d-print-cost-calculator";
-  locale: "en" | "zh-hant" | "de";
+  locale: Locale;
   currency: Currency;
   metrics: { itemCount: number; totalCost: number; quoteTotal: number; margin: number };
 };

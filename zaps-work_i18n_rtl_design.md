@@ -21,18 +21,15 @@ Current complete locales:
 | English | none | `en` | LTR | USD |
 | Traditional Chinese | `/zh-hant` | `zh-Hant` | LTR | TWD |
 | German | `/de` | `de` | LTR | EUR |
+| Japanese | `/ja` | `ja` | LTR | JPY |
+| Spanish | `/es` | `es` | LTR | EUR |
+| French | `/fr` | `fr` | LTR | EUR |
+| Brazilian Portuguese | `/pt-br` | `pt-BR` | LTR | BRL |
+| Korean | `/ko` | `ko` | LTR | KRW |
 
-Recommended next release group:
+The current release group is English, Traditional Chinese, German, Japanese, Spanish, French, Brazilian Portuguese, and Korean.
 
-1. Simplified Chinese (`zh-hans`)
-2. Japanese (`ja`)
-3. Spanish (`es`)
-
-Follow-up group:
-
-1. French (`fr`)
-2. Brazilian Portuguese (`pt-br`)
-3. Korean (`ko`)
+Simplified Chinese (`zh-hans`) is the next candidate after terminology review, because the current Chinese release is Traditional Chinese (`zh-hant`) and the URL/content must remain distinct.
 
 Arabic (`ar`) remains a separate RTL release because it needs mirrored desktop layout, Arabic typography, mixed-direction quote handling, and a dedicated PDF review. Do not add a locale to the route list only to expose a translated navigation label.
 
@@ -42,7 +39,7 @@ Do not treat language as a single global preference. Keep these values independe
 
 ```ts
 type ProductPreferences = {
-  uiLocale: "en" | "zh-hant" | "de" | "zh-hans" | "ja" | "es" | "ar";
+  uiLocale: "en" | "zh-hant" | "de" | "ja" | "es" | "fr" | "pt-br" | "ko" | "ar";
   region: string | null;
   currency: string;
   unitSystem: "metric" | "imperial";
@@ -77,6 +74,11 @@ English uses the root URL structure. Every additional language uses its own loca
 /tools/3d-print-cost-calculator
 /zh-hant/tools/3d-print-cost-calculator
 /de/tools/3d-print-cost-calculator
+/ja/tools/3d-print-cost-calculator
+/es/tools/3d-print-cost-calculator
+/fr/tools/3d-print-cost-calculator
+/pt-br/tools/3d-print-cost-calculator
+/ko/tools/3d-print-cost-calculator
 /ar/tools/3d-print-cost-calculator
 ```
 
@@ -141,6 +143,11 @@ export const locales = {
   en: { direction: "ltr", defaultCurrency: "USD", defaultUnits: "imperial" },
   "zh-hant": { direction: "ltr", defaultCurrency: "TWD", defaultUnits: "metric" },
   de: { direction: "ltr", defaultCurrency: "EUR", defaultUnits: "metric" },
+  ja: { direction: "ltr", defaultCurrency: "JPY", defaultUnits: "metric" },
+  es: { direction: "ltr", defaultCurrency: "EUR", defaultUnits: "metric" },
+  fr: { direction: "ltr", defaultCurrency: "EUR", defaultUnits: "metric" },
+  "pt-br": { direction: "ltr", defaultCurrency: "BRL", defaultUnits: "metric" },
+  ko: { direction: "ltr", defaultCurrency: "KRW", defaultUnits: "metric" },
   ar: { direction: "rtl", defaultCurrency: "USD", defaultUnits: "metric" },
 } as const;
 ```

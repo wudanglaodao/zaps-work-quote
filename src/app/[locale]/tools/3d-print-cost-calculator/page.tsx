@@ -30,7 +30,7 @@ export function ThreeDPrintView({ locale }: { locale: Locale }) {
       applicationCategory: "BusinessApplication",
       operatingSystem: "Any",
       browserRequirements: "Requires JavaScript",
-      offers: { "@type": "Offer", price: "0", priceCurrency: locale === "zh-hant" ? "TWD" : locale === "de" ? "EUR" : "USD" },
+      offers: { "@type": "Offer", price: "0", priceCurrency: ({ en: "USD", "zh-hant": "TWD", de: "EUR", ja: "JPY", es: "EUR", fr: "EUR", "pt-br": "BRL", ko: "KRW" } as const)[locale] },
       inLanguage: htmlLanguage(locale),
     },
     {

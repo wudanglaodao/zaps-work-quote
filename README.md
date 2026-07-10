@@ -6,7 +6,7 @@ The source code is public so the calculation logic, privacy boundary, and export
 
 Repository: [github.com/wudanglaodao/zaps-work-quote](https://github.com/wudanglaodao/zaps-work-quote)
 
-The first live tool is the [3D Print Cost Calculator](https://zaps.work/tools/3d-print-cost-calculator). It supports multiple line items, margin-based pricing, PDF quotes, CSV exports, English, Traditional Chinese, German, and global currency preferences.
+The first live tool is the [3D Print Cost Calculator](https://zaps.work/tools/3d-print-cost-calculator). It supports multiple line items, margin-based pricing, PDF quotes, CSV exports, English, Traditional Chinese, German, Japanese, Spanish, French, Brazilian Portuguese, Korean, and global currency preferences.
 
 ## Stack
 
@@ -42,6 +42,11 @@ English uses clean, unprefixed URLs. Other languages use stable locale prefixes:
 - `/...`
 - `/zh-hant/...`
 - `/de/...`
+- `/ja/...`
+- `/es/...`
+- `/fr/...`
+- `/pt-br/...`
+- `/ko/...`
 
 Each complete localized page emits a language-specific canonical URL, reciprocal `hreflang` links, and an `x-default` English fallback. The sitemap repeats the same alternate mapping. Legacy `/en/...` routes permanently redirect to their unprefixed English equivalents. New locales are added only after their full page copy and SEO metadata are ready.
 

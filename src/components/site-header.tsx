@@ -10,7 +10,7 @@ import { currencies, currencyNames } from "@/lib/currency";
 import { localizedPath } from "@/lib/seo";
 import { usePreferences } from "./preferences-provider";
 
-const localeNames: Record<Locale, string> = { en: "English", "zh-hant": "繁體中文", de: "Deutsch" };
+const localeNames: Record<Locale, string> = { en: "English", "zh-hant": "繁體中文", de: "Deutsch", ja: "日本語", es: "Español", fr: "Français", "pt-br": "Português (Brasil)", ko: "한국어" };
 
 function Menu({
   label,
@@ -46,7 +46,7 @@ export function SiteHeader({ locale, dictionary }: { locale: Locale; dictionary:
   const pathname = usePathname();
   const { currency, setCurrency, theme, toggleTheme } = usePreferences();
   const [currencyQuery, setCurrencyQuery] = useState("");
-  const routePath = pathname.replace(/^\/(en|zh-hant|de)(?=\/|$)/, "").replace(/^\//, "");
+  const routePath = pathname.replace(/^\/(en|zh-hant|de|ja|es|fr|pt-br|ko)(?=\/|$)/, "").replace(/^\//, "");
   const normalizedCurrencyQuery = currencyQuery.trim().toLowerCase();
   const filteredCurrencies = currencies.filter((option) => `${option} ${currencyNames[option]}`.toLowerCase().includes(normalizedCurrencyQuery));
   return (
