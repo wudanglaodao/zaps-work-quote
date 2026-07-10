@@ -64,8 +64,8 @@ function TimeField({
   return <div className="field split-field">
     <span>{label}</span>
     <span className="split-controls">
-      <span className="field-control"><input aria-label={hoursLabel} inputMode="numeric" pattern="[0-9]*" type="text" value={String(Number.isFinite(hours) ? hours : 0)} onChange={(event) => onHoursChange(numericValue(event.target.value))} /><i>h</i></span>
-      <span className="field-control"><input aria-label={minutesLabel} inputMode="numeric" pattern="[0-9]*" type="text" value={String(Number.isFinite(minutes) ? minutes : 0)} onChange={(event) => onMinutesChange(numericValue(event.target.value, 59))} /><i>m</i></span>
+      <span className="field-control time-control"><input aria-label={hoursLabel} inputMode="numeric" pattern="[0-9]*" type="text" value={String(Number.isFinite(hours) ? hours : 0)} onChange={(event) => onHoursChange(numericValue(event.target.value))} /><i>h</i></span>
+      <span className="field-control time-control"><input aria-label={minutesLabel} inputMode="numeric" pattern="[0-9]*" type="text" value={String(Number.isFinite(minutes) ? minutes : 0)} onChange={(event) => onMinutesChange(numericValue(event.target.value, 59))} /><i>m</i></span>
     </span>
   </div>;
 }

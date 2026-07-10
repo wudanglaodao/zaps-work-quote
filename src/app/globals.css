@@ -261,6 +261,11 @@ svg { flex: 0 0 auto; }
 .field-control input:has(+ i) { padding-inline-end: 72px; }
 .field-control i { min-width: 38px; position: absolute; inset-block: 1px; inset-inline-end: 1px; display: flex; align-items: center; justify-content: center; padding-inline: 8px; border-inline-start: 1px solid var(--line); background: var(--surface-2); color: var(--subtle); font-style: normal; font-size: 10px; pointer-events: none; }
 .split-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.time-control { display: grid; grid-template-columns: minmax(0, 1fr) 32px; overflow: hidden; border: 1px solid var(--line); border-radius: 2px; background: var(--surface); }
+.time-control:focus-within { border-color: var(--green); box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 13%, transparent); }
+.time-control input, .time-control input:has(+ i) { min-width: 0; padding: 0 10px; border: 0; border-radius: 0; box-shadow: none; background: transparent; font-variant-numeric: tabular-nums; }
+.time-control input:focus { border: 0; box-shadow: none; }
+.time-control i { min-width: 0; position: static; padding: 0; border-inline-start: 1px solid var(--line); background: var(--surface-2); }
 .form-disclosure { margin-top: 18px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--surface-2) 55%, transparent); }
 .form-disclosure summary { min-height: 46px; display: flex; align-items: center; justify-content: space-between; padding-inline: 10px; list-style: none; cursor: pointer; color: var(--muted); font-size: 12px; font-weight: 680; }
 .form-disclosure summary::-webkit-details-marker { display: none; }
@@ -371,8 +376,8 @@ svg { flex: 0 0 auto; }
   .tool-grid { grid-template-columns: repeat(2, 1fr); }
   .calculator-grid { grid-template-columns: 1fr; }
   .result-column { position: static; }
-  .calculator-panel { order: 2; }
-  .result-column { order: 1; }
+  .calculator-panel { order: 1; }
+  .result-column { order: 2; }
   .seo-grid { gap: 40px; }
   .footer-top { grid-template-columns: repeat(3, 1fr); }
   .footer-summary { grid-column: 1 / -1; }

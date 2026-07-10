@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { notFound } from "next/navigation";
-import { Geist, Geist_Mono } from "next/font/google";
 import { GoogleAnalytics } from "@/components/google-analytics";
 import { PreferencesProvider } from "@/components/preferences-provider";
 import { SiteFooter } from "@/components/site-footer";
@@ -12,14 +11,11 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
 import { siteConfig } from "@/lib/site";
 import "../globals.css";
 
-const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
-
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   applicationName: siteConfig.name,
   creator: siteConfig.name,
-  icons: { icon: "/favicon.ico" },
+  icons: { icon: [{ url: "/icon.svg", type: "image/svg+xml" }] },
 };
 
 export function generateStaticParams() {
@@ -31,7 +27,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   if (!isLocale(rawLocale)) notFound();
   const dictionary = getDictionary(rawLocale);
   return (
-    <html lang={htmlLanguage(rawLocale)} dir={directionFor(rawLocale)} data-scroll-behavior="smooth" className={`${geistSans.variable} ${geistMono.variable}`} suppressHydrationWarning>
+    <html lang={htmlLanguage(rawLocale)} dir={directionFor(rawLocale)} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body>
         <PreferencesProvider locale={rawLocale}>
           <SiteHeader locale={rawLocale} dictionary={dictionary} />
