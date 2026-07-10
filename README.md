@@ -2,6 +2,10 @@
 
 Free, multilingual cost calculators and quote generators for real work.
 
+The source code is public so the calculation logic, privacy boundary, and export behavior can be inspected. No quote-entered content is stored in the database. Customer names, emails, addresses, and other customer details stay in the browser.
+
+Repository: [github.com/wudanglaodao/zaps-work-quote](https://github.com/wudanglaodao/zaps-work-quote)
+
 The first live tool is the [3D Print Cost Calculator](https://zaps.work/tools/3d-print-cost-calculator). It supports multiple line items, margin-based pricing, PDF quotes, CSV exports, English, Traditional Chinese, and global currency preferences.
 
 ## Stack
@@ -41,8 +45,12 @@ Each localized page emits a language-specific canonical URL, reciprocal `hreflan
 
 ## Data Boundary
 
-Calculations and PDF/CSV generation run in the browser. The analytics API accepts only allowlisted, aggregate product events; quote customer details are not sent to Supabase. The service-role key is server-only and the analytics table has Row Level Security enabled.
+Calculations and PDF/CSV generation run in the browser. The analytics API accepts only allowlisted, aggregate product events: tool name, locale, currency, item count, numeric cost/quote/margin metrics, and export event type. It never receives quote-entered content or customer-related information. The service-role key is server-only and the analytics table has Row Level Security enabled.
 
 ## Deployment
 
 See [RELEASE.md](./RELEASE.md) for GitHub, Vercel, Supabase, domain, and SEO launch steps. Architecture decisions are documented in [zaps-work_technical_architecture.md](./zaps-work_technical_architecture.md).
+
+## License
+
+MIT. See [LICENSE](./LICENSE).

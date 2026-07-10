@@ -28,7 +28,7 @@ GitHub
 - One Next.js application owns public pages, tools, metadata, API routes, and future admin pages.
 - Calculators are client-side, deterministic pure TypeScript functions validated by Zod.
 - PDF and CSV exports are generated in the browser for a fast, no-login MVP.
-- Customer names, contact details, addresses, and quote documents remain in the browser.
+- All quote-entered content, including company details, customer names, contact details, addresses, item names, quote numbers, notes, and terms, remains in the browser.
 - Supabase stores only allowlisted aggregate product events.
 - Vercel handles deployments, previews, Web Analytics, and Speed Insights.
 - No ORM is required for the MVP's single append-only analytics table. Add a typed query layer only when the domain schema grows.
@@ -154,7 +154,7 @@ The browser posts to `POST /api/events`. The route:
 - Validates a strict event-name and property allowlist with Zod.
 - Uses the Supabase service-role key only on the server.
 - Returns `204` without blocking the UI when Supabase is not configured.
-- Never accepts company names, customer details, quote numbers, addresses, emails, notes, item names, or full calculator snapshots.
+- Never accepts or stores company names, customer details, quote numbers, addresses, emails, notes, item names, quote fields, or full calculator snapshots.
 
 Allowed examples:
 

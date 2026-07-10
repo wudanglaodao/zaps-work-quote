@@ -8,6 +8,8 @@ import type { Locale } from "@/lib/i18n/config";
 import { localizedPath } from "@/lib/seo";
 import { usePreferences } from "./preferences-provider";
 
+const githubUrl = "https://github.com/wudanglaodao/zaps-work-quote";
+
 export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary: Dictionary }) {
   const { theme, toggleTheme } = usePreferences();
   const pathname = usePathname();
@@ -22,6 +24,7 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
             <Link href={localizedPath(locale, "tools")}>{dictionary.common.tools}</Link>
             <Link href={localizedPath(locale, "privacy")}>{dictionary.common.privacy}</Link>
             <a href="mailto:info@lopuo.com">{dictionary.common.contact}</a>
+            <a href={githubUrl} target="_blank" rel="noreferrer">{dictionary.common.github}</a>
             <span>© 2026 zaps.work</span>
           </div>
         </div>
@@ -53,6 +56,7 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
           <Link href={`${homePath}#how-it-works`}>{dictionary.common.howItWorks}</Link>
           <Link href={localizedPath(locale, "privacy")}>{dictionary.common.privacy}</Link>
           <a href="mailto:info@lopuo.com">{dictionary.common.contact}</a>
+          <a href={githubUrl} target="_blank" rel="noreferrer">{dictionary.common.github}</a>
         </div>
       </div>
       <div className="shell footer-bottom">

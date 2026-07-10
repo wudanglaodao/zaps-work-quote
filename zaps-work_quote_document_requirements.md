@@ -239,7 +239,7 @@ CSV rules:
 
 ## 10. Privacy And Storage
 
-MVP quote details stay in browser memory. They are not sent to Supabase analytics.
+MVP quote details stay in browser memory. No quote-entered field is sent to or stored in Supabase analytics.
 
 Never store in analytics:
 
@@ -250,7 +250,7 @@ Never store in analytics:
 - Item names.
 - Full quote or calculator snapshots.
 
-Analytics may store aggregate events such as calculator used, PDF exported, CSV exported, item count, currency, total cost, quote total, and margin.
+Analytics may store only aggregate events such as calculator used, PDF exported, CSV exported, item count, currency, total cost, quote total, and margin. It never stores any customer-related information or quote-entered content.
 
 ## 11. Acceptance Checklist For 3D Print MVP
 

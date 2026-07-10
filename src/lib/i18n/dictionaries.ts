@@ -22,6 +22,7 @@ export type Dictionary = {
     pricingBasics: string;
     contact: string;
     footerLive: string;
+    github: string;
   };
   home: {
     title: string;
@@ -129,7 +130,7 @@ const en: Dictionary = {
     lightMode: "Switch to light mode",
     live: "Live",
     soon: "Soon",
-    footerSummary: "Practical cost calculators and quote generators for fabrication, local services, and independent work.",
+    footerSummary: "Practical cost calculators and quote generators for fabrication, local services, and independent work. Open source on GitHub.",
     footer3d: "3D Print Cost",
     footerCleaning: "Cleaning Quote",
     footerLaser: "Laser Cutting",
@@ -138,6 +139,7 @@ const en: Dictionary = {
     pricingBasics: "Pricing basics",
     contact: "Contact",
     footerLive: "3D Print Calculator live",
+    github: "GitHub",
   },
   home: {
     title: "Free Cost Calculators & Quote Tools | zaps.work",
@@ -161,7 +163,7 @@ const en: Dictionary = {
     intro: "Price an FDM print with material, machine time, labor, failure risk, margin, and customer-ready PDF or CSV output.",
     methodologyTitle: "What the calculator includes",
     methodologyBody: "The estimate combines filament usage, waste, machine time, electricity, labor, packaging, expected failure cost, minimum fees, margin, shipping, and tax. Inputs stay editable so the result reflects your own shop rather than a generic market average.",
-    privacyNote: "Customer details stay in your browser. Names, emails, addresses, and quote details are not sent to or stored in our database.",
+    privacyNote: "We do not store anything entered in your quote. Customer names, emails, addresses, and other customer details stay in your browser.",
     faqTitle: "3D printing cost questions",
     faq: [
       { question: "How is the suggested quote calculated?", answer: "The calculator totals production and labor costs, adjusts for expected failures, then applies your target margin and minimum fee before tax." },
@@ -187,7 +189,7 @@ const zhHant: Dictionary = {
     lightMode: "切換至淺色模式",
     live: "已上線",
     soon: "即將推出",
-    footerSummary: "為製造加工、在地服務與獨立工作者打造的實用成本與報價工具。",
+    footerSummary: "為製造加工、在地服務與獨立工作者打造的實用成本與報價工具，開源於 GitHub。",
     footer3d: "3D 列印成本",
     footerCleaning: "清潔報價",
     footerLaser: "雷射切割",
@@ -196,6 +198,7 @@ const zhHant: Dictionary = {
     pricingBasics: "定價基礎",
     contact: "聯絡我們",
     footerLive: "3D 列印計算器已上線",
+    github: "GitHub",
   },
   home: {
     title: "免費成本計算器與報價工具 | zaps.work",
@@ -219,7 +222,7 @@ const zhHant: Dictionary = {
     intro: "用材料、機器時間、人工、失敗風險與目標毛利，完成 FDM 列印定價並匯出 PDF 或 CSV。",
     methodologyTitle: "計算器包含哪些成本",
     methodologyBody: "估算包含耗材用量、損耗、機器時間、電費、人工、包裝、預期失敗成本、最低費用、毛利、運費與稅額。所有假設都能調整，結果反映你的實際工作室，而不是通用市場均價。",
-    privacyNote: "客戶資料只會保留在你的瀏覽器中。姓名、Email、地址與報價資料不會傳送或儲存在我們的資料庫。",
+    privacyNote: "我們不會儲存你在報價單中填寫的任何內容。客戶姓名、Email、地址與其他客戶資料只會保留在你的瀏覽器中。",
     faqTitle: "3D 列印成本常見問題",
     faq: [
       { question: "建議報價如何計算？", answer: "系統先合計生產與人工成本，納入預期失敗，再套用目標毛利與最低費用，最後計算稅額。" },
