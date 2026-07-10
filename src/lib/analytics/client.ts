@@ -2,7 +2,7 @@ import type { QuoteSnapshot } from "./schema";
 
 type EventBase = {
   toolSlug: "3d-print-cost-calculator";
-  locale: "en" | "zh-hant";
+  locale: "en" | "zh-hant" | "de";
   currency: "USD" | "TWD" | "EUR" | "GBP";
   metrics: { itemCount: number; totalCost: number; quoteTotal: number; margin: number };
 };

@@ -1,4 +1,4 @@
-export const locales = ["en", "zh-hant"] as const;
+export const locales = ["en", "zh-hant", "de"] as const;
 
 export type Locale = (typeof locales)[number];
 
@@ -9,17 +9,13 @@ export function isLocale(value: string): value is Locale {
 }
 
 export function htmlLanguage(locale: Locale) {
-  return locale === "zh-hant" ? "zh-Hant" : "en";
+  return locale === "zh-hant" ? "zh-Hant" : locale === "de" ? "de" : "en";
 }
 
 export function directionFor(locale: Locale): "ltr" | "rtl" {
-  return ({ en: "ltr", "zh-hant": "ltr" } as const)[locale];
-}
-
-export function otherLocale(locale: Locale): Locale {
-  return locale === "en" ? "zh-hant" : "en";
+  return ({ en: "ltr", "zh-hant": "ltr", de: "ltr" } as const)[locale];
 }
 
 export function localeLabel(locale: Locale) {
-  return locale === "en" ? "EN" : "繁中";
+  return ({ en: "EN", "zh-hant": "繁中", de: "DE" } as const)[locale];
 }

@@ -17,7 +17,7 @@ type Preferences = {
 const PreferencesContext = createContext<Preferences | null>(null);
 
 export function PreferencesProvider({ locale, children }: { locale: Locale; children: React.ReactNode }) {
-  const [currency, setCurrencyState] = useState<Currency>(locale === "zh-hant" ? "TWD" : "USD");
+  const [currency, setCurrencyState] = useState<Currency>(locale === "zh-hant" ? "TWD" : locale === "de" ? "EUR" : "USD");
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
   useEffect(() => {

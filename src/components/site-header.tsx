@@ -5,9 +5,11 @@ import { usePathname } from "next/navigation";
 import { ChevronDown, Coins, Globe2, Moon, Sun } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
-import { localeLabel, otherLocale, type Locale } from "@/lib/i18n/config";
+import { localeLabel, locales, type Locale } from "@/lib/i18n/config";
 import { localizedPath } from "@/lib/seo";
 import { currencies, usePreferences, type Currency } from "./preferences-provider";
+
+const localeNames: Record<Locale, string> = { en: "English", "zh-hant": "繁體中文", de: "Deutsch" };
 
 function Menu({
   label,
@@ -42,10 +44,7 @@ function Menu({
 export function SiteHeader({ locale, dictionary }: { locale: Locale; dictionary: Dictionary }) {
   const pathname = usePathname();
   const { currency, setCurrency, theme, toggleTheme } = usePreferences();
-  const alternate = otherLocale(locale);
-  const routePath = pathname.replace(/^\/(en|zh-hant)(?=\/|$)/, "").replace(/^\//, "");
-  const alternatePath = localizedPath(alternate, routePath);
-  const currentPath = localizedPath(locale, routePath);
+  const routePath = pathname.replace(/^\/(en|zh-hant|de)(?=\/|$)/, "").replace(/^\//, "");
   return (
     <header className="site-header">
       <nav className="shell nav" aria-label="Primary navigation">
@@ -57,8 +56,7 @@ export function SiteHeader({ locale, dictionary }: { locale: Locale; dictionary:
         </div>
         <div className="nav-actions">
           <Menu label={dictionary.common.language} value={localeLabel(locale)} icon={<Globe2 aria-hidden="true" />}>
-            <Link className="preference-option selected" href={currentPath}>{locale === "en" ? "English" : "繁體中文"}</Link>
-            <Link className="preference-option" href={alternatePath}>{alternate === "en" ? "English" : "繁體中文"}</Link>
+            {locales.map((option) => <Link className={`preference-option ${option === locale ? "selected" : ""}`} href={localizedPath(option, routePath)} key={option}>{localeNames[option]}</Link>)}
           </Menu>
           <Menu label={dictionary.common.currency} value={currency} icon={<Coins aria-hidden="true" />}>
             {currencies.map((option) => (

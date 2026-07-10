@@ -11,8 +11,8 @@ import { localizedPath } from "@/lib/seo";
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   if (!isLocale(locale)) return {};
-  const title = locale === "en" ? "Free Cost Calculators & Quote Tools | zaps.work" : "免費成本計算器與報價工具 | zaps.work";
-  const description = locale === "en" ? "Browse free calculators for fabrication and service quotes." : "瀏覽製造與服務業使用的免費成本計算與報價工具。";
+  const title = locale === "en" ? "Free Cost Calculators & Quote Tools | zaps.work" : locale === "de" ? "Kostenrechner und Angebots-Tools | zaps.work" : "免費成本計算器與報價工具 | zaps.work";
+  const description = locale === "en" ? "Browse free calculators for fabrication and service quotes." : locale === "de" ? "Kostenlose Rechner für Fertigung und Serviceangebote." : "瀏覽製造與服務業使用的免費成本計算與報價工具。";
   return buildMetadata({ locale, path: "tools", title, description });
 }
 

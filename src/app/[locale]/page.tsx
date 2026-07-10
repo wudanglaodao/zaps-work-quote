@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Box, BrushCleaning, Database, DraftingCompass, FileDown, LockKeyhole, ScanLine, ShieldCheck } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
-import { isLocale, type Locale } from "@/lib/i18n/config";
+import { htmlLanguage, isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { buildMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
@@ -22,10 +22,10 @@ const icons = [Box, ScanLine, BrushCleaning, DraftingCompass];
 
 export function HomeView({ locale }: { locale: Locale }) {
   const dictionary = getDictionary(locale);
-  const workflowLabels = locale === "zh-hant" ? ["輸入", "成本與毛利", "報價"] : ["Input", "Cost + margin", "Quote"];
+  const workflowLabels = locale === "zh-hant" ? ["輸入", "成本與毛利", "報價"] : locale === "de" ? ["Eingabe", "Kosten + Marge", "Angebot"] : ["Input", "Cost + margin", "Quote"];
   return (
     <div className="home-page">
-      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", name: siteConfig.name, url: siteConfig.url, description: dictionary.home.description, inLanguage: locale === "zh-hant" ? "zh-Hant" : "en" }} />
+      <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", name: siteConfig.name, url: siteConfig.url, description: dictionary.home.description, inLanguage: htmlLanguage(locale) }} />
       <section className="shell home-hero">
         <div className="home-hero-inner">
           <p className="home-eyebrow">{dictionary.home.eyebrow}</p>
@@ -33,7 +33,7 @@ export function HomeView({ locale }: { locale: Locale }) {
           <p className="home-hero-copy">{dictionary.home.subheading}</p>
           <div className="home-hero-actions">
             <Link className="button primary" href={localizedPath(locale, "tools/3d-print-cost-calculator")}>{dictionary.home.primaryCta}</Link>
-            <Link className="home-text-link" href="#how-it-works"><span>{locale === "zh-hant" ? "查看運作方式" : "See how it works"}</span><ArrowRight aria-hidden="true" /></Link>
+            <Link className="home-text-link" href="#how-it-works"><span>{locale === "zh-hant" ? "查看運作方式" : locale === "de" ? "So funktioniert es" : "See how it works"}</span><ArrowRight aria-hidden="true" /></Link>
           </div>
         </div>
       </section>
@@ -52,7 +52,7 @@ export function HomeView({ locale }: { locale: Locale }) {
             <div className="home-workflow-caption"><span className="home-workflow-icon"><ScanLine aria-hidden="true" /></span><h3>{workflowLabels[1]}</h3><b>02</b></div>
           </article>
           <article className="home-workflow-card amber">
-            <div className="home-workflow-scene"><div className="home-mini-window home-quote-window"><div><strong>{locale === "zh-hant" ? "您的公司" : "YOUR COMPANY"}</strong><strong>{locale === "zh-hant" ? "報價" : "QUOTE"}</strong></div><span /><span /><span /><i /></div></div>
+            <div className="home-workflow-scene"><div className="home-mini-window home-quote-window"><div><strong>{locale === "zh-hant" ? "您的公司" : locale === "de" ? "IHR UNTERNEHMEN" : "YOUR COMPANY"}</strong><strong>{locale === "zh-hant" ? "報價" : locale === "de" ? "ANGEBOT" : "QUOTE"}</strong></div><span /><span /><span /><i /></div></div>
             <div className="home-workflow-caption"><span className="home-workflow-icon"><DraftingCompass aria-hidden="true" /></span><h3>{workflowLabels[2]}</h3><b>03</b></div>
           </article>
         </div>
@@ -70,7 +70,7 @@ export function HomeView({ locale }: { locale: Locale }) {
           <div className="home-planned-tools">
             {tools.slice(1).map((tool, index) => {
               const Icon = icons[index + 1] || Box;
-              return <article className="home-planned-card" key={tool.slug}><div><span className="home-tool-icon"><Icon aria-hidden="true" /></span><span className="status soon">{dictionary.common.soon}</span></div><h3>{tool.names[locale]}</h3><p>{tool.summaries[locale]}</p><small>{locale === "zh-hant" ? "開發中" : "In development"}</small></article>;
+              return <article className="home-planned-card" key={tool.slug}><div><span className="home-tool-icon"><Icon aria-hidden="true" /></span><span className="status soon">{dictionary.common.soon}</span></div><h3>{tool.names[locale]}</h3><p>{tool.summaries[locale]}</p><small>{locale === "zh-hant" ? "開發中" : locale === "de" ? "In Entwicklung" : "In development"}</small></article>;
             })}
           </div>
         </div>

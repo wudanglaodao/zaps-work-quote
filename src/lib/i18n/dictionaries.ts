@@ -268,7 +268,77 @@ const zhHant: Dictionary = {
   },
 };
 
-const dictionaries: Record<Locale, Dictionary> = { en, "zh-hant": zhHant };
+const de: Dictionary = {
+  common: {
+    tools: "Tools",
+    howItWorks: "So funktioniert es",
+    guides: "Leitfäden",
+    privacy: "Datenschutz",
+    allTools: "Alle Tools",
+    language: "Sprache",
+    currency: "Währung",
+    darkMode: "Dunkelmodus aktivieren",
+    lightMode: "Hellmodus aktivieren",
+    live: "Live",
+    soon: "Bald verfügbar",
+    footerSummary: "Praktische Kostenrechner und Angebotsgeneratoren für Fertigung, lokale Dienstleistungen und selbstständige Arbeit. Open Source auf GitHub.",
+    footerPrivacyPromise: "Die persönlichen Daten deiner Kunden bleiben in deinem Browser.",
+    footer3d: "3D-Druckkosten",
+    footerCleaning: "Reinigungsangebot",
+    footerLaser: "Laserschneiden",
+    resources: "Ressourcen",
+    templates: "Vorlagen",
+    pricingBasics: "Preisgrundlagen",
+    contact: "Kontakt",
+    feedback: "Feedback",
+    footerLive: "3D-Druckrechner live",
+    github: "GitHub",
+  },
+  home: {
+    title: "Kostenrechner und Angebots-Tools | zaps.work",
+    description: "Berechne echte Auftragskosten, sichere deine Marge und exportiere klare Angebote mit kostenlosen Tools von zaps.work.",
+    eyebrow: "3D-Druckkostenrechner ist live",
+    heading: "Kosten rein. Angebot raus.",
+    subheading: "Kenne deine echten Kosten, schütze deine Marge und versende ein klares Angebot.",
+    primaryCta: "3D-Druckrechner öffnen",
+    secondaryCta: "Tools durchsuchen",
+    workflowKicker: "Ein klarer Weg",
+    workflowHeading: "Von Auftragsdaten zu einem fertigen Angebot.",
+    workflowCopy: "Jedes Tool folgt demselben klaren Ablauf und behält die für die Arbeit wichtigen Eingaben.",
+    toolsKicker: "Tool-Bibliothek",
+    toolsHeading: "Beginne mit der Arbeit vor dir.",
+    toolsCopy: "Ein Rechner ist live. Weitere Tools für Fertigung und Dienstleistungen folgen, sobald sie wirklich nützlich sind.",
+    privacyKicker: "Datenschutz als Prinzip",
+    privacyHeading: "Die Kundendaten bleiben bei dir.",
+    privacyCopy: "Namen, E-Mails, Telefonnummern, Adressen, Firmendaten, Artikelnamen und Angebotsnummern verlassen deinen Browser nicht.",
+    privacyLocal: "PDF- und CSV-Dateien werden direkt in deinem Browser erstellt.",
+    privacyAnonymous: "Beim Export werden nur anonyme Material-, Zeit-, Kosten- und Margendaten erfasst.",
+    privacyCta: "Unseren Datenschutz ansehen",
+    privacyBrowserLabel: "Dein Browser",
+    privacyBlockedLabel: "Private Felder geschützt",
+    privacyMetricsLabel: "Anonyme Kennzahlen",
+  },
+  tool: {
+    title: "3D-Druckkostenrechner und Angebotsgenerator | zaps.work",
+    description: "Berechne Filament, Maschinenzeit, Strom, Arbeit, Ausfallrisiko und Marge und erstelle ein fertiges 3D-Druckangebot.",
+    heading: "3D-Druckkostenrechner",
+    intro: "Berechne den Preis eines FDM-Drucks mit Material, Maschinenzeit, Arbeit, Ausfallrisiko, Marge und PDF- oder CSV-Ausgabe für Kunden.",
+    methodologyTitle: "Was der Rechner berücksichtigt",
+    methodologyBody: "Die Schätzung kombiniert Filamentverbrauch, Ausschuss, Maschinenzeit, Strom, Arbeit, Verpackung, erwartete Ausfallkosten, Mindestgebühren, Marge, Versand und Steuern. Alle Annahmen bleiben anpassbar, damit das Ergebnis deinen eigenen Betrieb abbildet.",
+    privacyNote: "Kundennamen und Kontaktdaten, einschließlich E-Mail, Telefon und Adresse, bleiben in deinem Browser und werden nicht in unserer Datenbank gespeichert.",
+    faqTitle: "Fragen zu 3D-Druckkosten",
+    faq: [
+      { question: "Wie wird das empfohlene Angebot berechnet?", answer: "Der Rechner summiert Produktions- und Arbeitskosten, berücksichtigt erwartete Ausfälle und wendet anschließend Zielmarge und Mindestgebühr vor Steuern an." },
+      { question: "Werden bestehende Werte beim Währungswechsel umgerechnet?", answer: "Nein. Der Währungswechsel ändert nur Bezeichnung und Format. Gib Preise und Sätze in der ausgewählten Währung ein." },
+      { question: "Kann ich mehrere Druckteile gemeinsam anbieten?", answer: "Ja. Füge bis zu zehn Positionen hinzu und exportiere sie als ein Kundenangebot." },
+    ],
+  },
+  calculator: {
+    input: "Eingabe", jobDetails: "Auftragsdaten", printItems: "Druckpositionen", addItem: "Position hinzufügen", itemName: "Positionsname", material: "Material", quantity: "Menge", filament: "Verbrauchtes Filament", printHours: "Druckstunden", printMinutes: "Druckminuten", itemCosts: "Positionskosten und Arbeit", spoolPrice: "Spulenpreis", spoolWeight: "Spulengewicht", preparation: "Vorbereitung", postProcessing: "Nachbearbeitung", packaging: "Verpackung", sharedRates: "Gemeinsame Sätze und Risiko", machineRate: "Maschinensatz", laborRate: "Arbeitssatz", failureRate: "Ausfallrate", wasteRate: "Materialausschuss", powerDraw: "Leistungsaufnahme", electricityRate: "Strompreis", pricing: "Preisgestaltung", targetMargin: "Zielmarge", minimumFee: "Mindestauftragswert", shipping: "Versand", tax: "Steuer", pdfDetails: "Angebotsdaten", companyName: "Firmenname", additionalQuoteDetails: "Weitere Angebotsdaten", companyDetails: "Firmendaten", customerName: "Kundenname", customerDetails: "Kundendaten", quoteNumber: "Angebotsnummer", validDays: "Gültig für", targetQuote: "Zielangebot", totalCost: "Gesamtkosten", profit: "Gewinn", margin: "Marge", exportPdf: "PDF exportieren", exportCsv: "CSV exportieren", copySummary: "Zusammenfassung kopieren", breakdown: "Kostenaufteilung", materialCost: "Material", machine: "Maschine", electricity: "Strom", labor: "Arbeit", failureRisk: "Ausfallrisiko", total: "Gesamt", subtotal: "Zwischensumme", quote: "ANGEBOT", date: "Datum", preparedFor: "Erstellt für", project: "Projekt", description: "Beschreibung", qty: "Menge", unitPrice: "Stückpreis", amount: "Betrag", validFor: "Gültig für {days} Tage", copied: "Zusammenfassung kopiert", csvExported: "CSV exportiert", noConversion: "Bestehende Werte wurden nicht umgerechnet.",
+  },
+};
+
+const dictionaries: Record<Locale, Dictionary> = { en, "zh-hant": zhHant, de };
 
 export function getDictionary(locale: Locale) {
   return dictionaries[locale];
