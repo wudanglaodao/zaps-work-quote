@@ -422,10 +422,17 @@ svg { flex: 0 0 auto; }
   .section-heading h2 { font-size: 34px; }
   .tool-grid, .page-tool-grid { grid-template-columns: 1fr; }
   .tool-card { min-height: 210px; }
-  .tool-intro { padding-top: 24px; }
-  .tool-intro h1 { font-size: 25px; }
-  .calculator-grid { width: 100%; }
+  .tool-intro { min-height: 66px; align-items: center; gap: 10px; padding-block: 14px; }
+  .tool-intro .tool-icon { width: 36px; height: 36px; border-color: color-mix(in srgb, var(--green) 36%, var(--line)); background: var(--green-soft); }
+  .tool-intro .tool-icon svg { width: 18px; height: 18px; }
+  .tool-intro h1 { font-size: 21px; }
+  .tool-intro p { display: none; }
+  .calculator-grid { width: 100%; display: flex; flex-direction: column; }
+  .calculator-panel, .result-column { width: 100%; }
+  .calculator-panel { order: 1; }
+  .result-column { order: 2; }
   .calculator-panel, .result-card, .breakdown-panel, .quote-preview-panel { border-inline: 0; border-radius: 0; }
+  .panel-heading { min-height: 60px; padding-inline: 18px; }
   .form-section { padding: 20px 18px; }
   .field { grid-template-columns: 1fr; gap: 7px; }
   .result-value { padding-inline: 18px; font-size: 52px; }
