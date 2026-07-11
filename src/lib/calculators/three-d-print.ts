@@ -32,6 +32,12 @@ export const quoteInputSchema = z.object({
 export type PrintItemInput = z.infer<typeof printItemSchema>;
 export type QuoteInput = z.infer<typeof quoteInputSchema>;
 
+export function clampNumericInput(value: string | number, min: number, max: number) {
+  const parsed = typeof value === "number" ? value : Number(value);
+  if (!Number.isFinite(parsed)) return min;
+  return Math.min(max, Math.max(min, parsed));
+}
+
 export function createDefaultItem(index = 1): PrintItemInput {
   return {
     id: `item-${index}`,
@@ -68,6 +74,8 @@ export function createDefaultQuoteInput(): QuoteInput {
 export function calculateThreeDPrintQuote(rawInput: QuoteInput) {
   const input = quoteInputSchema.parse(rawInput);
   const itemResults = input.items.map((item) => {
+    // Slicer material and print-time values describe the complete batch. Quantity
+    // is customer-facing metadata used to derive the quoted unit price only.
     const hours = item.printHours + item.printMinutes / 60;
     const material = (item.filamentGrams / item.spoolWeightGrams) * item.spoolPrice * (1 + input.wasteRate / 100);
     const machine = hours * input.machineRate;

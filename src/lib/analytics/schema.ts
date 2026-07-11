@@ -4,7 +4,8 @@ import { locales } from "../i18n/config";
 
 const amountSchema = z.number().finite().min(0).max(1_000_000_000);
 
-export const quoteSnapshotSchema = z.object({
+const threeDPrintQuoteSnapshotSchema = z.object({
+  kind: z.literal("3d-print"),
   inputs: z.object({
     items: z.array(z.object({
       material: z.enum(["PLA", "PETG", "ABS", "TPU", "Other"]),
@@ -48,9 +49,48 @@ export const quoteSnapshotSchema = z.object({
   }).strict(),
 }).strict();
 
+const pressureWashingQuoteSnapshotSchema = z.object({
+  kind: z.literal("pressure-washing"),
+  inputs: z.object({
+    measurementMode: z.enum(["area", "dimensions"]),
+    measurementUnit: z.enum(["sqft", "sqm"]),
+    area: amountSchema,
+    length: amountSchema,
+    width: amountSchema,
+    ratePerArea: amountSchema,
+    condition: z.enum(["light", "standard", "heavy"]),
+    access: z.enum(["normal", "difficult"]),
+    crewSize: z.number().int().min(1).max(100),
+    crewHours: amountSchema,
+    laborRate: amountSchema,
+    chemicalsCost: amountSchema,
+    equipmentCost: amountSchema,
+    travelCost: amountSchema,
+    otherCost: amountSchema,
+    addOnAmount: amountSchema,
+    packageDiscount: amountSchema,
+    targetMargin: z.number().finite().min(0).max(95),
+    taxRate: z.number().finite().min(0).max(100),
+  }).strict(),
+  outputs: z.object({
+    measuredArea: amountSchema,
+    drivewayAmount: amountSchema,
+    laborCost: amountSchema,
+    directCost: amountSchema,
+    costFloor: amountSchema,
+    subtotal: amountSchema,
+    tax: amountSchema,
+    total: amountSchema,
+    profit: z.number().finite().min(-1_000_000_000).max(1_000_000_000),
+    margin: z.number().finite().min(-10).max(1),
+  }).strict(),
+}).strict();
+
+export const quoteSnapshotSchema = z.discriminatedUnion("kind", [threeDPrintQuoteSnapshotSchema, pressureWashingQuoteSnapshotSchema]);
+
 export const analyticsEventSchema = z.object({
   eventType: z.enum(["calculator_used", "pdf_exported", "csv_exported", "summary_copied"]),
-  toolSlug: z.literal("3d-print-cost-calculator"),
+  toolSlug: z.enum(["3d-print-cost-calculator", "pressure-washing-quote"]),
   locale: z.enum(locales),
   currency: z.enum(currencies),
   metrics: z.object({

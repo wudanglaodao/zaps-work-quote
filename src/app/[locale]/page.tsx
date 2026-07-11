@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Box, BrushCleaning, Database, DraftingCompass, FileDown, LockKeyhole, ScanLine, ShieldCheck } from "lucide-react";
+import { ArrowRight, Box, BrushCleaning, Database, DraftingCompass, Droplets, FileDown, LockKeyhole, ScanLine, ShieldCheck } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
 import { htmlLanguage, isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return buildMetadata({ locale: rawLocale, title: dictionary.home.title, description: dictionary.home.description });
 }
 
-const icons = [Box, ScanLine, BrushCleaning, DraftingCompass];
+const icons = [Box, ScanLine, BrushCleaning, DraftingCompass, Droplets];
 
 export function HomeView({ locale }: { locale: Locale }) {
   const dictionary = getDictionary(locale);
@@ -83,7 +83,8 @@ export function HomeView({ locale }: { locale: Locale }) {
           <div className="home-planned-tools">
             {tools.slice(1).map((tool, index) => {
               const Icon = icons[index + 1] || Box;
-              return <article className="home-planned-card" key={tool.slug}><div><span className="home-tool-icon"><Icon aria-hidden="true" /></span><span className="status soon">{dictionary.common.soon}</span></div><h3>{tool.names[locale]}</h3><p>{tool.summaries[locale]}</p><small>{inDevelopment}</small></article>;
+              const content = <><div><span className="home-tool-icon"><Icon aria-hidden="true" /></span><span className={`status ${tool.status === "live" ? "live" : "soon"}`}>{tool.status === "live" ? dictionary.common.live : dictionary.common.soon}</span></div><h3>{tool.names[locale]}</h3><p>{tool.summaries[locale]}</p><small>{tool.status === "live" ? dictionary.common.live : inDevelopment}</small></>;
+              return tool.status === "live" ? <Link className="home-planned-card" href={localizedPath(locale, `tools/${tool.slug}`)} key={tool.slug}>{content}</Link> : <article className="home-planned-card" key={tool.slug}>{content}</article>;
             })}
           </div>
         </div>

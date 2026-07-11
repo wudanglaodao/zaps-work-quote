@@ -35,7 +35,7 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
   }
 
   return (
-    <footer className="site-footer" id="guides">
+    <footer className="site-footer">
       <div className="shell footer-top">
         <div className="footer-summary">
           <Link className="brand footer-brand" href={homePath}>zaps<span>.</span>work</Link>
@@ -50,13 +50,11 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
         </div>
         <div className="footer-column">
           <h3>{dictionary.common.resources}</h3>
-          <span>{dictionary.common.guides}</span>
           <span>{dictionary.common.templates}</span>
           <span>{dictionary.common.pricingBasics}</span>
         </div>
         <div className="footer-column">
           <h3>zaps.work</h3>
-          <Link href={`${homePath}#how-it-works`}>{dictionary.common.howItWorks}</Link>
           <Link href={localizedPath(locale, "privacy")}>{dictionary.common.privacy}</Link>
           <a href="mailto:info@lopuo.com">{dictionary.common.contact}</a>
           <a href={feedbackUrl} target="_blank" rel="noreferrer">{dictionary.common.feedback}</a>
@@ -71,6 +69,7 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
             className="icon-button footer-theme"
             type="button"
             onClick={toggleTheme}
+            aria-pressed={theme === "dark"}
             aria-label={theme === "dark" ? dictionary.common.lightMode : dictionary.common.darkMode}
           >
             {theme === "dark" ? <Sun aria-hidden="true" /> : <Moon aria-hidden="true" />}

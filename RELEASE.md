@@ -63,11 +63,13 @@ Copy `.env.example` to `.env.local` for local development. Configure the same na
 
 ## Release Flow
 
-1. Apply any pending Supabase migrations.
-2. Run `npm run check` locally.
-3. Push a feature branch and verify its Vercel Preview deployment.
-4. Merge into `main`; Vercel deploys Production from the GitHub commit.
-5. Verify `/api/health` and the changed user flow on `https://www.zaps.work`.
+1. Confirm the release version and update the newest entry in `DEVELOPMENT_LOG.md`.
+2. Apply any pending Supabase migrations.
+3. Run `npm run check` locally.
+4. Push a feature branch and verify its Vercel Preview deployment.
+5. Merge into `main`; Vercel deploys Production from the GitHub commit.
+6. Verify `/api/health` and the changed user flow on `https://www.zaps.work`.
+7. Mark the log entry as released, use the production date, and add the final link or screenshots needed for the blog post.
 
 ## SEO Launch Checklist
 

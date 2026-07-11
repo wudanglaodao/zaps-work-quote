@@ -31,7 +31,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
       <body>
         <PreferencesProvider locale={rawLocale}>
           <SiteHeader locale={rawLocale} dictionary={dictionary} />
-          <main className="site-main">{children}</main>
+          <main className="site-main" id="main-content">{children}</main>
           <SiteFooter locale={rawLocale} dictionary={dictionary} />
         </PreferencesProvider>
         <Analytics />

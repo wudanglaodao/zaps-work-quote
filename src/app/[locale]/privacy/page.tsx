@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { BarChart3, Database, FileDown, LockKeyhole, ShieldCheck } from "lucide-react";
 import { notFound, permanentRedirect } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { buildMetadata } from "@/lib/seo";
@@ -26,7 +27,33 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export function PrivacyView({ locale }: { locale: Locale }) {
   const item = copy[locale];
-  return <article className="shell prose-page"><h1>{item.heading}</h1><p>{item.intro}</p><h2>{item.customerHeading}</h2><p>{item.customerBody}</p><h2>{item.dataHeading}</h2><p>{item.dataBody}</p><h2>{item.analyticsHeading}</h2><p>{item.analyticsBody}</p><h2>{item.exportsHeading}</h2><p>{item.exportsBody}</p></article>;
+  const cards = [
+    { icon: LockKeyhole, title: item.customerHeading, body: item.customerBody, className: "primary" },
+    { icon: Database, title: item.dataHeading, body: item.dataBody, className: "data" },
+    { icon: BarChart3, title: item.analyticsHeading, body: item.analyticsBody, className: "analytics" },
+    { icon: FileDown, title: item.exportsHeading, body: item.exportsBody, className: "exports" },
+  ];
+  return <article className="privacy-page">
+    <section className="privacy-hero">
+      <div className="shell privacy-hero-grid">
+        <div className="privacy-hero-copy">
+          <p className="section-kicker">{item.heading}</p>
+          <h1>{item.heading}</h1>
+          <p className="privacy-hero-lead">{item.intro}</p>
+          <div className="privacy-promise"><ShieldCheck aria-hidden="true" /><strong>{item.customerHeading}</strong></div>
+        </div>
+        <div className="privacy-hero-visual" aria-hidden="true">
+          <div className="privacy-visual-browser"><div className="privacy-visual-bar"><i /><i /><i /><LockKeyhole /></div><div className="privacy-visual-lines"><span /><span /><span /><span /><span /></div><div className="privacy-visual-local"><FileDown /><i /><i /></div></div>
+          <div className="privacy-visual-gate"><ShieldCheck /></div>
+          <div className="privacy-visual-database"><Database /><div><i /><i /><i /><i /></div></div>
+        </div>
+      </div>
+    </section>
+    <section className="shell privacy-content">
+      <div className="privacy-content-heading"><p className="section-kicker">{item.dataHeading}</p><h2>{item.heading}</h2></div>
+      <div className="privacy-card-grid">{cards.map(({ icon: Icon, title, body, className }) => <section className={`privacy-card ${className}`} key={title}><div className="privacy-card-icon"><Icon aria-hidden="true" /></div><h2>{title}</h2><p>{body}</p></section>)}</div>
+    </section>
+  </article>;
 }
 
 export default async function PrivacyPage({ params }: { params: Promise<{ locale: string }> }) {

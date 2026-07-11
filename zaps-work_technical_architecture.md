@@ -84,7 +84,9 @@ Rules:
 - Each supported language has its own indexable URL: English, Traditional Chinese, German, Japanese, Spanish, French, Brazilian Portuguese, and Korean.
 - Every page has a self-referencing canonical.
 - Every equivalent page has reciprocal `en`, `zh-Hant`, `de`, `ja`, `es`, `fr`, `pt-BR`, `ko`, and `x-default` alternates; `x-default` points to English.
-- The XML sitemap repeats the same alternate mapping.
+- The XML sitemap is a styled sitemap index with separate page and tool child sitemaps.
+- Each child sitemap repeats the same reciprocal language alternate mapping and `x-default` English fallback.
+- `/sitemap.xsl` is only a human-readable browser view; crawlers still receive standard sitemap XML.
 - `<html lang>` and `dir` come from the locale configuration.
 - Page title, description, visible FAQ, structured data, Open Graph metadata, and internal links use the same locale.
 - Tool slugs remain stable in English during the first release. Localized slugs can be introduced later only with permanent redirects and measured search demand.
@@ -123,6 +125,13 @@ Calculation modules own:
 - Deterministic cost and pricing formulas.
 - Formula version.
 - Unit tests for totals, margin, quantities, and minimum fees.
+- Optional-group state and the effective input used when a group is disabled.
+
+Optional input rule:
+
+- A non-required group may be disabled by default to keep the common path focused.
+- Disabled groups preserve their local draft values but contribute zero values to calculations, breakdowns, exports, and analytics snapshots.
+- Each tool must test enabled, disabled, and re-enabled states so hidden inputs cannot continue affecting the quote.
 
 The tool page shell owns:
 
@@ -220,12 +229,16 @@ src/
       events/
       health/
     robots.ts
-    sitemap.ts
+    sitemap.xml/route.ts
+    pages-sitemap.xml/route.ts
+    tools-sitemap.xml/route.ts
+    sitemap.xsl/route.ts
   components/
   lib/
     analytics/
     calculators/
     i18n/
+    sitemap.ts
     tools/
 supabase/
   migrations/

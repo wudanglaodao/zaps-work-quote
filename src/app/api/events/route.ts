@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     event_type: event.eventType,
     tool_slug: event.toolSlug,
     tool_version: "1.0.0",
-    formula_version: "3d-print-v1",
+    formula_version: event.toolSlug === "pressure-washing-quote" ? "pressure-washing-v1" : "3d-print-v1",
     locale: event.locale,
     currency: event.currency,
     item_count: event.metrics.itemCount,

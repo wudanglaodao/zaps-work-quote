@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { analyticsEventSchema } from "./schema";
 
 const snapshot = {
+  kind: "3d-print",
   inputs: {
     items: [{ material: "PLA", quantity: 1, filamentGrams: 120, printHours: 6, printMinutes: 30, spoolPrice: 24, spoolWeightGrams: 1000, preparationMinutes: 10, postProcessingMinutes: 15, packagingCost: 2 }],
     machineRate: 0.5,

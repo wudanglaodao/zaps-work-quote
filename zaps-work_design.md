@@ -365,6 +365,29 @@ Input rules:
 - Input values use tabular numerals; units render as visually separated suffix cells inside the control.
 - Use white/surface input backgrounds, subtle hover contrast, and a three-pixel soft focus ring without changing control dimensions.
 
+### Optional input behavior
+
+- Separate core inputs from optional inputs before designing the form.
+- Core inputs stay visible and should produce a useful result with sensible defaults.
+- Optional inputs are off or collapsed by default when they are not needed for the common quote path.
+- Use a clear switch or disclosure row for optional groups; the control needs a localized accessible name and an obvious off state.
+- When an optional group is off, its values are excluded consistently from the live calculation, cost breakdown, quote preview, PDF, CSV, and analytics snapshot.
+- Turning a group off preserves previously entered values locally so users can turn it back on without retyping.
+- Do not show zero-value fields merely because the calculator supports them. Add them when the user opts into the relevant cost or service category.
+- Test both states and the on/off transition, including mobile layout, keyboard focus, exports, and localized labels.
+
+### Form, language, and currency standard
+
+- Labels may wrap to two lines; never clip or force a translated label into a single line.
+- The value area keeps a stable minimum width. Numeric input, stepper, and suffix are separate zones and must never overlap.
+- Suffix cells use an adaptive width: compact units such as `%`, `g`, and `h` stay narrow; long currency units such as `CHF/kWh`, `NT$/h`, and `R$/kWh` receive a wider slot and never wrap.
+- The selected global currency controls monetary suffixes and result formatting. Currency changes do not silently convert user-entered rates or amounts.
+- Currency menus show both ISO code and localized currency name; forms show the selected symbol plus the unit where relevant.
+- Labels, placeholders, accessible names, validation messages, date formats, and export labels follow the active UI language.
+- Layouts must tolerate at least 40% text expansion. Use wrapping and logical CSS properties instead of fixed left/right assumptions.
+- RTL layouts reverse field order and alignment while keeping numbers, currency codes, charts, and document previews readable.
+- Units and field meaning must remain understandable without color, icons, or position alone.
+
 ## 11. Quote Document
 
 Quote preview and exported PDFs use document tokens, not app theme tokens.
@@ -436,6 +459,12 @@ The complete component, SEO, formatting, PDF, analytics, and test rules live in 
 - Charts need labels or values.
 - Theme switch must expose state through `aria-pressed`.
 - Tool cards that are unavailable must not be focusable links.
+- Every page must provide a localized skip-to-content link targeting the main landmark.
+- Popovers must expose expanded state, close on `Escape`, and return focus to their trigger.
+- Dynamic export and copy feedback must use a polite live region.
+- Custom controls must have localized accessible names; decorative icons must be `aria-hidden`.
+- Respect `prefers-reduced-motion` for scrolling, transitions, and animations.
+- Validate keyboard order, focus visibility, contrast, and zoom at 200% before release.
 
 ## 15. Build Checklist
 

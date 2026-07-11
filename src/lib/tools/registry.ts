@@ -36,4 +36,11 @@ export const tools = [
     names: { en: "Freelance Job Quote", "zh-hant": "自由工作者報價工具", de: "Angebot für Freelancer-Aufträge", ja: "フリーランス案件見積もり", es: "Presupuesto para trabajos freelance", fr: "Devis pour mission freelance", "pt-br": "Orçamento para trabalho freelance", ko: "프리랜서 작업 견적" },
     summaries: { en: "Scope, hourly rate, revisions, rush fee, and deposit.", "zh-hant": "工作範圍、時薪、修改、急件費與訂金。", de: "Leistungsumfang, Stundensatz, Korrekturen, Expressgebühr und Anzahlung.", ja: "作業範囲、時給、修正、特急料金、前金。", es: "Alcance, tarifa por hora, revisiones, urgencia y anticipo.", fr: "Périmètre, taux horaire, révisions, urgence et acompte.", "pt-br": "Escopo, valor por hora, revisões, urgência e entrada.", ko: "작업 범위, 시간당 요금, 수정, 긴급 수수료, 선금." },
   },
+  {
+    slug: "pressure-washing-quote",
+    status: "live" as const,
+    category: "services" as const,
+    names: { en: "Pressure Washing Quote", "zh-hant": "高壓清洗報價", de: "Angebot für Hochdruckreinigung", ja: "高圧洗浄見積もり", es: "Presupuesto de lavado a presión", fr: "Devis de lavage haute pression", "pt-br": "Orçamento de lavagem sob pressão", ko: "고압 세척 견적" },
+    summaries: { en: "Driveway area, condition, crew time, operating costs, and margin.", "zh-hant": "車道面積、狀況、人力工時、營運成本與毛利。", de: "Fläche, Zustand, Teamzeit, Betriebskosten und Marge.", ja: "面積、状態、作業時間、運営コスト、利益率。", es: "Superficie, estado, horas, costes operativos y margen.", fr: "Surface, état, temps d’équipe, coûts et marge.", "pt-br": "Área, condição, horas da equipe, custos e margem.", ko: "면적, 상태, 작업 시간, 운영 비용, 마진." },
+  },
 ];
