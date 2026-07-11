@@ -50,8 +50,7 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
         </div>
         <div className="footer-column">
           <h3>{dictionary.common.resources}</h3>
-          <span>{dictionary.common.templates}</span>
-          <span>{dictionary.common.pricingBasics}</span>
+          {locale === "en" ? <Link href="/guides">{dictionary.common.guides}</Link> : null}
         </div>
         <div className="footer-column">
           <h3>zaps.work</h3>

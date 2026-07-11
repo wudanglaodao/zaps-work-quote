@@ -6,7 +6,8 @@ export const sitemapLastModified = "2026-07-11";
 export const sitemapStyleHref = "/sitemap.xsl?v=20260711";
 
 export const pageSitemapPaths = ["", "tools", "privacy"] as const;
-export const toolSitemapPaths = ["tools/3d-print-cost-calculator", "tools/pressure-washing-quote"] as const;
+export const toolSitemapPaths = ["tools/3d-print-cost-calculator", "tools/pressure-washing-quote", "tools/laser-cutting-cost-calculator"] as const;
+export const guideSitemapPaths = ["guides", "guides/how-to-price-3d-prints", "guides/how-to-price-pressure-washing-jobs"] as const;
 
 export function escapeXml(value: string) {
   return value.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character] || character);
@@ -34,7 +35,12 @@ export function renderUrlSet(paths: readonly string[]) {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<?xml-stylesheet type="text/xsl" href="${sitemapStyleHref}"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls}</urlset>`;
 }
 
+export function renderEnglishUrlSet(paths: readonly string[]) {
+  const urls = paths.map((path) => `<url>\n  <loc>${escapeXml(localizedUrl("en", path))}</loc>\n  <lastmod>${sitemapLastModified}</lastmod>\n  <changefreq>monthly</changefreq>\n  <priority>${path === "guides" ? "0.7" : "0.8"}</priority>\n</url>`).join("\n");
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<?xml-stylesheet type="text/xsl" href="${sitemapStyleHref}"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>`;
+}
+
 export function renderSitemapIndex() {
-  const entries = ["pages-sitemap.xml", "tools-sitemap.xml"].map((path) => `  <sitemap>\n    <loc>${escapeXml(`${siteConfig.url}/${path}`)}</loc>\n    <lastmod>${sitemapLastModified}</lastmod>\n  </sitemap>`).join("\n");
+  const entries = ["pages-sitemap.xml", "tools-sitemap.xml", "guides-sitemap.xml"].map((path) => `  <sitemap>\n    <loc>${escapeXml(`${siteConfig.url}/${path}`)}</loc>\n    <lastmod>${sitemapLastModified}</lastmod>\n  </sitemap>`).join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>\n<?xml-stylesheet type="text/xsl" href="${sitemapStyleHref}"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries}\n</sitemapindex>`;
 }

@@ -6,7 +6,7 @@ The source code is public so the calculation logic, privacy boundary, and export
 
 Repository: [github.com/wudanglaodao/zaps-work-quote](https://github.com/wudanglaodao/zaps-work-quote)
 
-The first live tool is the [3D Print Cost Calculator](https://zaps.work/tools/3d-print-cost-calculator). It supports multiple line items, margin-based pricing, PDF quotes, CSV exports, English, Traditional Chinese, German, Japanese, Spanish, French, Brazilian Portuguese, Korean, and global currency preferences.
+Live tools include the [3D Print Cost Calculator](https://zaps.work/tools/3d-print-cost-calculator), the [Pressure Washing Quote Generator](https://zaps.work/tools/pressure-washing-quote), and the [Laser Cutting Cost Calculator](https://zaps.work/tools/laser-cutting-cost-calculator). They support margin-based pricing, PDF quotes, CSV exports, English, Traditional Chinese, German, Japanese, Spanish, French, Brazilian Portuguese, Korean, and global currency preferences.
 
 ## Stack
 

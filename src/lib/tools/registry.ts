@@ -17,10 +17,10 @@ export const tools = [
   },
   {
     slug: "laser-cutting-cost-calculator",
-    status: "soon" as const,
+    status: "live" as const,
     category: "fabrication" as const,
     names: { en: "Laser Cutting Cost Calculator", "zh-hant": "雷射切割成本計算器", de: "Laserschneidkostenrechner", ja: "レーザー加工コスト計算機", es: "Calculadora de costes de corte láser", fr: "Calculateur de coût de découpe laser", "pt-br": "Calculadora de custos de corte a laser", ko: "레이저 절단 비용 계산기" },
-    summaries: { en: "Sheet material, cutting time, setup, waste, and margin.", "zh-hant": "板材、切割時間、設定、損耗與毛利。", de: "Blechmaterial, Schnittzeit, Einrichtung, Ausschuss und Marge.", ja: "板材、加工時間、設定、廃材、利益率。", es: "Material en lámina, tiempo de corte, preparación, desperdicio y margen.", fr: "Matière en feuille, temps de découpe, réglage, pertes et marge.", "pt-br": "Material em chapa, tempo de corte, preparação, desperdício e margem.", ko: "판재, 절단 시간, 설정, 폐기물, 마진." },
+    summaries: { en: "Sheet material, CAD/CAM cut data, setup, waste, and margin.", "zh-hant": "板材、CAD/CAM 切割資料、設定、損耗與毛利。", de: "Blechmaterial, CAD/CAM-Schnittdaten, Einrichtung, Ausschuss und Marge.", ja: "板材、CAD/CAM加工データ、設定、廃材、利益率。", es: "Material en lámina, datos CAD/CAM, preparación, desperdicio y margen.", fr: "Matière en feuille, données CAD/CAM, réglage, pertes et marge.", "pt-br": "Material em chapa, dados CAD/CAM, preparação, desperdício e margem.", ko: "판재, CAD/CAM 절단 데이터, 설정, 폐기물, 마진." },
   },
   {
     slug: "cleaning-quote-generator",

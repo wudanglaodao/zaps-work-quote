@@ -13,6 +13,10 @@ Calculations and PDF or CSV generation run in the user's browser. Customer names
 - [Homepage](https://zaps.work/): Overview of the cost calculator and quote tool library.
 - [Tool library](https://zaps.work/tools): Available and planned calculators.
 - [3D Print Cost Calculator](https://zaps.work/tools/3d-print-cost-calculator): Calculate filament, machine time, electricity, labor, failure risk, margin, shipping, tax, and quote totals. Export PDF or CSV.
+- [Pressure Washing Quote Calculator](https://zaps.work/tools/pressure-washing-quote): Estimate surface work, crew time, operating costs, minimum charges, and margin.
+- [Pricing Guides](https://zaps.work/guides): Practical job costing and quote guides.
+- [How to Price 3D Prints](https://zaps.work/guides/how-to-price-3d-prints): A formula-based guide to 3D print costs, margin, and customer quotes.
+- [How to Price Pressure Washing Jobs](https://zaps.work/guides/how-to-price-pressure-washing-jobs): A step-by-step guide to scope, costs, margin, and minimum charges.
 - [Privacy](https://zaps.work/privacy): Data boundary and analytics practices.
 
 ## Localized pages

@@ -86,11 +86,52 @@ const pressureWashingQuoteSnapshotSchema = z.object({
   }).strict(),
 }).strict();
 
-export const quoteSnapshotSchema = z.discriminatedUnion("kind", [threeDPrintQuoteSnapshotSchema, pressureWashingQuoteSnapshotSchema]);
+const laserCuttingQuoteSnapshotSchema = z.object({
+  kind: z.literal("laser-cutting"),
+  inputs: z.object({
+    material: z.enum(["mildSteel", "stainlessSteel", "aluminum", "acrylic", "plywood", "other"]),
+    measurementUnit: z.enum(["sqft", "sqm"]),
+    materialThickness: amountSchema,
+    thicknessUnit: z.enum(["mm", "in"]),
+    materialArea: amountSchema,
+    materialRate: amountSchema,
+    wasteRate: z.number().finite().min(0).max(100),
+    quantity: z.number().int().min(1).max(100_000),
+    cutLength: amountSchema,
+    cutLengthUnit: z.enum(["mm", "in"]),
+    cutTimeMinutes: amountSchema,
+    pierceCount: z.number().int().min(0).max(10_000_000),
+    machineRate: amountSchema,
+    setupMinutes: amountSchema,
+    handlingMinutes: amountSchema,
+    laborRate: amountSchema,
+    finishingCost: amountSchema,
+    otherCost: amountSchema,
+    targetMargin: z.number().finite().min(0).max(95),
+    packageDiscount: amountSchema,
+    taxRate: z.number().finite().min(0).max(100),
+  }).strict(),
+  outputs: z.object({
+    materialCost: amountSchema,
+    machineCost: amountSchema,
+    setupLaborCost: amountSchema,
+    handlingLaborCost: amountSchema,
+    finishingCost: amountSchema,
+    directCost: amountSchema,
+    costFloor: amountSchema,
+    subtotal: amountSchema,
+    tax: amountSchema,
+    total: amountSchema,
+    profit: z.number().finite().min(-1_000_000_000).max(1_000_000_000),
+    margin: z.number().finite().min(-10).max(1),
+  }).strict(),
+}).strict();
+
+export const quoteSnapshotSchema = z.discriminatedUnion("kind", [threeDPrintQuoteSnapshotSchema, pressureWashingQuoteSnapshotSchema, laserCuttingQuoteSnapshotSchema]);
 
 export const analyticsEventSchema = z.object({
   eventType: z.enum(["calculator_used", "pdf_exported", "csv_exported", "summary_copied"]),
-  toolSlug: z.enum(["3d-print-cost-calculator", "pressure-washing-quote"]),
+  toolSlug: z.enum(["3d-print-cost-calculator", "pressure-washing-quote", "laser-cutting-cost-calculator"]),
   locale: z.enum(locales),
   currency: z.enum(currencies),
   metrics: z.object({

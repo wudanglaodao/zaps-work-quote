@@ -12,7 +12,7 @@ zaps.work is a free, multilingual library of cost calculators and quote generato
 4. Add more scenarios from validated demand.
 5. Consider ads only after traffic is meaningful, outside the calculator workspace.
 
-The first live tool is `3D Print Cost Calculator`. `Cleaning Quote Generator` is the next planned scenario.
+The current live tools are `3D Print Cost Calculator`, `Pressure Washing Quote Generator`, and `Laser Cutting Cost Calculator`. `Cleaning Quote Generator` is the next planned scenario after validating these vertical slices.
 
 ## 2. Architecture Decisions
 

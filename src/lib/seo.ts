@@ -21,13 +21,14 @@ export function buildMetadata(args: {
   path?: string;
   title: string;
   description: string;
+  includeLanguageAlternates?: boolean;
 }): Metadata {
-  const { locale, path = "", title, description } = args;
+  const { locale, path = "", title, description, includeLanguageAlternates = true } = args;
   const canonical = `${siteConfig.url}${localizedPath(locale, path)}`;
   return {
     title,
     description,
-    alternates: { canonical, languages: languageAlternates(path) },
+    alternates: { canonical, ...(includeLanguageAlternates ? { languages: languageAlternates(path) } : {}) },
     openGraph: {
       type: "website",
       siteName: siteConfig.name,

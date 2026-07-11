@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { Box } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
@@ -53,7 +54,7 @@ export function ThreeDPrintView({ locale }: { locale: Locale }) {
     <header className="shell tool-intro"><span className="tool-icon"><Box aria-hidden="true" /></span><div><h1>{dictionary.tool.heading}</h1><p>{dictionary.tool.intro}</p></div></header>
     <ThreeDPrintCalculator locale={locale} dictionary={dictionary} />
     <p className="shell tool-privacy-note">{dictionary.tool.privacyNote}</p>
-    <section className="section seo-content"><div className="shell seo-grid"><div><p className="section-kicker">Method</p><h2>{dictionary.tool.methodologyTitle}</h2><p>{dictionary.tool.methodologyBody}</p></div><div><h2>{dictionary.tool.faqTitle}</h2><div className="faq-list">{dictionary.tool.faq.map((entry) => <details key={entry.question}><summary>{entry.question}</summary><p>{entry.answer}</p></details>)}</div></div></div></section>
+    <section className="section seo-content"><div className="shell seo-grid"><div><p className="section-kicker">Method</p><h2>{dictionary.tool.methodologyTitle}</h2><p>{dictionary.tool.methodologyBody}</p>{locale === "en" ? <Link className="seo-guide-link" href="/guides/how-to-price-3d-prints">Read the complete 3D printing pricing guide →</Link> : null}</div><div><h2>{dictionary.tool.faqTitle}</h2><div className="faq-list">{dictionary.tool.faq.map((entry) => <details key={entry.question}><summary>{entry.question}</summary><p>{entry.answer}</p></details>)}</div></div></div></section>
   </article>;
 }
 
