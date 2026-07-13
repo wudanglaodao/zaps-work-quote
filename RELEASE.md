@@ -41,6 +41,19 @@
 - `/fr/tools/laser-cutting-cost-calculator`
 - `/pt-br/tools/laser-cutting-cost-calculator`
 - `/ko/tools/laser-cutting-cost-calculator`
+- `/tools/cleaning-quote-generator`
+- `/zh-hant/tools/cleaning-quote-generator`
+- `/de/tools/cleaning-quote-generator`
+- `/ja/tools/cleaning-quote-generator`
+- `/es/tools/cleaning-quote-generator`
+- `/fr/tools/cleaning-quote-generator`
+- `/pt-br/tools/cleaning-quote-generator`
+- `/ko/tools/cleaning-quote-generator`
+- `/guides/how-to-price-3d-prints`
+- `/guides/how-to-price-pressure-washing-jobs`
+- `/guides/how-to-price-laser-cutting-jobs`
+- `/guides/how-to-price-house-cleaning-jobs`
+- Each guide route above under `/zh-hant`, `/de`, `/ja`, `/es`, `/fr`, `/pt-br`, and `/ko`
 - `/sitemap.xml`
 - `/robots.txt`
 - `/llms.txt`
@@ -89,10 +102,13 @@ Copy `.env.example` to `.env.local` for local development. Configure the same na
 
 ## SEO Launch Checklist
 
+- Confirm the new tool has a defined primary search intent, localized title, description, H1, methodology content, and visible FAQ.
+- Publish or update at least one directly related operating, pricing, or quote guide and add reciprocal links between the guide and tool.
 - Verify every supported locale route returns `200` and contains one language only.
 - Confirm legacy `/en` routes permanently redirect to unprefixed English equivalents and are not indexed as duplicate content.
 - Inspect canonical and `hreflang` links, including `x-default`.
-- Verify `/llms.txt` returns the current public page map and privacy boundary.
+- Verify the tool and all localized equivalents appear in `tools-sitemap.xml`; verify its guide and localized equivalents appear in `guides-sitemap.xml`.
+- Update `/llms.txt` with the new tool, related guide, capabilities, and current public URLs; verify the production file returns the current public page map and privacy boundary.
 - Submit `https://zaps.work/sitemap.xml` to Google Search Console and Bing Webmaster Tools.
 - Verify the domain property and both protocol/host redirects.
 - Run Rich Results Test for the tool page.

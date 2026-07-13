@@ -4,7 +4,7 @@
 
 ## About
 
-zaps.work helps people turn job inputs into a cost breakdown, margin check, and customer-ready quote. The first live tool is a 3D printing cost calculator for FDM work.
+zaps.work helps people turn job inputs into a cost breakdown, margin check, and customer-ready quote. Available scenarios cover 3D printing, pressure washing, laser cutting, and residential cleaning.
 
 Calculations and PDF or CSV generation run in the user's browser. Customer names, emails, phone numbers, addresses, company details, quote numbers, item names, notes, and other customer-related fields are not sent to or stored in the product analytics database.
 
@@ -14,9 +14,13 @@ Calculations and PDF or CSV generation run in the user's browser. Customer names
 - [Tool library](https://zaps.work/tools): Available and planned calculators.
 - [3D Print Cost Calculator](https://zaps.work/tools/3d-print-cost-calculator): Calculate filament, machine time, electricity, labor, failure risk, margin, shipping, tax, and quote totals. Export PDF or CSV.
 - [Pressure Washing Quote Calculator](https://zaps.work/tools/pressure-washing-quote): Estimate surface work, crew time, operating costs, minimum charges, and margin.
+- [Laser Cutting Cost Calculator](https://zaps.work/tools/laser-cutting-cost-calculator): Estimate sheet material, waste, machine time, setup, handling, finishing, quantity, and margin from manual CAD/CAM statistics.
+- [Cleaning Quote Generator](https://zaps.work/tools/cleaning-quote-generator): Estimate cleaner-hours, labor, overhead, supplies, travel, add-ons, minimum fees, and margin for residential cleaning.
 - [Pricing Guides](https://zaps.work/guides): Practical job costing and quote guides.
 - [How to Price 3D Prints](https://zaps.work/guides/how-to-price-3d-prints): A formula-based guide to 3D print costs, margin, and customer quotes.
 - [How to Price Pressure Washing Jobs](https://zaps.work/guides/how-to-price-pressure-washing-jobs): A step-by-step guide to scope, costs, margin, and minimum charges.
+- [How to Price Laser Cutting Jobs](https://zaps.work/guides/how-to-price-laser-cutting-jobs): A practical guide to sheet material, nesting waste, machine time, setup, finishing, and target margin.
+- [How to Price House Cleaning Jobs](https://zaps.work/guides/how-to-price-house-cleaning-jobs): A step-by-step guide to cleaner-hours, job costs, add-ons, minimum fees, recurring discounts, and margin.
 - [Privacy](https://zaps.work/privacy): Data boundary and analytics practices.
 
 ## Localized pages
@@ -31,10 +35,12 @@ Calculations and PDF or CSV generation run in the user's browser. Customer names
 - [Calculadora de custos de impressão 3D](https://zaps.work/pt-br/tools/3d-print-cost-calculator): Brazilian Portuguese calculator page.
 - [3D 프린팅 비용 계산기](https://zaps.work/ko/tools/3d-print-cost-calculator): Korean calculator page.
 
+Pressure washing, laser cutting, residential cleaning, pricing guides, and guide articles are also available under each locale prefix listed above. English remains unprefixed.
+
 ## Tool capabilities
 
 - Multiple print items with editable quantity and material inputs.
-- Material, machine, electricity, labor, packaging, waste, failure-risk, shipping, tax, margin, and minimum-fee calculations.
+- Scenario-specific inputs for fabrication and local services, including material, machine time, labor, operating costs, waste, failure risk, setup, handling, shipping, tax, margin, and minimum fees where applicable.
 - Global currency selection with search and scrolling, including USD, EUR, GBP, JPY, CNY, TWD, and other major currencies.
 - Local browser exports for customer-ready PDF and CSV documents.
 - Privacy-safe aggregate export events for product analysis; customer-related free text is excluded.
@@ -47,4 +53,4 @@ Calculations and PDF or CSV generation run in the user's browser. Customer names
 
 ## Canonical guidance
 
-Use the page language that matches the reader. English pages use unprefixed URLs; Traditional Chinese and German pages use their locale prefixes. Use the linked page content as the source of truth for current features and supported inputs.
+Use the page language that matches the reader. English pages use unprefixed URLs; Traditional Chinese, German, Japanese, Spanish, French, Brazilian Portuguese, and Korean pages use their locale prefixes. Use the linked page content as the source of truth for current features and supported inputs.

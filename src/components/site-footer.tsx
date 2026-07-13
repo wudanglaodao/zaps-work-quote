@@ -45,8 +45,8 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
         <div className="footer-column">
           <h3>{dictionary.common.tools}</h3>
           <Link href={localizedPath(locale, "tools/3d-print-cost-calculator")}>{dictionary.common.footer3d}</Link>
-          <span>{dictionary.common.footerCleaning}</span>
-          <span>{dictionary.common.footerLaser}</span>
+          <Link href={localizedPath(locale, "tools/cleaning-quote-generator")}>{dictionary.common.footerCleaning}</Link>
+          <Link href={localizedPath(locale, "tools/laser-cutting-cost-calculator")}>{dictionary.common.footerLaser}</Link>
         </div>
         <div className="footer-column">
           <h3>{dictionary.common.resources}</h3>

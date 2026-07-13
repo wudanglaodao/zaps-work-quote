@@ -51,4 +51,17 @@ describe("analytics event privacy schema", () => {
     expect(analyticsEventSchema.safeParse({ ...exportEvent, quoteSnapshot: undefined }).success).toBe(false);
     expect(analyticsEventSchema.safeParse({ ...exportEvent, eventType: "summary_copied" }).success).toBe(false);
   });
+
+  it("accepts a privacy-safe cleaning export snapshot", () => {
+    const event = {
+      eventType: "pdf_exported", toolSlug: "cleaning-quote-generator", locale: "ja", currency: "JPY",
+      metrics: { itemCount: 1, totalCost: 149.4, quoteTotal: 213.43, margin: 0.3 },
+      quoteSnapshot: {
+        kind: "cleaning",
+        inputs: { propertyType: "house", measurementUnit: "sqft", area: 1800, bedrooms: 3, bathrooms: 2, cleaningType: "standard", frequency: "oneTime", difficulty: "typical", estimationMode: "area", productionRate: 500, manualCleanerHours: 4, crewSize: 2, laborCostPerHour: 24, overheadPerHour: 10, suppliesCost: 12, travelCost: 15, selectedAddOnCount: 0, addOnCleanerHours: 0, fixedAddOnRevenue: 0, targetMargin: 30, minimumFee: 120, frequencyDiscount: 0, firstCleanSurcharge: 0, taxRate: 0 },
+        outputs: { baseCleanerHours: 3.6, totalCleanerHours: 3.6, onSiteHours: 1.8, laborCost: 86.4, overheadCost: 36, addOnCost: 0, jobCost: 149.4, subtotal: 213.43, tax: 0, total: 213.43, profit: 64.03, margin: 0.3 },
+      },
+    };
+    expect(analyticsEventSchema.safeParse(event).success).toBe(true);
+  });
 });

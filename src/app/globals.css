@@ -428,6 +428,12 @@ svg { flex: 0 0 auto; }
 .switch input:checked + i { border-color: var(--green); background: var(--green-soft); }
 .switch input:checked + i::after { background: var(--green); transform: translateX(16px); }
 .optional-fields { margin-top: 8px; }
+.cleaning-addon-list { display: grid; gap: 10px; margin-top: 16px; }
+.cleaning-addon { border: 1px solid var(--line); border-radius: 14px; padding: 13px 14px; background: var(--surface-2); }
+.cleaning-addon > label { display: flex; align-items: center; gap: 10px; cursor: pointer; }
+.cleaning-addon > label input { width: 17px; height: 17px; accent-color: var(--accent); }
+.cleaning-addon.selected { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); background: color-mix(in srgb, var(--accent) 6%, var(--surface)); }
+.cleaning-addon .fields { margin-top: 12px; }
 .result-column { position: sticky; top: 80px; display: grid; gap: 16px; }
 .result-card { overflow: hidden; border-color: color-mix(in srgb, var(--green) 36%, var(--line)); box-shadow: var(--shadow); }
 .result-label { margin: 0; padding: 24px 26px 0; display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 12px; font-weight: 680; }

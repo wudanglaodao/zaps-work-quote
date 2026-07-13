@@ -24,7 +24,7 @@ export const tools = [
   },
   {
     slug: "cleaning-quote-generator",
-    status: "soon" as const,
+    status: "live" as const,
     category: "services" as const,
     names: { en: "Cleaning Quote Generator", "zh-hant": "清潔服務報價工具", de: "Angebotsgenerator für Reinigung", ja: "清掃見積もり作成ツール", es: "Generador de presupuestos de limpieza", fr: "Générateur de devis de nettoyage", "pt-br": "Gerador de orçamentos de limpeza", ko: "청소 견적 생성기" },
     summaries: { en: "Rooms, area, frequency, add-ons, and labor.", "zh-hant": "房間、面積、頻率、加購與人工。", de: "Räume, Fläche, Häufigkeit, Zusatzleistungen und Arbeit.", ja: "部屋、面積、頻度、追加サービス、人件費。", es: "Habitaciones, superficie, frecuencia, extras y mano de obra.", fr: "Pièces, surface, fréquence, options et main-d’œuvre.", "pt-br": "Cômodos, área, frequência, adicionais e mão de obra.", ko: "공간, 면적, 빈도, 추가 서비스, 인건비." },

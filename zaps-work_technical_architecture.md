@@ -1,6 +1,6 @@
 # zaps.work Technical Architecture
 
-Version: 2026-07-10
+Version: 2026-07-13
 
 ## 1. Product Direction
 
@@ -12,7 +12,9 @@ zaps.work is a free, multilingual library of cost calculators and quote generato
 4. Add more scenarios from validated demand.
 5. Consider ads only after traffic is meaningful, outside the calculator workspace.
 
-The current live tools are `3D Print Cost Calculator`, `Pressure Washing Quote Generator`, and `Laser Cutting Cost Calculator`. `Cleaning Quote Generator` is the next planned scenario after validating these vertical slices.
+The current production tools are `3D Print Cost Calculator`, `Pressure Washing Quote Generator`, and `Laser Cutting Cost Calculator`. `Cleaning Quote Generator` is implemented and ready for release; `House Painting Quote Calculator` is the next planned scenario after production validation.
+
+Every new scenario ships as a complete vertical release: calculator or quote workflow, customer quote export, localized page-level SEO, sitemap entries, an updated `llms.txt`, and at least one directly related operating or pricing guide. A tool is not considered released when only its form and calculation logic are complete.
 
 ## 2. Architecture Decisions
 
