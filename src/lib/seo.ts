@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { htmlLanguage, locales, type Locale } from "@/lib/i18n/config";
-import { siteConfig } from "@/lib/site";
+import { htmlLanguage, locales, type Locale } from "./i18n/config";
+import { siteConfig } from "./site";
 
 export function localizedPath(locale: Locale, path = "") {
   const suffix = path && path !== "/" ? `/${path.replace(/^\//, "")}` : "";

@@ -1,9 +1,9 @@
-import { htmlLanguage, locales, type Locale } from "@/lib/i18n/config";
-import { localizedPath } from "@/lib/seo";
-import { siteConfig } from "@/lib/site";
+import { htmlLanguage, locales, type Locale } from "./i18n/config";
+import { localizedPath } from "./seo";
+import { siteConfig } from "./site";
 
-export const sitemapLastModified = "2026-07-11";
-export const sitemapStyleHref = "/sitemap.xsl?v=20260711";
+export const sitemapLastModified = "2026-07-13";
+export const sitemapStyleHref = "/sitemap.xsl?v=20260713";
 
 export const pageSitemapPaths = ["", "tools", "privacy"] as const;
 export const toolSitemapPaths = ["tools/3d-print-cost-calculator", "tools/pressure-washing-quote", "tools/laser-cutting-cost-calculator"] as const;

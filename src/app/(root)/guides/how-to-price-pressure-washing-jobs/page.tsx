@@ -17,10 +17,10 @@ const toc: GuideTocItem[] = [
   { id: "profit-margin", label: "Add profit margin" }, { id: "worked-example", label: "Worked example" },
   { id: "minimum-charge", label: "Minimum charge" }, { id: "write-quote", label: "Write the quote" },
 ];
-export const metadata: Metadata = buildMetadata({ locale: "en", path: "guides/how-to-price-pressure-washing-jobs", title, description, includeLanguageAlternates: false });
+export const metadata: Metadata = buildMetadata({ locale: "en", path: "guides/how-to-price-pressure-washing-jobs", title, description });
 
 export default function HowToPricePressureWashingPage() {
-  return <GuideArticle title={title} description={description} published="2026-07-11" updated="2026-07-11" readingTime="9 min read" slug="how-to-price-pressure-washing-jobs" toolHref="/tools/pressure-washing-quote" toolLabel="Open calculator" toc={toc} faq={faq}>
+  return <GuideArticle title={title} description={description} published="2026-07-11" updated="2026-07-13" readingTime="9 min read" slug="how-to-price-pressure-washing-jobs" toolHref="/tools/pressure-washing-quote" toolLabel="Open calculator" toc={toc} faq={faq}>
     <p className="guide-lead">A good pressure washing estimate starts with the work, not a copied market rate. Measure the surface, judge its condition, estimate crew time, add operating and travel costs, then apply the margin and minimum charge your business needs.</p>
     <div className="guide-callout"><strong>The short formula</strong><code>Quote = (labor + operating costs + travel + overhead) ÷ (1 − target margin)</code><p>Compare the result with your minimum service charge and add tax only where applicable.</p></div>
 

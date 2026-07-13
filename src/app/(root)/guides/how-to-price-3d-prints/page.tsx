@@ -16,10 +16,10 @@ const toc: GuideTocItem[] = [
   { id: "profit-margin", label: "Apply profit margin" }, { id: "worked-example", label: "Worked example" },
   { id: "minimum-charge", label: "Set a minimum charge" }, { id: "professional-quote", label: "Build the quote" },
 ];
-export const metadata: Metadata = buildMetadata({ locale: "en", path: "guides/how-to-price-3d-prints", title, description, includeLanguageAlternates: false });
+export const metadata: Metadata = buildMetadata({ locale: "en", path: "guides/how-to-price-3d-prints", title, description });
 
 export default function HowToPrice3dPrintsPage() {
-  return <GuideArticle title={title} description={description} published="2026-07-11" updated="2026-07-11" readingTime="10 min read" slug="how-to-price-3d-prints" toolHref="/tools/3d-print-cost-calculator" toolLabel="Open calculator" toc={toc} faq={faq}>
+  return <GuideArticle title={title} description={description} published="2026-07-11" updated="2026-07-13" readingTime="10 min read" slug="how-to-price-3d-prints" toolHref="/tools/3d-print-cost-calculator" toolLabel="Open calculator" toc={toc} faq={faq}>
     <p className="guide-lead">A sustainable 3D printing price has to pay for more than filament. It must cover the printer, electricity, hands-on work, waste, failed prints, packaging, and the profit required to keep the business operating.</p>
     <div className="guide-callout"><strong>The short formula</strong><code>Quote = Total cost ÷ (1 − target margin)</code><p>Calculate the complete job cost first. Then use the margin formula and apply any minimum order charge, shipping, and tax.</p></div>
 
