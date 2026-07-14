@@ -61,7 +61,7 @@ export function SiteHeader({ locale, dictionary }: { locale: Locale; dictionary:
       <nav className="shell nav" aria-label={navigationLabels[locale]}>
         <Link className="brand" href={localizedPath(locale)}>zaps<span>.</span>work</Link>
         <div className="nav-links">
-          <Link href={localizedPath(locale, "tools")}>{dictionary.common.tools}</Link>
+          <Link href={localizedPath(locale, "calculators")}>{dictionary.common.tools}</Link>
           <Link href={localizedPath(locale, "guides")}>{dictionary.common.guides}</Link>
           <Link href={localizedPath(locale, "privacy")}>{dictionary.common.privacy}</Link>
         </div>
@@ -77,7 +77,7 @@ export function SiteHeader({ locale, dictionary }: { locale: Locale; dictionary:
           <button className="icon-button theme-button" type="button" onClick={toggleTheme} aria-pressed={theme === "dark"} aria-label={theme === "dark" ? dictionary.common.lightMode : dictionary.common.darkMode}>
             {theme === "dark" ? <Sun aria-hidden="true" /> : <Moon aria-hidden="true" />}
           </button>
-          <Link className="button compact" href={localizedPath(locale, "tools")}>{dictionary.common.allTools}</Link>
+          <Link className="button compact" href={localizedPath(locale, "calculators")}>{dictionary.common.allTools}</Link>
         </div>
       </nav>
     </header>

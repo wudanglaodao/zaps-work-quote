@@ -11,10 +11,10 @@ type TranslatedLocale = Exclude<Locale, "en">;
 type GuideKind = "three-d-print" | "pressure-washing" | "laser-cutting" | "house-cleaning";
 
 const guideConfig = {
-  "three-d-print": { slug: "how-to-price-3d-prints", toolPath: "tools/3d-print-cost-calculator", published: "2026-07-11", copies: threeDPrintGuide },
-  "pressure-washing": { slug: "how-to-price-pressure-washing-jobs", toolPath: "tools/pressure-washing-quote", published: "2026-07-11", copies: pressureWashingGuide },
-  "laser-cutting": { slug: "how-to-price-laser-cutting-jobs", toolPath: "tools/laser-cutting-cost-calculator", published: "2026-07-13", copies: laserCuttingGuide },
-  "house-cleaning": { slug: "how-to-price-house-cleaning-jobs", toolPath: "tools/cleaning-quote-generator", published: "2026-07-13", copies: houseCleaningGuide },
+  "three-d-print": { slug: "how-to-price-3d-prints", toolPath: "calculators/3d-print-cost-calculator", published: "2026-07-11", copies: threeDPrintGuide },
+  "pressure-washing": { slug: "how-to-price-pressure-washing-jobs", toolPath: "calculators/pressure-washing-quote", published: "2026-07-11", copies: pressureWashingGuide },
+  "laser-cutting": { slug: "how-to-price-laser-cutting-jobs", toolPath: "calculators/laser-cutting-cost-calculator", published: "2026-07-13", copies: laserCuttingGuide },
+  "house-cleaning": { slug: "how-to-price-house-cleaning-jobs", toolPath: "calculators/cleaning-quote-generator", published: "2026-07-13", copies: houseCleaningGuide },
 } as const;
 
 export function getLocalizedGuide(locale: TranslatedLocale, kind: GuideKind) {

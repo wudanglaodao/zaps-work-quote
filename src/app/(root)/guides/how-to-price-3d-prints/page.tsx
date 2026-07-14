@@ -19,7 +19,7 @@ const toc: GuideTocItem[] = [
 export const metadata: Metadata = buildMetadata({ locale: "en", path: "guides/how-to-price-3d-prints", title, description });
 
 export default function HowToPrice3dPrintsPage() {
-  return <GuideArticle title={title} description={description} published="2026-07-11" updated="2026-07-13" readingTime="10 min read" slug="how-to-price-3d-prints" toolHref="/tools/3d-print-cost-calculator" toolLabel="Open calculator" toc={toc} faq={faq}>
+  return <GuideArticle title={title} description={description} published="2026-07-11" updated="2026-07-13" readingTime="10 min read" slug="how-to-price-3d-prints" toolHref="/calculators/3d-print-cost-calculator" toolLabel="Open calculator" toc={toc} faq={faq}>
     <p className="guide-lead">A sustainable 3D printing price has to pay for more than filament. It must cover the printer, electricity, hands-on work, waste, failed prints, packaging, and the profit required to keep the business operating.</p>
     <div className="guide-callout"><strong>The short formula</strong><code>Quote = Total cost ÷ (1 − target margin)</code><p>Calculate the complete job cost first. Then use the margin formula and apply any minimum order charge, shipping, and tax.</p></div>
 
@@ -58,7 +58,7 @@ export default function HowToPrice3dPrintsPage() {
     <p>Small jobs still require messages, setup, slicing, inspection, and payment processing. A minimum charge prevents a technically profitable percentage from producing too little profit in dollars. Base the minimum on the smallest order worth interrupting your workflow for.</p>
     <h2 id="professional-quote">6. Turn the calculation into a professional quote</h2>
     <p>A customer usually does not need your internal cost breakdown. Describe what they will receive: quantity, material, color, finish, tolerances or assumptions, unit price, total, lead time, validity period, shipping, and tax. Record which file version was priced and explain whether design changes require a revised quote.</p>
-    <p>Use the <Link href="/tools/3d-print-cost-calculator">free 3D print cost calculator</Link> to enter multiple items, check margin, apply a minimum fee, and export a customer-ready PDF or CSV without creating an account.</p>
+    <p>Use the <Link href="/calculators/3d-print-cost-calculator">free 3D print cost calculator</Link> to enter multiple items, check margin, apply a minimum fee, and export a customer-ready PDF or CSV without creating an account.</p>
     <h2>A repeatable pricing checklist</h2>
     <ul><li>Use slicer material and time estimates.</li><li>Include supports, waste, and consumables.</li><li>Charge for machine occupancy and active labor.</li><li>Allow for normal print failures.</li><li>Include packaging and job-specific purchases.</li><li>Apply margin with the correct formula.</li><li>Check the price against your minimum charge.</li><li>Document scope, assumptions, delivery, and quote validity.</li></ul>
   </GuideArticle>;

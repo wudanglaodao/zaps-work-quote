@@ -15,7 +15,7 @@ const faq: GuideFaq[] = [
 export const metadata: Metadata = buildMetadata({ locale: "en", path: "guides/how-to-price-house-painting-jobs", title, description });
 
 export default function HousePaintingGuidePage() {
-  return <GuideArticle title={title} description={description} published="2026-07-14" updated="2026-07-14" readingTime="8 min read" slug="how-to-price-house-painting-jobs" toolHref="/tools/house-painting-quote" toolLabel="Open calculator" toc={toc} faq={faq}>
+  return <GuideArticle title={title} description={description} published="2026-07-14" updated="2026-07-14" readingTime="8 min read" slug="how-to-price-house-painting-jobs" toolHref="/calculators/house-painting-quote" toolLabel="Open calculator" toc={toc} faq={faq}>
     <p className="guide-lead">A reliable painting quote starts with the actual work—not a copied price per square foot. Define the surfaces and preparation, estimate paint and labor from your own production, then add the costs, margin, and minimum job value your business needs.</p>
     <div className="guide-callout"><strong>The short formula</strong><code>Quote = total job cost ÷ (1 − target margin)</code><p>Total job cost includes paint, supplies, labor, labor overhead, preparation, travel, and any job-specific fixed cost.</p></div>
     <h2 id="scope">1. Define the painting scope before pricing</h2>
@@ -35,7 +35,7 @@ export default function HousePaintingGuidePage() {
     <h2 id="margin">5. Protect margin and small-job economics</h2>
     <p>Once direct cost is known, divide by one minus the desired margin. A 35% target margin means dividing cost by 0.65—not adding 35% to cost. Then compare the result with a minimum job fee based on the smallest visit that is worth scheduling.</p>
     <table><thead><tr><th>Direct job cost</th><th>Target margin</th><th>Required price</th></tr></thead><tbody><tr><td>$650</td><td>25%</td><td>$866.67</td></tr><tr><td>$650</td><td>35%</td><td>$1,000.00</td></tr><tr><td>$650</td><td>45%</td><td>$1,181.82</td></tr></tbody></table>
-    <p>Tax should be applied only when applicable to the price in the relevant jurisdiction. The <Link href="/tools/house-painting-quote">house painting quote calculator</Link> keeps tax separate from the job price so you can see the pre-tax margin.</p>
+    <p>Tax should be applied only when applicable to the price in the relevant jurisdiction. The <Link href="/calculators/house-painting-quote">house painting quote calculator</Link> keeps tax separate from the job price so you can see the pre-tax margin.</p>
     <h2 id="quote">6. Write a quote that controls scope</h2>
     <p>List the included surfaces, the paint system or allowance, coat count, preparation included, exclusions, customer responsibilities, payment schedule, total, tax, and quote validity. Describe how concealed damage or materially different site conditions will be handled before extra work begins.</p>
     <p>Do not promise an outcome that depends on hidden conditions. A clear, itemized quote protects both the customer and the crew: it makes a reasonable price understandable and gives both sides a reference when the job changes.</p>

@@ -2,11 +2,11 @@ import { htmlLanguage, locales, type Locale } from "./i18n/config";
 import { localizedPath } from "./seo";
 import { siteConfig } from "./site";
 
-export const sitemapLastModified = "2026-07-14";
-export const sitemapStyleHref = "/sitemap.xsl?v=20260714";
+export const sitemapLastModified = "2026-07-15";
+export const sitemapStyleHref = "/sitemap.xsl?v=20260715";
 
-export const pageSitemapPaths = ["", "tools", "privacy"] as const;
-export const toolSitemapPaths = ["tools/3d-print-cost-calculator", "tools/pressure-washing-quote", "tools/laser-cutting-cost-calculator", "tools/cleaning-quote-generator", "tools/house-painting-quote", "tools/freelance-job-quote", "tools/cnc-machining-cost-calculator", "tools/lawn-care-quote", "tools/window-cleaning-quote"] as const;
+export const pageSitemapPaths = ["", "calculators", "privacy"] as const;
+export const toolSitemapPaths = ["calculators/3d-print-cost-calculator", "calculators/pressure-washing-quote", "calculators/laser-cutting-cost-calculator", "calculators/cleaning-quote-generator", "calculators/house-painting-quote", "calculators/freelance-job-quote", "calculators/cnc-machining-cost-calculator", "calculators/lawn-care-quote", "calculators/window-cleaning-quote"] as const;
 export const guideSitemapPaths = ["guides", "guides/how-to-price-3d-prints", "guides/how-to-price-pressure-washing-jobs", "guides/how-to-price-laser-cutting-jobs", "guides/how-to-price-house-cleaning-jobs"] as const;
 export const guideEnglishOnlySitemapPaths = ["guides/how-to-price-house-painting-jobs", "guides/how-to-price-freelance-projects", "guides/how-to-price-cnc-machining", "guides/how-to-price-lawn-care-services", "guides/how-to-price-window-cleaning-jobs"] as const;
 
@@ -32,7 +32,7 @@ export function renderSitemapUrl(path: string, priority: string, changeFrequency
 }
 
 export function renderUrlSet(paths: readonly string[], englishOnlyPaths: readonly string[] = []) {
-  const localizedUrls = paths.map((path) => renderSitemapUrl(path, path === "" ? "1.0" : path.includes("tools/") ? "0.9" : "0.6", path.includes("tools/") ? "weekly" : "monthly"));
+  const localizedUrls = paths.map((path) => renderSitemapUrl(path, path === "" ? "1.0" : path.includes("calculators/") ? "0.9" : "0.6", path.includes("calculators/") ? "weekly" : "monthly"));
   const englishOnlyUrls = englishOnlyPaths.map((path) => `<url>\n  <loc>${escapeXml(localizedUrl("en", path))}</loc>\n  <lastmod>${sitemapLastModified}</lastmod>\n  <changefreq>monthly</changefreq>\n  <priority>0.6</priority>\n</url>`);
   const urls = [...localizedUrls, ...englishOnlyUrls].join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>\n<?xml-stylesheet type="text/xsl" href="${sitemapStyleHref}"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls}</urlset>`;
@@ -44,6 +44,6 @@ export function renderEnglishUrlSet(paths: readonly string[]) {
 }
 
 export function renderSitemapIndex() {
-  const entries = ["pages-sitemap.xml", "tools-sitemap.xml", "guides-sitemap.xml"].map((path) => `  <sitemap>\n    <loc>${escapeXml(`${siteConfig.url}/${path}`)}</loc>\n    <lastmod>${sitemapLastModified}</lastmod>\n  </sitemap>`).join("\n");
+  const entries = ["pages-sitemap.xml", "calculators-sitemap.xml", "guides-sitemap.xml"].map((path) => `  <sitemap>\n    <loc>${escapeXml(`${siteConfig.url}/${path}`)}</loc>\n    <lastmod>${sitemapLastModified}</lastmod>\n  </sitemap>`).join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>\n<?xml-stylesheet type="text/xsl" href="${sitemapStyleHref}"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries}\n</sitemapindex>`;
 }

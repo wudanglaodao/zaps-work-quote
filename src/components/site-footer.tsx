@@ -16,13 +16,13 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
   const pathname = usePathname();
   const homePath = localizedPath(locale);
 
-  if (pathname.includes("/tools")) {
+  if (pathname.includes("/calculators")) {
     return (
       <footer className="site-footer site-footer-compact">
         <div className="shell footer-compact-inner">
           <Link className="brand footer-brand" href={homePath}>zaps<span>.</span>work</Link>
           <div className="footer-compact-links">
-            <Link href={localizedPath(locale, "tools")}>{dictionary.common.tools}</Link>
+            <Link href={localizedPath(locale, "calculators")}>{dictionary.common.tools}</Link>
             <Link href={localizedPath(locale, "privacy")}>{dictionary.common.privacy}</Link>
             <a href="mailto:info@lopuo.com">{dictionary.common.contact}</a>
             <a href={feedbackUrl} target="_blank" rel="noreferrer">{dictionary.common.feedback}</a>
@@ -44,9 +44,9 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
         </div>
         <div className="footer-column">
           <h3>{dictionary.common.tools}</h3>
-          <Link href={localizedPath(locale, "tools/3d-print-cost-calculator")}>{dictionary.common.footer3d}</Link>
-          <Link href={localizedPath(locale, "tools/cleaning-quote-generator")}>{dictionary.common.footerCleaning}</Link>
-          <Link href={localizedPath(locale, "tools/laser-cutting-cost-calculator")}>{dictionary.common.footerLaser}</Link>
+          <Link href={localizedPath(locale, "calculators/3d-print-cost-calculator")}>{dictionary.common.footer3d}</Link>
+          <Link href={localizedPath(locale, "calculators/cleaning-quote-generator")}>{dictionary.common.footerCleaning}</Link>
+          <Link href={localizedPath(locale, "calculators/laser-cutting-cost-calculator")}>{dictionary.common.footerLaser}</Link>
         </div>
         <div className="footer-column">
           <h3>{dictionary.common.resources}</h3>

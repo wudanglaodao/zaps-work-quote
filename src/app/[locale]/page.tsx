@@ -45,7 +45,7 @@ export function HomeView({ locale }: { locale: Locale }) {
           <h1>{dictionary.home.heading}</h1>
           <p className="home-hero-copy">{dictionary.home.subheading}</p>
           <div className="home-hero-actions">
-            <Link className="button primary" href={localizedPath(locale, "tools/3d-print-cost-calculator")}>{dictionary.home.primaryCta}</Link>
+            <Link className="button primary" href={localizedPath(locale, "calculators/3d-print-cost-calculator")}>{dictionary.home.primaryCta}</Link>
             <Link className="home-text-link" href="#how-it-works"><span>{seeHowItWorks}</span><ArrowRight aria-hidden="true" /></Link>
           </div>
         </div>
@@ -76,7 +76,7 @@ export function HomeView({ locale }: { locale: Locale }) {
           <p>{dictionary.home.toolsCopy}</p>
         </div>
         <div className="shell home-tool-layout">
-          <Link className="home-featured-tool" href={localizedPath(locale, "tools/3d-print-cost-calculator")}>
+          <Link className="home-featured-tool" href={localizedPath(locale, "calculators/3d-print-cost-calculator")}>
             <div className="home-tool-preview"><Image src="/assets/zaps-work_homepage_workflow_preview.png" alt={tools[0].names[locale]} width={1600} height={900} /></div>
             <div className="home-featured-copy"><div><span className="status live">{dictionary.common.live}</span><h3>{tools[0].names[locale]}</h3><p>{tools[0].summaries[locale]}</p></div><ArrowRight aria-hidden="true" /></div>
           </Link>
@@ -84,10 +84,10 @@ export function HomeView({ locale }: { locale: Locale }) {
             <div className="home-planned-tools">
               {secondaryTools.map((tool) => {
                 const Icon = toolIcons[tool.slug as keyof typeof toolIcons] || Box;
-                return <Link className="home-planned-card" href={localizedPath(locale, `tools/${tool.slug}`)} key={tool.slug}><div><span className="home-tool-icon"><Icon aria-hidden="true" /></span><span className="status live">{dictionary.common.live}</span></div><h3>{tool.names[locale]}</h3><p>{tool.summaries[locale]}</p><small>{dictionary.common.live}</small></Link>;
+                return <Link className="home-planned-card" href={localizedPath(locale, `calculators/${tool.slug}`)} key={tool.slug}><div><span className="home-tool-icon"><Icon aria-hidden="true" /></span><span className="status live">{dictionary.common.live}</span></div><h3>{tool.names[locale]}</h3><p>{tool.summaries[locale]}</p><small>{dictionary.common.live}</small></Link>;
               })}
             </div>
-            <Link className="home-all-tools-link" href={localizedPath(locale, "tools")}><span>{dictionary.common.allTools}</span><ArrowRight aria-hidden="true" /></Link>
+            <Link className="home-all-tools-link" href={localizedPath(locale, "calculators")}><span>{dictionary.common.allTools}</span><ArrowRight aria-hidden="true" /></Link>
           </div>
         </div>
       </section>

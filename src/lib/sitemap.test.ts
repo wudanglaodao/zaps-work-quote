@@ -17,7 +17,7 @@ describe("sitemap output", () => {
     const output = renderSitemapIndex();
 
     expect(output).toContain("/pages-sitemap.xml");
-    expect(output).toContain("/tools-sitemap.xml");
+    expect(output).toContain("/calculators-sitemap.xml");
     expect(output).toContain("/guides-sitemap.xml");
   });
 
@@ -34,7 +34,7 @@ describe("sitemap output", () => {
 
   it("publishes the cleaning quote generator in every language", () => {
     const output = renderUrlSet(toolSitemapPaths);
-    expect(output).toContain("https://zaps.work/tools/cleaning-quote-generator");
-    expect(output).toContain("https://zaps.work/ja/tools/cleaning-quote-generator");
+    expect(output).toContain("https://zaps.work/calculators/cleaning-quote-generator");
+    expect(output).toContain("https://zaps.work/ja/calculators/cleaning-quote-generator");
   });
 });

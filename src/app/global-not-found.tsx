@@ -16,7 +16,7 @@ export default function GlobalNotFound() {
       <body className="global-not-found-body">
         <header className="global-not-found-header">
           <Link className="brand" href="/">zaps<span>.</span>work</Link>
-          <Link className="global-not-found-header-link" href="/tools">All tools <ArrowRight aria-hidden="true" /></Link>
+          <Link className="global-not-found-header-link" href="/calculators">All tools <ArrowRight aria-hidden="true" /></Link>
         </header>
         <main className="global-not-found-main">
           <section className="not-found-page">
@@ -27,7 +27,7 @@ export default function GlobalNotFound() {
               <p className="not-found-copy">The link may be outdated, or the page may have moved. Start with the tools and pricing guides that are ready to use.</p>
               <div className="not-found-actions">
                 <Link className="button primary" href="/"><House aria-hidden="true" /> Back to home</Link>
-                <Link className="home-text-link" href="/tools"><Wrench aria-hidden="true" /><span>Browse tools</span><ArrowRight aria-hidden="true" /></Link>
+                <Link className="home-text-link" href="/calculators"><Wrench aria-hidden="true" /><span>Browse tools</span><ArrowRight aria-hidden="true" /></Link>
               </div>
             </div>
           </section>

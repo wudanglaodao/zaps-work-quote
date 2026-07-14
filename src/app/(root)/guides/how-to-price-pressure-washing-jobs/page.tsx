@@ -20,7 +20,7 @@ const toc: GuideTocItem[] = [
 export const metadata: Metadata = buildMetadata({ locale: "en", path: "guides/how-to-price-pressure-washing-jobs", title, description });
 
 export default function HowToPricePressureWashingPage() {
-  return <GuideArticle title={title} description={description} published="2026-07-11" updated="2026-07-13" readingTime="9 min read" slug="how-to-price-pressure-washing-jobs" toolHref="/tools/pressure-washing-quote" toolLabel="Open calculator" toc={toc} faq={faq}>
+  return <GuideArticle title={title} description={description} published="2026-07-11" updated="2026-07-13" readingTime="9 min read" slug="how-to-price-pressure-washing-jobs" toolHref="/calculators/pressure-washing-quote" toolLabel="Open calculator" toc={toc} faq={faq}>
     <p className="guide-lead">A good pressure washing estimate starts with the work, not a copied market rate. Measure the surface, judge its condition, estimate crew time, add operating and travel costs, then apply the margin and minimum charge your business needs.</p>
     <div className="guide-callout"><strong>The short formula</strong><code>Quote = (labor + operating costs + travel + overhead) ÷ (1 − target margin)</code><p>Compare the result with your minimum service charge and add tax only where applicable.</p></div>
 
@@ -63,7 +63,7 @@ export default function HowToPricePressureWashingPage() {
 
     <h2 id="write-quote">8. Write a quote that prevents scope disputes</h2>
     <p>List every included surface, approximate measured area, cleaning approach, included treatments, customer preparation, and exclusions. Clarify responsibility for water and access, whether moving furniture is included, how runoff will be managed, and what happens if hidden damage or severe staining appears.</p>
-    <p>Avoid promising that every stain will disappear. Results depend on the surface and stain type. Include the total, tax, payment schedule, expected service window, and expiration date. Use the <Link href="/tools/pressure-washing-quote">free pressure washing quote calculator</Link> to model the job with your costs, minimum charge, and target margin.</p>
+    <p>Avoid promising that every stain will disappear. Results depend on the surface and stain type. Include the total, tax, payment schedule, expected service window, and expiration date. Use the <Link href="/calculators/pressure-washing-quote">free pressure washing quote calculator</Link> to model the job with your costs, minimum charge, and target margin.</p>
     <h2>Pressure washing estimate checklist</h2>
     <ul><li>Identify every surface and measure cleanable area.</li><li>Record material, condition, access, water, and drainage.</li><li>Estimate total crew-hours including setup and cleanup.</li><li>Add chemicals, fuel, equipment, travel, and overhead.</li><li>Adjust for unusual difficulty or risk.</li><li>Apply the correct target-margin formula.</li><li>Compare the result with your minimum charge.</li><li>Write the scope, assumptions, exclusions, and validity into the quote.</li></ul>
   </GuideArticle>;
