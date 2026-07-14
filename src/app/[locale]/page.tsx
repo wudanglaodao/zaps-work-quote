@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Box, BrushCleaning, Database, DraftingCompass, Droplets, FileDown, LockKeyhole, ScanLine, ShieldCheck } from "lucide-react";
+import { ArrowRight, Box, BriefcaseBusiness, BrushCleaning, Cpu, Database, DraftingCompass, Droplets, FileDown, LockKeyhole, Paintbrush, ScanLine, ShieldCheck, Sprout } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
 import { htmlLanguage, isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return buildMetadata({ locale: rawLocale, title: dictionary.home.title, description: dictionary.home.description });
 }
 
-const icons = [Box, ScanLine, BrushCleaning, DraftingCompass, Droplets];
+const toolIcons = { "3d-print-cost-calculator": Box, "laser-cutting-cost-calculator": ScanLine, "cleaning-quote-generator": BrushCleaning, "house-painting-quote": Paintbrush, "pressure-washing-quote": Droplets, "freelance-job-quote": BriefcaseBusiness, "cnc-machining-cost-calculator": Cpu, "lawn-care-quote": Sprout } as const;
 
 export function HomeView({ locale }: { locale: Locale }) {
   const dictionary = getDictionary(locale);
@@ -35,7 +35,7 @@ export function HomeView({ locale }: { locale: Locale }) {
   const seeHowItWorks = ({ en: "See how it works", "zh-hant": "查看運作方式", de: "So funktioniert es", ja: "使い方を見る", es: "Cómo funciona", fr: "Voir comment ça marche", "pt-br": "Como funciona", ko: "사용 방법 보기" } as const)[locale];
   const companyLabel = ({ en: "YOUR COMPANY", "zh-hant": "您的公司", de: "IHR UNTERNEHMEN", ja: "あなたの会社", es: "TU EMPRESA", fr: "VOTRE ENTREPRISE", "pt-br": "SUA EMPRESA", ko: "귀사" } as const)[locale];
   const quoteLabel = ({ en: "QUOTE", "zh-hant": "報價", de: "ANGEBOT", ja: "見積書", es: "PRESUPUESTO", fr: "DEVIS", "pt-br": "ORÇAMENTO", ko: "견적서" } as const)[locale];
-  const inDevelopment = ({ en: "In development", "zh-hant": "開發中", de: "In Entwicklung", ja: "開発中", es: "En desarrollo", fr: "En développement", "pt-br": "Em desenvolvimento", ko: "개발 중" } as const)[locale];
+  const secondaryTools = tools.filter((tool) => tool.status === "live").slice(1, 5);
   return (
     <div className="home-page">
       <JsonLd data={{ "@context": "https://schema.org", "@type": "WebSite", name: siteConfig.name, url: siteConfig.url, description: dictionary.home.description, inLanguage: htmlLanguage(locale) }} />
@@ -80,12 +80,14 @@ export function HomeView({ locale }: { locale: Locale }) {
             <div className="home-tool-preview"><Image src="/assets/zaps-work_homepage_workflow_preview.png" alt={tools[0].names[locale]} width={1600} height={900} /></div>
             <div className="home-featured-copy"><div><span className="status live">{dictionary.common.live}</span><h3>{tools[0].names[locale]}</h3><p>{tools[0].summaries[locale]}</p></div><ArrowRight aria-hidden="true" /></div>
           </Link>
-          <div className="home-planned-tools">
-            {tools.slice(1).map((tool, index) => {
-              const Icon = icons[index + 1] || Box;
-              const content = <><div><span className="home-tool-icon"><Icon aria-hidden="true" /></span><span className={`status ${tool.status === "live" ? "live" : "soon"}`}>{tool.status === "live" ? dictionary.common.live : dictionary.common.soon}</span></div><h3>{tool.names[locale]}</h3><p>{tool.summaries[locale]}</p><small>{tool.status === "live" ? dictionary.common.live : inDevelopment}</small></>;
-              return tool.status === "live" ? <Link className="home-planned-card" href={localizedPath(locale, `tools/${tool.slug}`)} key={tool.slug}>{content}</Link> : <article className="home-planned-card" key={tool.slug}>{content}</article>;
-            })}
+          <div className="home-secondary-tools">
+            <div className="home-planned-tools">
+              {secondaryTools.map((tool) => {
+                const Icon = toolIcons[tool.slug as keyof typeof toolIcons] || Box;
+                return <Link className="home-planned-card" href={localizedPath(locale, `tools/${tool.slug}`)} key={tool.slug}><div><span className="home-tool-icon"><Icon aria-hidden="true" /></span><span className="status live">{dictionary.common.live}</span></div><h3>{tool.names[locale]}</h3><p>{tool.summaries[locale]}</p><small>{dictionary.common.live}</small></Link>;
+              })}
+            </div>
+            <Link className="home-all-tools-link" href={localizedPath(locale, "tools")}><span>{dictionary.common.allTools}</span><ArrowRight aria-hidden="true" /></Link>
           </div>
         </div>
       </section>

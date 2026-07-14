@@ -161,6 +161,7 @@ svg { flex: 0 0 auto; }
 .home-featured-copy h3 { margin: 0; font-size: 22px; }
 .home-featured-copy p { grid-column: 1 / -1; margin: 9px 0 0; color: var(--muted); font-size: 14px; line-height: 1.5; }
 .home-featured-copy > svg { width: 20px; }
+.home-secondary-tools { display: grid; gap: 16px; }
 .home-planned-tools { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; }
 .home-planned-card { min-height: 214px; display: flex; flex-direction: column; padding: 18px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface-2); color: var(--muted); }
 .home-planned-card > div { position: relative; display: flex; justify-content: space-between; }
@@ -170,6 +171,9 @@ svg { flex: 0 0 auto; }
 .home-planned-card h3 { margin: 20px 0 0; color: var(--muted); font-size: 17px; line-height: 1.25; }
 .home-planned-card p { margin: 9px 0 0; color: var(--subtle); font-size: 12px; line-height: 1.5; }
 .home-planned-card small { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--line); color: var(--subtle); font-weight: 650; }
+.home-all-tools-link { min-height: 54px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 18px; border: 1px solid var(--line-strong); border-radius: 4px; background: var(--surface); color: var(--ink); font-size: 13px; font-weight: 720; transition: border-color 180ms ease, background 180ms ease, color 180ms ease; }
+.home-all-tools-link:hover { border-color: var(--green); background: var(--green-soft); color: var(--green-dark); }
+.home-all-tools-link svg { width: 17px; }
 .home-privacy-section { padding-block: 96px 104px; border-top: 1px solid var(--brand-green-bright); background: var(--brand-green); color: #fff; }
 .home-privacy-layout { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(320px, .8fr); align-items: center; gap: 72px; }
 .home-privacy-visual { min-height: 356px; display: grid; grid-template-columns: minmax(0, 1.15fr) 72px minmax(0, .85fr); align-items: center; overflow: hidden; padding: 34px; border: 1px solid rgba(255,255,255,.34); border-radius: 4px; background: #eefaf1; box-shadow: 0 24px 54px rgba(4,36,16,.22); }

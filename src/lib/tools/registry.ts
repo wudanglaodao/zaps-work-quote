@@ -38,10 +38,24 @@ export const tools = [
   },
   {
     slug: "freelance-job-quote",
-    status: "soon" as const,
+    status: "live" as const,
     category: "creative" as const,
     names: { en: "Freelance Job Quote", "zh-hant": "自由工作者報價工具", de: "Angebot für Freelancer-Aufträge", ja: "フリーランス案件見積もり", es: "Presupuesto para trabajos freelance", fr: "Devis pour mission freelance", "pt-br": "Orçamento para trabalho freelance", ko: "프리랜서 작업 견적" },
     summaries: { en: "Scope, hourly rate, revisions, rush fee, and deposit.", "zh-hant": "工作範圍、時薪、修改、急件費與訂金。", de: "Leistungsumfang, Stundensatz, Korrekturen, Expressgebühr und Anzahlung.", ja: "作業範囲、時給、修正、特急料金、前金。", es: "Alcance, tarifa por hora, revisiones, urgencia y anticipo.", fr: "Périmètre, taux horaire, révisions, urgence et acompte.", "pt-br": "Escopo, valor por hora, revisões, urgência e entrada.", ko: "작업 범위, 시간당 요금, 수정, 긴급 수수료, 선금." },
+  },
+  {
+    slug: "cnc-machining-cost-calculator",
+    status: "live" as const,
+    category: "fabrication" as const,
+    names: { en: "CNC Machining Cost Calculator", "zh-hant": "CNC 加工成本計算器", de: "CNC-Bearbeitungskostenrechner", ja: "CNC加工コスト計算機", es: "Calculadora de costes de mecanizado CNC", fr: "Calculateur de coût d’usinage CNC", "pt-br": "Calculadora de custos de usinagem CNC", ko: "CNC 가공 비용 계산기" },
+    summaries: { en: "Material, programming, setup, machine time, batch size, tooling, and margin.", "zh-hant": "材料、編程、設定、機時、批量、刀具與毛利。", de: "Material, Programmierung, Rüsten, Maschinenzeit, Losgröße, Werkzeuge und Marge.", ja: "材料、プログラム、段取り、機械時間、数量、工具、利益率。", es: "Material, programación, preparación, tiempo de máquina, lote, herramientas y margen.", fr: "Matière, programmation, réglage, temps machine, série, outillage et marge.", "pt-br": "Material, programação, preparação, tempo de máquina, lote, ferramentas e margem.", ko: "재료, 프로그래밍, 설정, 기계 시간, 수량, 공구와 마진." },
+  },
+  {
+    slug: "lawn-care-quote",
+    status: "live" as const,
+    category: "services" as const,
+    names: { en: "Lawn Care Quote Calculator", "zh-hant": "草坪服務報價計算器", de: "Angebotsrechner für Rasenpflege", ja: "芝生サービス見積もり計算機", es: "Calculadora de presupuestos de jardinería", fr: "Calculateur de devis d’entretien de pelouse", "pt-br": "Calculadora de orçamento de gramado", ko: "잔디 관리 견적 계산기" },
+    summaries: { en: "Lawn area, grass condition, crew production, equipment, travel, and margin.", "zh-hant": "草坪面積、草況、團隊產能、設備、交通與毛利。", de: "Rasenfläche, Zustand, Teamleistung, Gerät, Anfahrt und Marge.", ja: "面積、芝の状態、チーム生産性、機材、移動、利益率。", es: "Superficie, estado del césped, producción, equipo, desplazamiento y margen.", fr: "Surface, état du gazon, productivité, équipement, déplacement et marge.", "pt-br": "Área, condição do gramado, produtividade, equipamento, deslocamento e margem.", ko: "면적, 잔디 상태, 팀 생산성, 장비, 이동과 마진." },
   },
   {
     slug: "pressure-washing-quote",

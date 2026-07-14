@@ -17,8 +17,14 @@ Calculations and PDF or CSV generation run in the user's browser. Customer names
 - [Laser Cutting Cost Calculator](https://zaps.work/tools/laser-cutting-cost-calculator): Estimate sheet material, waste, machine time, setup, handling, finishing, quantity, and margin from manual CAD/CAM statistics.
 - [Cleaning Quote Generator](https://zaps.work/tools/cleaning-quote-generator): Estimate cleaner-hours, labor, overhead, supplies, travel, add-ons, minimum fees, and margin for residential cleaning.
 - [House Painting Quote Calculator](https://zaps.work/tools/house-painting-quote): Build a house painting quote from paintable area, coats, coverage, paint waste, material cost, labor production, surface condition, overhead, minimum fee, margin, and tax.
+- [Freelance Job Quote Calculator](https://zaps.work/tools/freelance-job-quote): Price a freelance project from scope hours, revisions, rush premium, fixed costs, margin, minimum fee, and tax.
+- [CNC Machining Cost Calculator](https://zaps.work/tools/cnc-machining-cost-calculator): Estimate a 3-axis CNC milling batch from material, programming, setup, machine time, inspection, tooling, finishing, margin, and tax.
+- [Lawn Care Quote Calculator](https://zaps.work/tools/lawn-care-quote): Price lawn service from mowable area, grass condition, crew production, labor, equipment, travel, add-ons, overhead, margin, and tax.
 - [Pricing Guides](https://zaps.work/guides): Practical job costing and quote guides.
 - [How to Price House Painting Jobs](https://zaps.work/guides/how-to-price-house-painting-jobs): A practical guide to scope, paint coverage, labor production, preparation, margin, minimum charges, and customer-ready painting quotes.
+- [How to Price Freelance Projects](https://zaps.work/guides/how-to-price-freelance-projects): A guide to scope, revisions, rush work, costs, margin, and clear client quotes.
+- [How to Price CNC Machining](https://zaps.work/guides/how-to-price-cnc-machining): A guide to material, programming, setup, machining, inspection, batch costs, and margin.
+- [How to Price Lawn Care Services](https://zaps.work/guides/how-to-price-lawn-care-services): A guide to route production, lawn condition, crew costs, minimum fees, and margin.
 - [How to Price 3D Prints](https://zaps.work/guides/how-to-price-3d-prints): A formula-based guide to 3D print costs, margin, and customer quotes.
 - [How to Price Pressure Washing Jobs](https://zaps.work/guides/how-to-price-pressure-washing-jobs): A step-by-step guide to scope, costs, margin, and minimum charges.
 - [How to Price Laser Cutting Jobs](https://zaps.work/guides/how-to-price-laser-cutting-jobs): A practical guide to sheet material, nesting waste, machine time, setup, finishing, and target margin.
