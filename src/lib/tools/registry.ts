@@ -30,6 +30,13 @@ export const tools = [
     summaries: { en: "Rooms, area, frequency, add-ons, and labor.", "zh-hant": "房間、面積、頻率、加購與人工。", de: "Räume, Fläche, Häufigkeit, Zusatzleistungen und Arbeit.", ja: "部屋、面積、頻度、追加サービス、人件費。", es: "Habitaciones, superficie, frecuencia, extras y mano de obra.", fr: "Pièces, surface, fréquence, options et main-d’œuvre.", "pt-br": "Cômodos, área, frequência, adicionais e mão de obra.", ko: "공간, 면적, 빈도, 추가 서비스, 인건비." },
   },
   {
+    slug: "house-painting-quote",
+    status: "live" as const,
+    category: "services" as const,
+    names: { en: "House Painting Quote Calculator", "zh-hant": "房屋油漆報價計算器", de: "Angebotsrechner für Hausanstriche", ja: "住宅塗装見積もり計算機", es: "Calculadora de presupuestos de pintura residencial", fr: "Calculateur de devis de peinture résidentielle", "pt-br": "Calculadora de orçamento de pintura residencial", ko: "주택 도장 견적 계산기" },
+    summaries: { en: "Paint coverage, labor, surface condition, margin, PDF, and CSV.", "zh-hant": "油漆覆蓋率、人工、表面狀況、毛利、PDF 與 CSV。", de: "Deckkraft, Arbeit, Oberflächenzustand, Marge, PDF und CSV.", ja: "塗布面積、人件費、下地状態、利益率、PDF、CSV。", es: "Cobertura, mano de obra, estado de superficie, margen, PDF y CSV.", fr: "Rendement, main-d’œuvre, état des surfaces, marge, PDF et CSV.", "pt-br": "Cobertura, mão de obra, condição da superfície, margem, PDF e CSV.", ko: "도포 면적, 인건비, 표면 상태, 마진, PDF, CSV." },
+  },
+  {
     slug: "freelance-job-quote",
     status: "soon" as const,
     category: "creative" as const,

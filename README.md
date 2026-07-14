@@ -25,7 +25,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Supabase variables may remain empty during local UI work; analytics then becomes a no-op.
+Open [http://localhost:3102](http://localhost:3102). Supabase variables may remain empty during local UI work; analytics then becomes a no-op.
 
 ## Quality Gate
 

@@ -2,12 +2,13 @@ import { htmlLanguage, locales, type Locale } from "./i18n/config";
 import { localizedPath } from "./seo";
 import { siteConfig } from "./site";
 
-export const sitemapLastModified = "2026-07-13";
-export const sitemapStyleHref = "/sitemap.xsl?v=20260713";
+export const sitemapLastModified = "2026-07-14";
+export const sitemapStyleHref = "/sitemap.xsl?v=20260714";
 
 export const pageSitemapPaths = ["", "tools", "privacy"] as const;
-export const toolSitemapPaths = ["tools/3d-print-cost-calculator", "tools/pressure-washing-quote", "tools/laser-cutting-cost-calculator", "tools/cleaning-quote-generator"] as const;
+export const toolSitemapPaths = ["tools/3d-print-cost-calculator", "tools/pressure-washing-quote", "tools/laser-cutting-cost-calculator", "tools/cleaning-quote-generator", "tools/house-painting-quote"] as const;
 export const guideSitemapPaths = ["guides", "guides/how-to-price-3d-prints", "guides/how-to-price-pressure-washing-jobs", "guides/how-to-price-laser-cutting-jobs", "guides/how-to-price-house-cleaning-jobs"] as const;
+export const guideEnglishOnlySitemapPaths = ["guides/how-to-price-house-painting-jobs"] as const;
 
 export function escapeXml(value: string) {
   return value.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character] || character);
@@ -30,8 +31,10 @@ export function renderSitemapUrl(path: string, priority: string, changeFrequency
   }).join("\n")}`;
 }
 
-export function renderUrlSet(paths: readonly string[]) {
-  const urls = paths.map((path) => renderSitemapUrl(path, path === "" ? "1.0" : path.includes("tools/") ? "0.9" : "0.6", path.includes("tools/") ? "weekly" : "monthly")).join("\n");
+export function renderUrlSet(paths: readonly string[], englishOnlyPaths: readonly string[] = []) {
+  const localizedUrls = paths.map((path) => renderSitemapUrl(path, path === "" ? "1.0" : path.includes("tools/") ? "0.9" : "0.6", path.includes("tools/") ? "weekly" : "monthly"));
+  const englishOnlyUrls = englishOnlyPaths.map((path) => `<url>\n  <loc>${escapeXml(localizedUrl("en", path))}</loc>\n  <lastmod>${sitemapLastModified}</lastmod>\n  <changefreq>monthly</changefreq>\n  <priority>0.6</priority>\n</url>`);
+  const urls = [...localizedUrls, ...englishOnlyUrls].join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>\n<?xml-stylesheet type="text/xsl" href="${sitemapStyleHref}"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls}</urlset>`;
 }
 

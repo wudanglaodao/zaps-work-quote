@@ -199,7 +199,7 @@ const en: Dictionary = {
       { question: "How is the suggested quote calculated?", answer: "The calculator totals production and labor costs, adjusts for expected failures, then applies your target margin and minimum fee before tax." },
       { question: "How do I calculate 3D printing cost per hour?", answer: "Multiply print time by your machine hourly rate, then add electricity for the same period. Material, hands-on labor, failure risk, packaging, and overhead still need to be added before setting the selling price." },
       { question: "What should be included in a 3D printing price?", answer: "Include filament and waste, machine time, electricity, preparation and post-processing labor, expected failures, packaging, job-specific purchases, overhead, shipping, tax, and the profit margin your business needs." },
-      { question: "Does changing currency convert existing values?", answer: "No. Currency changes the label and formatting only. Enter rates and prices in the selected currency." },
+      { question: "Does changing currency convert existing values?", answer: "Yes. Monetary inputs are converted to the selected currency and formatted with that currency's standard decimal precision." },
       { question: "Can I quote several printed parts together?", answer: "Yes. Add up to ten line items and export them as one customer quote." },
     ],
   },
@@ -273,7 +273,7 @@ const zhHant: Dictionary = {
     faqTitle: "3D 列印成本常見問題",
     faq: [
       { question: "建議報價如何計算？", answer: "系統先合計生產與人工成本，納入預期失敗，再套用目標毛利與最低費用，最後計算稅額。" },
-      { question: "切換貨幣會自動換算嗎？", answer: "不會。切換貨幣只改變標示與格式，費率和價格請用所選貨幣輸入。" },
+      { question: "切換貨幣會自動換算嗎？", answer: "會。金額欄位會換算成所選貨幣，並依該貨幣的標準小數位顯示。" },
       { question: "可以把多個列印零件放在同一份報價嗎？", answer: "可以，最多加入十個項目並匯出為同一份客戶報價。" },
     ],
   },
@@ -349,7 +349,7 @@ const de: Dictionary = {
       { question: "Wie wird das empfohlene Angebot berechnet?", answer: "Der Rechner summiert Produktions- und Arbeitskosten, berücksichtigt erwartete Ausfälle und wendet anschließend Zielmarge und Mindestgebühr vor Steuern an." },
       { question: "Wie berechne ich 3D-Druck-Kosten pro Stunde?", answer: "Multipliziere die Druckdauer mit deinem Maschinenstundensatz und addiere den Stromverbrauch für denselben Zeitraum. Material, aktive Arbeit, Fehldruckrisiko, Verpackung und Gemeinkosten kommen hinzu." },
       { question: "Welche Kosten gehören in einen 3D-Druckpreis?", answer: "Berücksichtige Filament und Ausschuss, Maschinenzeit, Strom, Vorbereitung, Nachbearbeitung, erwartete Fehldrucke, Verpackung, Gemeinkosten, Versand, Steuer und deine benötigte Gewinnmarge." },
-      { question: "Werden bestehende Werte beim Währungswechsel umgerechnet?", answer: "Nein. Der Währungswechsel ändert nur Bezeichnung und Format. Gib Preise und Sätze in der ausgewählten Währung ein." },
+      { question: "Werden bestehende Werte beim Währungswechsel umgerechnet?", answer: "Ja. Geldwerte werden in die ausgewählte Währung umgerechnet und mit deren üblicher Dezimalzahl formatiert." },
       { question: "Kann ich mehrere Druckteile gemeinsam anbieten?", answer: "Ja. Füge bis zu zehn Positionen hinzu und exportiere sie als ein Kundenangebot." },
     ],
   },
@@ -368,7 +368,7 @@ const ja: Dictionary = {
   tool: {
     title: "3Dプリントコスト計算機と見積もり作成 | zaps.work", description: "フィラメント、機械時間、電気代、人件費、失敗リスク、利益率を計算し、3Dプリントの見積書を作成します。", heading: "3Dプリントコスト計算機", intro: "材料、機械時間、人件費、失敗リスク、利益率を使ってFDMプリントの価格を計算し、PDFまたはCSVで出力できます。", methodologyTitle: "計算に含まれるもの", methodologyBody: "フィラメント使用量、廃棄、機械時間、電気代、人件費、梱包、想定される失敗コスト、最低料金、利益率、送料、税金を組み合わせて見積もります。前提はすべて編集できるため、自分の作業環境に合わせられます。", privacyNote: "顧客の名前やメール、電話、住所などの連絡先はブラウザ内に残り、データベースには保存されません。", faqTitle: "3Dプリントコストに関する質問", faq: [
       { question: "推奨見積もりはどのように計算されますか？", answer: "製造費と人件費を合計し、想定される失敗コストを加味したうえで、税引前に目標利益率と最低料金を適用します。" },
-      { question: "通貨を変更すると既存の値は換算されますか？", answer: "いいえ。通貨の変更は表示と形式だけを変えます。価格と単価は選択した通貨で入力してください。" },
+      { question: "通貨を変更すると既存の値は換算されますか？", answer: "はい。金額項目は選択した通貨へ換算され、その通貨の標準的な小数桁で表示されます。" },
       { question: "複数の印刷部品をまとめて見積もれますか？", answer: "はい。最大10項目を追加して、1つの顧客向け見積書として出力できます。" },
     ],
   },
@@ -387,7 +387,7 @@ const es: Dictionary = {
   tool: {
     title: "Calculadora de costes de impresión 3D y presupuestos | zaps.work", description: "Calcula filamento, tiempo de máquina, electricidad, mano de obra, riesgo de fallo y margen para crear un presupuesto de impresión 3D.", heading: "Calculadora de costes de impresión 3D", intro: "Calcula el precio de una impresión FDM con material, tiempo de máquina, mano de obra, riesgo de fallo, margen y exportación PDF o CSV.", methodologyTitle: "Qué incluye la calculadora", methodologyBody: "La estimación combina consumo de filamento, desperdicio, tiempo de máquina, electricidad, mano de obra, embalaje, coste esperado de fallos, tarifas mínimas, margen, envío e impuestos. Todos los supuestos son editables para reflejar tu negocio.", privacyNote: "Los nombres y datos de contacto de clientes, incluidos correo, teléfono y dirección, permanecen en tu navegador y no se guardan en nuestra base de datos.", faqTitle: "Preguntas sobre costes de impresión 3D", faq: [
       { question: "¿Cómo se calcula el presupuesto recomendado?", answer: "La calculadora suma los costes de producción y mano de obra, considera los fallos esperados y aplica el margen objetivo y la tarifa mínima antes de impuestos." },
-      { question: "¿Cambiar la moneda convierte los valores existentes?", answer: "No. El cambio de moneda solo modifica la etiqueta y el formato. Introduce precios y tarifas en la moneda seleccionada." },
+      { question: "¿Cambiar la moneda convierte los valores existentes?", answer: "Sí. Los importes se convierten a la moneda seleccionada y usan su número estándar de decimales." },
       { question: "¿Puedo presupuestar varias piezas juntas?", answer: "Sí. Añade hasta diez artículos y expórtalos como un único presupuesto para el cliente." },
     ],
   },
@@ -406,7 +406,7 @@ const fr: Dictionary = {
   tool: {
     title: "Calculateur de coût d’impression 3D et générateur de devis | zaps.work", description: "Calculez le filament, le temps machine, l’électricité, la main-d’œuvre, le risque d’échec et la marge pour créer un devis d’impression 3D.", heading: "Calculateur de coût d’impression 3D", intro: "Calculez le prix d’une impression FDM avec la matière, le temps machine, la main-d’œuvre, le risque d’échec, la marge et un export PDF ou CSV.", methodologyTitle: "Ce que le calculateur inclut", methodologyBody: "L’estimation combine la consommation de filament, les pertes, le temps machine, l’électricité, la main-d’œuvre, l’emballage, le coût attendu des échecs, les frais minimums, la marge, l’expédition et les taxes. Toutes les hypothèses sont modifiables.", privacyNote: "Les noms et coordonnées des clients, notamment leur e-mail, téléphone et adresse, restent dans votre navigateur et ne sont pas enregistrés dans notre base de données.", faqTitle: "Questions sur le coût de l’impression 3D", faq: [
       { question: "Comment le devis recommandé est-il calculé ?", answer: "Le calculateur additionne les coûts de production et de main-d’œuvre, prend en compte les échecs prévus, puis applique la marge cible et les frais minimums avant taxes." },
-      { question: "Le changement de devise convertit-il les valeurs existantes ?", answer: "Non. Le changement de devise modifie uniquement le libellé et le format. Saisissez les prix et taux dans la devise sélectionnée." },
+      { question: "Le changement de devise convertit-il les valeurs existantes ?", answer: "Oui. Les montants sont convertis dans la devise choisie et utilisent son nombre standard de décimales." },
       { question: "Puis-je regrouper plusieurs pièces dans un devis ?", answer: "Oui. Ajoutez jusqu’à dix articles et exportez-les dans un seul devis client." },
     ],
   },
@@ -425,7 +425,7 @@ const ptBr: Dictionary = {
   tool: {
     title: "Calculadora de custos de impressão 3D e gerador de orçamentos | zaps.work", description: "Calcule filamento, tempo de máquina, energia, mão de obra, risco de falha e margem para criar um orçamento de impressão 3D.", heading: "Calculadora de custos de impressão 3D", intro: "Calcule o preço de uma impressão FDM com material, tempo de máquina, mão de obra, risco de falha, margem e exportação em PDF ou CSV.", methodologyTitle: "O que a calculadora inclui", methodologyBody: "A estimativa combina uso de filamento, desperdício, tempo de máquina, energia, mão de obra, embalagem, custo esperado de falhas, taxas mínimas, margem, frete e impostos. Todas as premissas podem ser editadas.", privacyNote: "Nomes e dados de contato dos clientes, incluindo e-mail, telefone e endereço, ficam no seu navegador e não são armazenados no nosso banco de dados.", faqTitle: "Dúvidas sobre custos de impressão 3D", faq: [
       { question: "Como o orçamento recomendado é calculado?", answer: "A calculadora soma custos de produção e mão de obra, considera falhas esperadas e aplica a margem desejada e a taxa mínima antes dos impostos." },
-      { question: "Trocar a moeda converte os valores existentes?", answer: "Não. A troca altera apenas o rótulo e a formatação. Informe preços e taxas na moeda selecionada." },
+      { question: "Trocar a moeda converte os valores existentes?", answer: "Sim. Os valores monetários são convertidos para a moeda escolhida e usam as casas decimais padrão dela." },
       { question: "Posso incluir várias peças no mesmo orçamento?", answer: "Sim. Adicione até dez itens e exporte tudo como um único orçamento para o cliente." },
     ],
   },
@@ -444,7 +444,7 @@ const ko: Dictionary = {
   tool: {
     title: "3D 프린팅 비용 계산기 및 견적 생성기 | zaps.work", description: "필라멘트, 장비 시간, 전기, 인건비, 실패 위험, 마진을 계산해 3D 프린팅 견적을 만드세요.", heading: "3D 프린팅 비용 계산기", intro: "재료, 장비 시간, 인건비, 실패 위험, 마진을 사용해 FDM 출력 가격을 계산하고 PDF 또는 CSV로 내보낼 수 있습니다.", methodologyTitle: "계산기에 포함되는 항목", methodologyBody: "필라멘트 사용량, 폐기물, 장비 시간, 전기, 인건비, 포장, 예상 실패 비용, 최소 수수료, 마진, 배송비, 세금을 계산에 반영합니다. 모든 가정은 직접 수정할 수 있습니다.", privacyNote: "고객 이름과 이메일, 전화번호, 주소를 포함한 연락처 정보는 브라우저에 남으며 데이터베이스에 저장되지 않습니다.", faqTitle: "3D 프린팅 비용 질문", faq: [
       { question: "추천 견적은 어떻게 계산되나요?", answer: "생산비와 인건비를 합산하고 예상 실패 비용을 반영한 뒤, 세전 기준으로 목표 마진과 최소 수수료를 적용합니다." },
-      { question: "통화를 바꾸면 기존 값이 환산되나요?", answer: "아니요. 통화 변경은 표시 이름과 형식만 바꿉니다. 선택한 통화로 가격과 요율을 입력하세요." },
+      { question: "통화를 바꾸면 기존 값이 환산되나요?", answer: "네. 금액 입력값은 선택한 통화로 환산되고 해당 통화의 표준 소수 자릿수로 표시됩니다." },
       { question: "여러 출력 부품을 한 번에 견적낼 수 있나요?", answer: "네. 최대 10개의 항목을 추가해 하나의 고객용 견적으로 내보낼 수 있습니다." },
     ],
   },

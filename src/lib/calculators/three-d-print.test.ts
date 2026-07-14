@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { calculateThreeDPrintQuote, clampNumericInput, createDefaultQuoteInput, quoteInputSchema } from "./three-d-print";
+import { calculateThreeDPrintQuote, clampNumericInput, convertThreeDPrintCurrency, createDefaultQuoteInput, quoteInputSchema } from "./three-d-print";
 
 describe("3D print quote calculation", () => {
   it("returns a deterministic profitable default quote", () => {
@@ -37,5 +37,12 @@ describe("3D print quote calculation", () => {
     const input = createDefaultQuoteInput();
     input.targetMargin = 96;
     expect(quoteInputSchema.safeParse(input).success).toBe(false);
+  });
+
+  it("converts all monetary inputs when currency changes", () => {
+    const input = convertThreeDPrintCurrency(createDefaultQuoteInput(), "USD", "JPY");
+    expect(input.items[0].spoolPrice).toBe(3600);
+    expect(input.laborRate).toBe(3000);
+    expect(input.minimumFee).toBe(1500);
   });
 });

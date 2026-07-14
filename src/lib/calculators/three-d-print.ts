@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { convertCurrencyAmount, type Currency } from "../currency";
 
 export const printItemSchema = z.object({
   id: z.string(),
@@ -38,8 +39,8 @@ export function clampNumericInput(value: string | number, min: number, max: numb
   return Math.min(max, Math.max(min, parsed));
 }
 
-export function createDefaultItem(index = 1): PrintItemInput {
-  return {
+export function createDefaultItem(index = 1, currency: Currency = "USD"): PrintItemInput {
+  const item: PrintItemInput = {
     id: `item-${index}`,
     name: index === 1 ? "Custom print" : `Print item ${index}`,
     material: "PLA",
@@ -53,10 +54,11 @@ export function createDefaultItem(index = 1): PrintItemInput {
     postProcessingMinutes: 15,
     packagingCost: 2,
   };
+  return currency === "USD" ? item : { ...item, spoolPrice: convertCurrencyAmount(item.spoolPrice, "USD", currency), packagingCost: convertCurrencyAmount(item.packagingCost, "USD", currency) };
 }
 
-export function createDefaultQuoteInput(): QuoteInput {
-  return {
+export function createDefaultQuoteInput(currency: Currency = "USD"): QuoteInput {
+  return convertThreeDPrintCurrency({
     items: [createDefaultItem()],
     machineRate: 0.5,
     laborRate: 20,
@@ -68,6 +70,17 @@ export function createDefaultQuoteInput(): QuoteInput {
     minimumFee: 10,
     shippingCost: 0,
     taxRate: 0,
+  }, "USD", currency);
+}
+
+export function convertThreeDPrintCurrency(input: QuoteInput, from: Currency, to: Currency): QuoteInput {
+  if (from === to) return input;
+  const convert = (value: number) => convertCurrencyAmount(value, from, to);
+  return {
+    ...input,
+    items: input.items.map((item) => ({ ...item, spoolPrice: convert(item.spoolPrice), packagingCost: convert(item.packagingCost) })),
+    machineRate: convert(input.machineRate), laborRate: convert(input.laborRate), electricityRate: convert(input.electricityRate),
+    minimumFee: convert(input.minimumFee), shippingCost: convert(input.shippingCost),
   };
 }
 

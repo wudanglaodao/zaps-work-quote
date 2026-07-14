@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { calculatePressureWashingQuote, createDefaultPressureWashingInput } from "./pressure-washing";
+import { calculatePressureWashingQuote, convertPressureWashingCurrency, convertPressureWashingMeasurement, createDefaultPressureWashingInput } from "./pressure-washing";
 
 describe("pressure washing driveway quote calculation", () => {
   it("calculates the default driveway quote from area and cost inputs", () => {
@@ -23,7 +23,7 @@ describe("pressure washing driveway quote calculation", () => {
     expect(result.isBelowCostFloor).toBe(true);
   });
 
-  it("keeps condition and access as labels while applying tax and a package discount", () => {
+  it("applies condition and access multipliers before tax and a package discount", () => {
     const input = createDefaultPressureWashingInput();
     input.condition = "heavy";
     input.access = "difficult";
@@ -31,20 +31,37 @@ describe("pressure washing driveway quote calculation", () => {
     input.packageDiscount = 20;
     input.taxRate = 10;
     const result = calculatePressureWashingQuote(input);
-    expect(result.drivewayAmount).toBeCloseTo(200, 5);
-    expect(result.rateBasedSubtotal).toBeCloseTo(240, 5);
-    expect(result.discountedRateSubtotal).toBeCloseTo(220, 5);
-    expect(result.subtotal).toBeCloseTo(220, 5);
-    expect(result.tax).toBeCloseTo(22, 5);
-    expect(result.total).toBeCloseTo(242, 5);
+    expect(result.serviceMultiplier).toBeCloseTo(1.4375, 5);
+    expect(result.drivewayAmount).toBeCloseTo(287.5, 5);
+    expect(result.rateBasedSubtotal).toBeCloseTo(327.5, 5);
+    expect(result.discountedRateSubtotal).toBeCloseTo(307.5, 5);
+    expect(result.subtotal).toBeCloseTo(307.5, 5);
+    expect(result.tax).toBeCloseTo(30.75, 5);
+    expect(result.total).toBeCloseTo(338.25, 5);
   });
 
-  it("does not change the quote when only condition or access labels change", () => {
+  it("changes the quote when condition or access changes", () => {
     const input = createDefaultPressureWashingInput();
     const baseline = calculatePressureWashingQuote(input);
     input.condition = "light";
     input.access = "difficult";
     const labeled = calculatePressureWashingQuote(input);
-    expect(labeled.total).toBeCloseTo(baseline.total, 5);
+    expect(labeled.total).not.toBeCloseTo(baseline.total, 5);
+  });
+
+  it("converts area units without changing the physical quote", () => {
+    const input = createDefaultPressureWashingInput();
+    const metric = convertPressureWashingMeasurement(input, "sqm");
+    expect(metric.area).toBeCloseTo(74.3224, 3);
+    expect(metric.ratePerArea).toBeCloseTo(2.691, 3);
+    expect(calculatePressureWashingQuote(metric).total).toBeCloseTo(calculatePressureWashingQuote(input).total, 2);
+  });
+
+  it("converts currency and normalizes invalid numeric values", () => {
+    const yen = convertPressureWashingCurrency(createDefaultPressureWashingInput(), "USD", "JPY");
+    expect(yen.minimumFee).toBe(15000);
+    yen.area = -10;
+    expect(() => calculatePressureWashingQuote(yen)).not.toThrow();
+    expect(calculatePressureWashingQuote(yen).measuredArea).toBe(0);
   });
 });

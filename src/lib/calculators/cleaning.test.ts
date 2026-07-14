@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { calculateCleaningQuote, createDefaultCleaningInput } from "./cleaning";
+import { calculateCleaningQuote, convertCleaningMeasurement, createDefaultCleaningInput } from "./cleaning";
 
 describe("cleaning quote calculation", () => {
   it("matches the documented default fixture", () => {
@@ -54,5 +54,44 @@ describe("cleaning quote calculation", () => {
     const minimum = calculateCleaningQuote(input);
     expect(minimum.subtotal).toBe(120);
     expect(minimum.minimumFeeApplied).toBe(true);
+  });
+
+  it("localizes starter money values for zero-decimal currencies", () => {
+    const input = createDefaultCleaningInput("JPY", "sqm");
+    expect(input.laborCostPerHour).toBe(3600);
+    expect(input.overheadPerHour).toBe(1500);
+    expect(input.minimumFee).toBe(18000);
+    expect(input.measurementUnit).toBe("sqm");
+    expect(input.area).toBeCloseTo(167.23, 2);
+    expect(calculateCleaningQuote(input).total).toBeGreaterThan(30000);
+  });
+
+  it("converts area and production rate together without changing hours", () => {
+    const imperial = createDefaultCleaningInput();
+    const metric = convertCleaningMeasurement(imperial, "sqm");
+    expect(metric.area).toBeCloseTo(167.23, 2);
+    expect(metric.productionRate).toBeCloseTo(46.45, 2);
+    expect(calculateCleaningQuote(metric).baseCleanerHours).toBeCloseTo(calculateCleaningQuote(imperial).baseCleanerHours, 3);
+  });
+
+  it("uses property, bedroom, bathroom, and frequency inputs in area estimates", () => {
+    const base = createDefaultCleaningInput();
+    const baseline = calculateCleaningQuote(base).baseCleanerHours;
+    expect(calculateCleaningQuote({ ...base, propertyType: "apartment" }).baseCleanerHours).toBeLessThan(baseline);
+    expect(calculateCleaningQuote({ ...base, bedrooms: 4 }).baseCleanerHours).toBeGreaterThan(baseline);
+    expect(calculateCleaningQuote({ ...base, bathrooms: 3 }).baseCleanerHours).toBeGreaterThan(baseline);
+    expect(calculateCleaningQuote({ ...base, frequency: "weekly" }).baseCleanerHours).toBeLessThan(baseline);
+  });
+
+  it("normalizes invalid numeric input instead of throwing", () => {
+    const input = createDefaultCleaningInput();
+    input.laborCostPerHour = -1;
+    input.overheadPerHour = Number.NaN;
+    input.addOns.oven.minutes = -30;
+    const result = calculateCleaningQuote(input);
+    expect(result.input.laborCostPerHour).toBe(0);
+    expect(result.input.overheadPerHour).toBe(0);
+    expect(result.input.addOns.oven.minutes).toBe(0);
+    expect(result.total).toBeGreaterThanOrEqual(0);
   });
 });

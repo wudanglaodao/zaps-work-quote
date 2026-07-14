@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Box, BrushCleaning, DraftingCompass, Droplets, ScanLine } from "lucide-react";
+import { Box, BrushCleaning, DraftingCompass, Droplets, Paintbrush, ScanLine } from "lucide-react";
 import { notFound, permanentRedirect } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
 export function ToolsView({ locale }: { locale: Locale }) {
   const dictionary = getDictionary(locale);
-  const icons = [Box, ScanLine, BrushCleaning, DraftingCompass, Droplets];
+  const icons = [Box, ScanLine, BrushCleaning, Paintbrush, DraftingCompass, Droplets];
   return <section className="section page-section"><div className="shell"><p className="section-kicker">{dictionary.home.toolsKicker}</p><h1 className="page-title">{dictionary.home.toolsHeading}</h1><div className="tool-grid page-tool-grid">{tools.map((tool, index) => { const Icon = icons[index]; return tool.status === "live" ? <Link className="tool-card live-card" href={localizedPath(locale, `tools/${tool.slug}`)} key={tool.slug}><Icon aria-hidden="true" /><span className="status live">{dictionary.common.live}</span><h2>{tool.names[locale]}</h2><p>{tool.summaries[locale]}</p></Link> : <article className="tool-card disabled" key={tool.slug}><Icon aria-hidden="true" /><span className="status soon">{dictionary.common.soon}</span><h2>{tool.names[locale]}</h2><p>{tool.summaries[locale]}</p></article>; })}</div></div></section>;
 }
 

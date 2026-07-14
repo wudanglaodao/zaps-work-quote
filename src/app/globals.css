@@ -435,7 +435,8 @@ svg { flex: 0 0 auto; }
 .cleaning-addon.selected { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); background: color-mix(in srgb, var(--accent) 6%, var(--surface)); }
 .cleaning-addon .fields { margin-top: 12px; }
 .result-column { position: sticky; top: 80px; display: grid; gap: 16px; }
-.result-card { overflow: hidden; border-color: color-mix(in srgb, var(--green) 36%, var(--line)); box-shadow: var(--shadow); }
+.result-card { overflow: hidden; scroll-margin-top: 76px; border-color: color-mix(in srgb, var(--green) 36%, var(--line)); box-shadow: var(--shadow); }
+.mobile-quote-bar { display: none; }
 .result-label { margin: 0; padding: 24px 26px 0; display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 12px; font-weight: 680; }
 .result-label::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
 .result-value { display: block; padding: 10px 26px 24px; font-size: clamp(50px, 6vw, 72px); line-height: 1; font-weight: 710; font-variant-numeric: tabular-nums; }
@@ -678,6 +679,7 @@ svg { flex: 0 0 auto; }
   .tool-intro h1 { font-size: 21px; }
   .tool-intro p { display: none; }
   .calculator-grid { width: 100%; display: flex; flex-direction: column; }
+  .calculator-section { padding-bottom: 126px; }
   .calculator-panel, .result-column { width: 100%; }
   .calculator-panel { order: 1; }
   .result-column { order: 2; }
@@ -690,6 +692,11 @@ svg { flex: 0 0 auto; }
   .result-metrics p { padding: 14px 12px; }
   .result-metrics strong { font-size: 15px; }
   .result-actions { grid-template-columns: 1fr; padding: 16px 18px 20px; }
+  .mobile-quote-bar { position: fixed; z-index: 40; inset-inline: 12px; inset-block-end: 12px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 14px; border: 1px solid color-mix(in srgb, var(--green) 44%, var(--line)); border-radius: 12px; background: color-mix(in srgb, var(--surface) 94%, transparent); box-shadow: 0 14px 36px rgba(7, 16, 10, .18); backdrop-filter: blur(14px); }
+  .mobile-quote-bar span { min-width: 0; display: grid; gap: 2px; }
+  .mobile-quote-bar small { overflow: hidden; color: var(--muted); font-size: 10px; font-weight: 680; text-overflow: ellipsis; white-space: nowrap; }
+  .mobile-quote-bar strong { font-size: 22px; line-height: 1; font-variant-numeric: tabular-nums; }
+  .mobile-quote-bar a { min-height: 38px; flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; padding-inline: 15px; border-radius: 6px; background: var(--green); color: #fff; font-size: 12px; font-weight: 720; }
   .quote-preview-panel { padding: 12px; }
   .quote-document { min-height: 520px; padding: 18px; }
   .quote-head, .quote-parties { grid-template-columns: 1fr; gap: 16px; }
@@ -708,6 +715,7 @@ svg { flex: 0 0 auto; }
   @page { size: A4 portrait; margin: 0; }
   html, body { width: auto !important; min-width: 0 !important; min-height: 0 !important; background: #fff !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
   body > * { display: none !important; }
+  .mobile-quote-bar { display: none !important; }
   body > .print-document { width: 210mm !important; min-height: 297mm !important; display: flex !important; margin: 0 auto !important; padding: 18mm 16mm 16mm !important; color: #07100a !important; }
   .print-document .quote-head { grid-template-columns: minmax(0, 1fr) 72mm; gap: 14mm; }
   .print-document .quote-head h2 { font-size: 29pt; }

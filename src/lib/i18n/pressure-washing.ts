@@ -35,7 +35,7 @@ export type PressureWashingCopy = {
   addOnAmount: string;
   packageDiscount: string;
   targetMargin: string;
-  minimumFee?: string;
+  minimumFee: string;
   taxRate: string;
   quoteDetails: string;
   targetQuote: string;
@@ -84,22 +84,5 @@ const copies: Record<Locale, PressureWashingCopy> = {
 };
 
 export function getPressureWashingCopy(locale: Locale) {
-  const copy = { ...copies[locale] };
-  delete copy.minimumFee;
-  const replacements: Partial<Record<Locale, Array<[string, string]>>> = {
-    en: [[", minimum fee, ", ", "], [", and the minimum service fee", ""], ["the minimum service fee and tax", "tax"], ["minimum service fee", ""]],
-    "zh-hant": [["、最低費用", ""], ["與最低服務費。", "。"], ["套用最低服務費和稅額前", "套用稅額前"]],
-    de: [["Mindestgebühr, ", ""], [" und Mindestgebühr", ""], ["vor Mindestgebühr und Steuer", "vor Steuer"]],
-    ja: [["、最低料金、", "、"], ["、最低料金を", "を"], ["最低料金と税金を適用する前に", "税金を適用する前に"]],
-    es: [["tarifa mínima, ", ""], [" y tarifa mínima", ""], ["la tarifa mínima y los impuestos", "los impuestos"]],
-    fr: [["les frais minimum, ", ""], [" et les frais minimum", ""], ["les frais minimum et la taxe", "la taxe"]],
-    "pt-br": [["taxa mínima, ", ""], [" e taxa mínima", ""], ["a taxa mínima e do imposto", "o imposto"]],
-    ko: [["최소 요금, ", ""], ["과 최소 요금", ""], ["최소 요금과 세금을 적용하기 전에", "세금을 적용하기 전에"]],
-  };
-  const applyReplacements = (text: string) => (replacements[locale] ?? []).reduce((value, [from, to]) => value.replaceAll(from, to), text);
-  return {
-    ...copy,
-    methodologyBody: applyReplacements(copy.methodologyBody),
-    faq: copy.faq.map((entry) => ({ ...entry, answer: applyReplacements(entry.answer) })),
-  };
+  return copies[locale];
 }

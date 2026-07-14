@@ -3,6 +3,16 @@ import type { LocalizedGuideCopy } from "./types";
 
 type TranslatedLocale = Exclude<Locale, "en">;
 
+export const laserMaterialFormula: Record<TranslatedLocale, string> = {
+  "zh-hant": "材料成本 = 占用面積 × 基準面積單價 × 材料係數 × 厚度係數（厚度 ÷ 3 mm）×（1 + 損耗率）× 數量",
+  de: "Materialkosten = Fläche × Basis-Flächensatz × Materialfaktor × Dickenfaktor (Dicke ÷ 3 mm) × (1 + Ausschuss) × Menge",
+  ja: "材料費 = 占有面積 × 基準面積単価 × 材料係数 × 厚さ係数（厚さ ÷ 3 mm）×（1 + ロス率）× 数量",
+  es: "Coste de material = área × tarifa base × factor de material × factor de espesor (espesor ÷ 3 mm) × (1 + merma) × cantidad",
+  fr: "Coût matière = surface × tarif de base × facteur matière × facteur d’épaisseur (épaisseur ÷ 3 mm) × (1 + perte) × quantité",
+  "pt-br": "Custo do material = área × valor-base × fator do material × fator de espessura (espessura ÷ 3 mm) × (1 + perda) × quantidade",
+  ko: "재료비 = 면적 × 기준 면적 단가 × 재료 계수 × 두께 계수(두께 ÷ 3mm) × (1 + 폐기율) × 수량",
+};
+
 export const laserCuttingGuide: Record<TranslatedLocale, LocalizedGuideCopy> = {
   "zh-hant": {
     title: "雷射切割如何報價：材料、機器時間與毛利指南",

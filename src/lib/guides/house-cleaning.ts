@@ -50,3 +50,13 @@ export const houseCleaningGuide: Record<TranslatedLocale, LocalizedGuideCopy> = 
     sections: [{ id: "scope", title: "1. 청소 범위를 정의합니다", paragraphs: ["공간, 면적, 방, 욕실, 청소 유형, 주기와 상태를 기록합니다. 물건, 기름, 반려동물 털, 계단과 접근은 시간을 바꿉니다.", "오븐, 냉장고, 창문, 수납장, 세탁, 가구 이동의 포함 여부를 적습니다."] }, { id: "hours", title: "2. 작업 효율로 청소 인시를 계산합니다", paragraphs: ["완료 작업의 실제 효율을 사용하세요. 2명이 2시간 일하면 4인시입니다.", "대청소와 이사 청소는 조정 계수를 사용하거나 인시를 직접 입력합니다."], formula: "기본 인시 = 면적 ÷ 작업 효율 × 유형 계수 × 난이도" }, { id: "costs", title: "3. 모든 원가를 더합니다", paragraphs: ["인건비에 고용 부담을 포함하고 간접비로 보험, 소프트웨어, 관리, 장비, 차량과 비청구 시간을 회수합니다.", "용품, 이동, 주차와 추가 작업 시간을 더합니다."] }, { id: "pricing", title: "4. 마진, 최소 요금과 할인", paragraphs: ["원가를 1에서 목표 마진을 뺀 값으로 나눕니다. 최소 요금은 작은 작업을 보호하고 할인은 실제 절약을 반영해야 합니다."], formula: "목표 가격 = 작업 원가 ÷ (1 − 목표 마진)" }, { id: "example", title: "5. 계산 예시", paragraphs: ["1,800제곱피트를 시간당 500으로 청소하면 3.6인시이고 2명이면 현장 1.8시간입니다.", "인건비 86.40, 간접비 36, 용품 12, 이동 15로 원가는 149.40입니다. 마진 30%의 세전 가격은 213.43입니다."] }, { id: "quote", title: "6. 고객 견적서를 작성합니다", paragraphs: ["공간, 청소 유형, 주기, 포함 범위, 추가 서비스, 고객 준비, 제외, 총액, 세금, 유효기간과 작업 예정 시간을 적습니다."] }], checklistTitle: "청소 견적 체크리스트", checklist: ["공간, 면적, 유형, 주기와 상태 확인.", "자체 작업 효율 사용.", "총 인시와 현장 시간 구분.", "인건비, 간접비, 용품과 이동 추가.", "추가 서비스 계산.", "마진 공식 적용.", "최소 요금과 할인 후 마진 확인.", "범위와 유효기간 기록."],
   },
 };
+
+export const houseCleaningHoursFormula: Record<TranslatedLocale, string> = {
+  "zh-hant": "基礎人工時 = max（0.25，面積 ÷ 生產率 + 房間調整）× 房屋 × 清潔類型 × 難度 × 頻率係數",
+  de: "Stunden = max(0,25; Fläche ÷ Leistung + Raumanpassung) × Objekt × Art × Schwierigkeit × Häufigkeit",
+  ja: "基本人時 = max（0.25、面積 ÷ 作業効率 + 部屋調整）× 物件 × タイプ × 難易度 × 頻度係数",
+  es: "Horas = máx.(0,25; área ÷ productividad + ajuste de habitaciones) × propiedad × tipo × dificultad × frecuencia",
+  fr: "Heures = max(0,25 ; surface ÷ rendement + ajustement des pièces) × logement × type × difficulté × fréquence",
+  "pt-br": "Horas = máx.(0,25; área ÷ produtividade + ajuste de cômodos) × imóvel × tipo × dificuldade × frequência",
+  ko: "기본 인시 = max(0.25, 면적 ÷ 작업 효율 + 방 조정) × 공간 × 유형 × 난이도 × 주기 계수",
+};

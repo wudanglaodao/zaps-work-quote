@@ -3,8 +3,8 @@ import type { Locale } from "@/lib/i18n/config";
 import { localizedPath } from "@/lib/seo";
 import { pressureWashingGuide } from "@/lib/guides/pressure-washing";
 import { threeDPrintGuide } from "@/lib/guides/three-d-print";
-import { laserCuttingGuide } from "@/lib/guides/laser-cutting";
-import { houseCleaningGuide } from "@/lib/guides/house-cleaning";
+import { laserCuttingGuide, laserMaterialFormula } from "@/lib/guides/laser-cutting";
+import { houseCleaningGuide, houseCleaningHoursFormula } from "@/lib/guides/house-cleaning";
 import { guideUi } from "@/lib/guides/ui";
 
 type TranslatedLocale = Exclude<Locale, "en">;
@@ -41,13 +41,18 @@ export function LocalizedGuidePage({ locale, kind }: { locale: TranslatedLocale;
     >
       <p className="guide-lead">{copy.lead}</p>
       <div className="guide-callout"><strong>{copy.formulaLabel}</strong><code>{copy.formula}</code><p>{copy.formulaBody}</p></div>
-      {copy.sections.map((section) => (
-        <section key={section.id}>
+      {copy.sections.map((section) => {
+        const formula = kind === "house-cleaning" && section.id === "hours"
+          ? houseCleaningHoursFormula[locale]
+          : kind === "laser-cutting" && section.id === "material"
+            ? laserMaterialFormula[locale]
+            : section.formula;
+        return <section key={section.id}>
           <h2 id={section.id}>{section.title}</h2>
           {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-          {section.formula ? <pre><code>{section.formula}</code></pre> : null}
-        </section>
-      ))}
+          {formula ? <pre><code>{formula}</code></pre> : null}
+        </section>;
+      })}
       <h2>{copy.checklistTitle}</h2>
       <ul>{copy.checklist.map((item) => <li key={item}>{item}</li>)}</ul>
     </GuideArticle>

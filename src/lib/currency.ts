@@ -49,3 +49,21 @@ export const currencySymbols: Record<Currency, string> = {
   VND: "₫", ZAR: "R", TRY: "₺", AED: "د.إ", SAR: "﷼",
   CZK: "Kč", HUF: "Ft", ILS: "₪", RUB: "₽",
 };
+
+const currencyRates: Record<Currency, number> = {
+  USD: 1, EUR: 0.92, GBP: 0.78, JPY: 150, CNY: 7.2, HKD: 7.8, TWD: 32, KRW: 1380,
+  AUD: 1.5, CAD: 1.37, CHF: 0.9, SGD: 1.35, INR: 83, NZD: 1.65, SEK: 10.5, NOK: 10.7,
+  DKK: 6.9, PLN: 4, BRL: 5.5, MXN: 18, THB: 36, MYR: 4.7, IDR: 16000, PHP: 58,
+  VND: 25000, ZAR: 18, TRY: 33, AED: 3.67, SAR: 3.75, CZK: 23, HUF: 360, ILS: 3.7, RUB: 90,
+};
+
+const zeroDecimalCurrencies = new Set<Currency>(["JPY", "KRW", "IDR", "VND", "HUF"]);
+
+export function roundCurrencyAmount(value: number, currency: Currency) {
+  return zeroDecimalCurrencies.has(currency) ? Math.round(value) : Math.round(value * 100) / 100;
+}
+
+export function convertCurrencyAmount(value: number, from: Currency, to: Currency) {
+  if (from === to) return value;
+  return roundCurrencyAmount(value * currencyRates[to] / currencyRates[from], to);
+}
