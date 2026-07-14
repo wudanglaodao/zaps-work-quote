@@ -254,6 +254,12 @@ svg { flex: 0 0 auto; }
 .page-section { min-height: 70vh; }
 .page-title { max-width: 760px; margin: 0 0 42px; font-size: clamp(36px, 5vw, 54px); line-height: 1.08; letter-spacing: 0; }
 .page-tool-grid { grid-template-columns: repeat(3, 1fr); }
+.tool-catalog { display: grid; gap: 54px; }
+.tool-category { scroll-margin-top: 100px; }
+.tool-category-heading { display: flex; align-items: end; justify-content: space-between; gap: 28px; margin-bottom: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.tool-category-heading h2 { margin: 0; font-size: 25px; line-height: 1.2; }
+.tool-category-heading p { max-width: 650px; margin: 8px 0 0; color: var(--muted); font-size: 14px; line-height: 1.55; }
+.tool-category-heading > span { min-width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid color-mix(in srgb, var(--green) 40%, var(--line)); border-radius: 999px; background: var(--green-soft); color: var(--green-dark); font: 700 12px/1 var(--font-mono); }
 
 /* Guides */
 .guides-index-hero { padding-block: 92px 76px; border-bottom: 1px solid var(--line); background: var(--surface); }
@@ -676,6 +682,8 @@ svg { flex: 0 0 auto; }
   .split-heading, .seo-grid, .seo-detail-grid { grid-template-columns: 1fr; gap: 24px; }
   .section-heading h2 { font-size: 34px; }
   .tool-grid, .page-tool-grid { grid-template-columns: 1fr; }
+  .tool-catalog { gap: 42px; }
+  .tool-category-heading { align-items: flex-start; gap: 16px; }
   .tool-card { min-height: 210px; }
   .tool-intro { min-height: 66px; align-items: center; gap: 10px; padding-block: 14px; }
   .tool-intro .tool-icon { width: 36px; height: 36px; border-color: color-mix(in srgb, var(--green) 36%, var(--line)); background: var(--green-soft); }

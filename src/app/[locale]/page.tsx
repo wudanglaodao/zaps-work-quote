@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Box, BriefcaseBusiness, BrushCleaning, Cpu, Database, DraftingCompass, Droplets, FileDown, LockKeyhole, Paintbrush, ScanLine, ShieldCheck, Sprout } from "lucide-react";
+import { ArrowRight, Box, BriefcaseBusiness, BrushCleaning, Cpu, Database, DraftingCompass, Droplets, FileDown, LockKeyhole, Paintbrush, PanelsTopLeft, ScanLine, ShieldCheck, Sprout } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
 import { htmlLanguage, isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return buildMetadata({ locale: rawLocale, title: dictionary.home.title, description: dictionary.home.description });
 }
 
-const toolIcons = { "3d-print-cost-calculator": Box, "laser-cutting-cost-calculator": ScanLine, "cleaning-quote-generator": BrushCleaning, "house-painting-quote": Paintbrush, "pressure-washing-quote": Droplets, "freelance-job-quote": BriefcaseBusiness, "cnc-machining-cost-calculator": Cpu, "lawn-care-quote": Sprout } as const;
+const toolIcons = { "3d-print-cost-calculator": Box, "laser-cutting-cost-calculator": ScanLine, "cleaning-quote-generator": BrushCleaning, "house-painting-quote": Paintbrush, "pressure-washing-quote": Droplets, "freelance-job-quote": BriefcaseBusiness, "cnc-machining-cost-calculator": Cpu, "lawn-care-quote": Sprout, "window-cleaning-quote": PanelsTopLeft } as const;
 
 export function HomeView({ locale }: { locale: Locale }) {
   const dictionary = getDictionary(locale);
