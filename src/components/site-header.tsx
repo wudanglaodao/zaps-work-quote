@@ -10,9 +10,9 @@ import { currencies, currencyNames } from "@/lib/currency";
 import { localizedPath } from "@/lib/seo";
 import { usePreferences } from "./preferences-provider";
 
-const localeNames: Record<Locale, string> = { en: "English", "zh-hant": "繁體中文", de: "Deutsch", ja: "日本語", es: "Español", fr: "Français", "pt-br": "Português (Brasil)", ko: "한국어" };
-const skipLabels: Record<Locale, string> = { en: "Skip to content", "zh-hant": "跳至主要內容", de: "Zum Inhalt springen", ja: "本文へ移動", es: "Saltar al contenido", fr: "Aller au contenu", "pt-br": "Ir para o conteúdo", ko: "본문으로 건너뛰기" };
-const navigationLabels: Record<Locale, string> = { en: "Primary navigation", "zh-hant": "主要導覽", de: "Hauptnavigation", ja: "メインナビゲーション", es: "Navegación principal", fr: "Navigation principale", "pt-br": "Navegação principal", ko: "주 탐색" };
+const localeNames: Record<Locale, string> = { en: "English", "zh-hant": "繁體中文", "zh-hans": "简体中文", de: "Deutsch", ja: "日本語", es: "Español", fr: "Français", "pt-br": "Português (Brasil)", ko: "한국어" };
+const skipLabels: Record<Locale, string> = { en: "Skip to content", "zh-hant": "跳至主要內容", "zh-hans": "跳至主要内容", de: "Zum Inhalt springen", ja: "本文へ移動", es: "Saltar al contenido", fr: "Aller au contenu", "pt-br": "Ir para o conteúdo", ko: "본문으로 건너뛰기" };
+const navigationLabels: Record<Locale, string> = { en: "Primary navigation", "zh-hant": "主要導覽", "zh-hans": "主导航", de: "Hauptnavigation", ja: "メインナビゲーション", es: "Navegación principal", fr: "Navigation principale", "pt-br": "Navegação principal", ko: "주 탐색" };
 
 function Menu({
   label,

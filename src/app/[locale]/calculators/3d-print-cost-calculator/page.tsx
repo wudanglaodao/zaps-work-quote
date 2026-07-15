@@ -10,7 +10,7 @@ import { buildMetadata, localizedPath } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 
 const path = "calculators/3d-print-cost-calculator";
-const guideLinkLabels = { en: "Read the complete 3D printing pricing guide →", "zh-hant": "閱讀完整 3D 列印定價指南 →", de: "Vollständigen Leitfaden zur 3D-Druck-Kalkulation lesen →", ja: "3Dプリント価格設定ガイドを読む →", es: "Leer la guía completa de precios de impresión 3D →", fr: "Lire le guide complet de tarification 3D →", "pt-br": "Ler o guia completo de precificação 3D →", ko: "3D 프린팅 가격 책정 가이드 읽기 →" } as const;
+const guideLinkLabels = { en: "Read the complete 3D printing pricing guide →", "zh-hant": "閱讀完整 3D 列印定價指南 →", "zh-hans": "阅读完整 3D 打印定价指南 →", de: "Vollständigen Leitfaden zur 3D-Druck-Kalkulation lesen →", ja: "3Dプリント価格設定ガイドを読む →", es: "Leer la guía completa de precios de impresión 3D →", fr: "Lire le guide complet de tarification 3D →", "pt-br": "Ler o guia completo de precificação 3D →", ko: "3D 프린팅 가격 책정 가이드 읽기 →" } as const;
 const searchContent = {
   en: [
     { heading: "How to calculate 3D printing cost per hour", body: "Start with the printer's hourly machine rate: purchase cost, expected maintenance, replacement parts, and realistic billable life. Multiply that rate by print time, then add electricity for the same hours. This gives the time-based production cost, not the complete selling price." },
@@ -42,7 +42,7 @@ export function ThreeDPrintView({ locale }: { locale: Locale }) {
       applicationCategory: "BusinessApplication",
       operatingSystem: "Any",
       browserRequirements: "Requires JavaScript",
-      offers: { "@type": "Offer", price: "0", priceCurrency: ({ en: "USD", "zh-hant": "TWD", de: "EUR", ja: "JPY", es: "EUR", fr: "EUR", "pt-br": "BRL", ko: "KRW" } as const)[locale] },
+      offers: { "@type": "Offer", price: "0", priceCurrency: ({ en: "USD", "zh-hant": "TWD", "zh-hans": "CNY", de: "EUR", ja: "JPY", es: "EUR", fr: "EUR", "pt-br": "BRL", ko: "KRW" } as const)[locale] },
       inLanguage: htmlLanguage(locale),
     },
     {

@@ -1,4 +1,5 @@
 import type { Locale } from "./config";
+import { withSimplifiedChinese } from "./simplified-chinese";
 
 export type CleaningCopy = {
   title: string; description: string; heading: string; intro: string;
@@ -11,7 +12,7 @@ export type CleaningCopy = {
   methodologyTitle: string; methodologyBody: string; privacyNote: string; faqTitle: string; guideLink: string; faq: Array<{ question: string; answer: string }>;
 };
 
-const copies: Record<Locale, CleaningCopy> = {
+const baseCopies: Record<Exclude<Locale, "zh-hans">, CleaningCopy> = {
   en: {
     title: "Cleaning Quote Generator & House Cleaning Estimate Calculator | zaps.work", description: "Estimate cleaner-hours, labor, overhead, supplies, travel, add-ons, minimum fees, and margin for a house cleaning quote.", heading: "Cleaning Quote Generator", intro: "Estimate total cleaner-hours, add real job costs, and create a customer-ready flat cleaning quote.",
     jobDetails: "Property & scope", propertyType: "Property type", house: "House", apartment: "Apartment", condo: "Condo", area: "Cleanable area", measurementUnit: "Area unit", squareFeet: "sq ft", squareMeters: "sq m", bedrooms: "Bedrooms", bathrooms: "Bathrooms",
@@ -83,5 +84,7 @@ const copies: Record<Locale, CleaningCopy> = {
     methodologyTitle: "청소 견적 계산 방식", methodologyBody: "면적, 공간 유형, 방 수, 청소 유형, 주기와 난이도로 청소 인시를 계산하거나 직접 입력한 뒤 인건비, 간접비, 용품, 이동, 추가 서비스, 마진, 할인, 최소 요금과 세금을 반영합니다.", privacyNote: "고객 이름, 주소와 연락처는 브라우저에만 남습니다.", faqTitle: "청소 견적 질문", guideLink: "가정 청소 가격 가이드 읽기 →", faq: [{ question: "청소 인시는 어떻게 계산하나요?", answer: "면적을 실제 작업 효율로 나누고 청소 유형과 난이도로 조정합니다." }, { question: "청소 인시란 무엇인가요?", answer: "한 사람이 한 시간 일하면 1인시입니다. 두 사람이 두 시간 일하면 4인시입니다." }, { question: "시간제와 고정 가격 중 무엇이 좋나요?", answer: "내부에서는 인시와 비용으로 계산하고 범위가 명확하면 고객에게 고정 가격을 제시합니다." }, { question: "정기 할인은 어떻게 적용하나요?", answer: "재방문이 실제 시간이나 비용을 줄이는 경우에만 할인하고 최종 마진을 확인하세요." }],
   },
 };
+
+const copies: Record<Locale, CleaningCopy> = withSimplifiedChinese(baseCopies);
 
 export function getCleaningCopy(locale: Locale) { return copies[locale]; }

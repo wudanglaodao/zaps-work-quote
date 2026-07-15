@@ -1,16 +1,21 @@
-import type { Locale } from "@/lib/i18n/config";
+import type { Locale } from "../i18n/config";
+import { withSimplifiedChinese } from "../i18n/simplified-chinese";
 
 export type ToolCategoryId = "fabrication" | "local-services" | "professional-services";
 export type ToolStatus = "live" | "soon";
-export type ToolDefinition = { slug: string; status: ToolStatus; category: ToolCategoryId; names: Record<Locale, string>; summaries: Record<Locale, string> };
+type BaseLocalizedString = Record<Exclude<Locale, "zh-hans">, string>;
+export type LocalizedString = Record<Locale, string>;
+export type ToolDefinition = { slug: string; status: ToolStatus; category: ToolCategoryId; names: LocalizedString; summaries: LocalizedString };
 
-export const toolCategories: Array<{ id: ToolCategoryId; order: number; names: Record<Locale, string>; descriptions: Record<Locale, string> }> = [
+const localize = (copy: BaseLocalizedString): LocalizedString => withSimplifiedChinese(copy);
+
+const baseToolCategories: Array<{ id: ToolCategoryId; order: number; names: BaseLocalizedString; descriptions: BaseLocalizedString }> = [
   { id: "fabrication", order: 10, names: { en: "Fabrication & manufacturing", "zh-hant": "製造與加工", de: "Fertigung & Produktion", ja: "製造・加工", es: "Fabricación y producción", fr: "Fabrication et production", "pt-br": "Fabricação e produção", ko: "제조 및 가공" }, descriptions: { en: "Price materials, machine time, labor, setup, waste, and batch work.", "zh-hant": "計算材料、機時、人工、設定、損耗與批量工作。", de: "Material, Maschinenzeit, Arbeit, Rüsten, Ausschuss und Serien kalkulieren.", ja: "材料、機械時間、人件費、段取り、ロス、ロットを見積もります。", es: "Calcula materiales, máquina, mano de obra, preparación, merma y lotes.", fr: "Chiffrez matière, temps machine, main-d’œuvre, réglage, pertes et séries.", "pt-br": "Calcule material, tempo de máquina, mão de obra, preparação, perdas e lotes.", ko: "재료, 장비 시간, 인건비, 설정, 손실 및 배치 작업을 계산합니다." } },
   { id: "local-services", order: 20, names: { en: "Local services & home maintenance", "zh-hant": "本地服務與房屋維護", de: "Lokale Dienste & Hauswartung", ja: "地域サービス・住宅メンテナンス", es: "Servicios locales y mantenimiento del hogar", fr: "Services locaux et entretien de la maison", "pt-br": "Serviços locais e manutenção residencial", ko: "지역 서비스 및 주택 관리" }, descriptions: { en: "Build clear quotes for on-site work, crews, travel, equipment, and service scope.", "zh-hant": "為到府作業、團隊、交通、設備與服務範圍建立清楚報價。", de: "Klare Angebote für Einsätze vor Ort, Teams, Anfahrt, Geräte und Leistungsumfang.", ja: "現場作業、チーム、出張、機材、サービス範囲の明確な見積もりを作成します。", es: "Crea presupuestos claros para trabajo en sitio, equipos, viajes, equipo y alcance.", fr: "Créez des devis clairs pour les interventions, équipes, déplacements, matériel et périmètre.", "pt-br": "Crie orçamentos claros para trabalho no local, equipes, deslocamento, equipamentos e escopo.", ko: "현장 작업, 작업팀, 이동, 장비 및 서비스 범위에 대한 명확한 견적을 만듭니다." } },
   { id: "professional-services", order: 30, names: { en: "Freelance & professional services", "zh-hant": "自由工作與專業服務", de: "Freelance & professionelle Dienste", ja: "フリーランス・専門サービス", es: "Servicios freelance y profesionales", fr: "Services freelance et professionnels", "pt-br": "Serviços freelancer e profissionais", ko: "프리랜서 및 전문 서비스" }, descriptions: { en: "Protect project margins across scope, revisions, rush work, and fixed costs.", "zh-hant": "在工作範圍、修改、急件與固定成本中守住專案毛利。", de: "Projektmargen bei Umfang, Korrekturen, Eilaufträgen und Fixkosten schützen.", ja: "作業範囲、修正、特急対応、固定費を含めて案件の利益率を守ります。", es: "Protege el margen del proyecto con alcance, revisiones, urgencia y costes fijos.", fr: "Protégez la marge du projet avec périmètre, révisions, urgence et coûts fixes.", "pt-br": "Proteja a margem do projeto com escopo, revisões, urgência e custos fixos.", ko: "작업 범위, 수정, 긴급 작업 및 고정 비용 전반에서 프로젝트 마진을 지킵니다." } },
 ];
 
-export const tools: ToolDefinition[] = [
+const baseTools: Array<Omit<ToolDefinition, "names" | "summaries"> & { names: BaseLocalizedString; summaries: BaseLocalizedString }> = [
   {
     slug: "3d-print-cost-calculator",
     status: "live" as const,
@@ -84,6 +89,18 @@ export const tools: ToolDefinition[] = [
     summaries: { en: "Window types, access, screens, tracks, crew time, travel, and margin.", "zh-hant": "窗型、作業高度、紗窗、軌道、團隊工時、交通與毛利。", de: "Fenstertypen, Zugang, Fliegengitter, Schienen, Teamzeit, Anfahrt und Marge.", ja: "窓の種類、作業高さ、網戸、レール、チーム時間、出張費、利益率。", es: "Tipos de ventana, acceso, mosquiteros, rieles, tiempo de equipo, viaje y margen.", fr: "Types de vitres, accès, moustiquaires, rails, temps d’équipe, déplacement et marge.", "pt-br": "Tipos de janela, acesso, telas, trilhos, tempo da equipe, deslocamento e margem.", ko: "창문 유형, 작업 접근성, 방충망, 레일, 작업 시간, 이동과 마진." },
   },
 ];
+
+export const toolCategories: Array<{ id: ToolCategoryId; order: number; names: LocalizedString; descriptions: LocalizedString }> = baseToolCategories.map((category) => ({
+  ...category,
+  names: localize(category.names),
+  descriptions: localize(category.descriptions),
+}));
+
+export const tools: ToolDefinition[] = baseTools.map((tool) => ({
+  ...tool,
+  names: localize(tool.names),
+  summaries: localize(tool.summaries),
+}));
 
 export function getToolsByCategory(category: ToolCategoryId) {
   return tools.filter((tool) => tool.category === category);

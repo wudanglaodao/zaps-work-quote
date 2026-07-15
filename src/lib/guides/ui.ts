@@ -1,7 +1,8 @@
 import type { Locale } from "@/lib/i18n/config";
+import { withSimplifiedChinese } from "@/lib/i18n/simplified-chinese";
 import type { GuidesIndexCopy, GuideUiCopy } from "./types";
 
-export const guideUi: Record<Locale, GuideUiCopy> = {
+const baseGuideUi: Record<Exclude<Locale, "zh-hans">, GuideUiCopy> = {
   en: { home: "Home", guides: "Guides", guide: "Guide", category: "Pricing & quoting", updated: "Updated", by: "By zaps.work", onThisPage: "On this page", toolTitle: "Put the formula to work", toolDescription: "Use your own costs and target margin to build a quote in the free calculator.", freeNoSignup: "Free · No sign-up", commonQuestions: "Common questions", faqTitle: "Frequently asked questions", finalKicker: "Build your quote", finalTitle: "Use your numbers, not a generic market average." },
   "zh-hant": { home: "首頁", guides: "指南", guide: "指南", category: "成本與報價", updated: "更新", by: "zaps.work 編寫", onThisPage: "本頁內容", toolTitle: "把公式用在真實工作上", toolDescription: "在免費計算器中輸入自己的成本與目標毛利，建立可用的報價。", freeNoSignup: "免費 · 無須註冊", commonQuestions: "常見問題", faqTitle: "常見問題解答", finalKicker: "建立你的報價", finalTitle: "使用自己的數據，不依賴籠統的市場均價。" },
   de: { home: "Startseite", guides: "Leitfäden", guide: "Leitfaden", category: "Kalkulation & Angebote", updated: "Aktualisiert", by: "Von zaps.work", onThisPage: "Auf dieser Seite", toolTitle: "Formel direkt anwenden", toolDescription: "Nutze deine eigenen Kosten und deine Zielmarge im kostenlosen Rechner.", freeNoSignup: "Kostenlos · Ohne Anmeldung", commonQuestions: "Häufige Fragen", faqTitle: "Häufig gestellte Fragen", finalKicker: "Angebot erstellen", finalTitle: "Nutze deine eigenen Zahlen statt eines pauschalen Marktpreises." },
@@ -12,7 +13,7 @@ export const guideUi: Record<Locale, GuideUiCopy> = {
   ko: { home: "홈", guides: "가이드", guide: "가이드", category: "원가 및 견적", updated: "업데이트", by: "zaps.work 작성", onThisPage: "목차", toolTitle: "계산식을 바로 적용하세요", toolDescription: "무료 계산기에 실제 비용과 목표 마진을 입력해 견적을 만드세요.", freeNoSignup: "무료 · 가입 불필요", commonQuestions: "자주 묻는 질문", faqTitle: "자주 묻는 질문과 답변", finalKicker: "견적 만들기", finalTitle: "일반적인 시세가 아니라 자신의 수치로 가격을 정하세요." },
 };
 
-export const guidesIndexCopy: Record<Locale, GuidesIndexCopy> = {
+const baseGuidesIndexCopy: Record<Exclude<Locale, "zh-hans">, GuidesIndexCopy> = {
   en: { metadataTitle: "Pricing & Quote Guides for Small Businesses | zaps.work", metadataDescription: "Practical guides to job costing, profit margins, and customer-ready quotes for fabrication and local service work.", kicker: "Guides", heading: "Price real work with confidence.", intro: "Practical formulas and worked examples for turning job costs into clear, profitable customer quotes.", listKicker: "Start here", listHeading: "Pricing guides", listIntro: "Each guide explains the method, then links to a free calculator where you can use your own rates.", readGuide: "Read guide", cards: [
     { category: "3D printing", title: "How to Price 3D Prints", description: "Turn filament, machine time, labor, failure risk, and target margin into a defensible customer quote.", time: "10 min read" },
     { category: "Pressure washing", title: "How to Price Pressure Washing Jobs", description: "Estimate surface work, operating costs, crew time, minimum charges, and profit without guessing.", time: "9 min read" },
@@ -62,3 +63,6 @@ export const guidesIndexCopy: Record<Locale, GuidesIndexCopy> = {
     { category: "가정 청소", title: "가정 청소 작업 견적 방법", description: "청소 인시, 원가, 추가 서비스, 최소 요금, 정기 할인과 마진을 계산합니다.", time: "읽는 시간 9분" },
   ] },
 };
+
+export const guideUi: Record<Locale, GuideUiCopy> = withSimplifiedChinese(baseGuideUi);
+export const guidesIndexCopy: Record<Locale, GuidesIndexCopy> = withSimplifiedChinese(baseGuidesIndexCopy);

@@ -39,7 +39,7 @@ export type SimpleQuoteConfig = {
   changeInput?: (input: QuoteInput, key: string, value: InputValue) => QuoteInput;
 };
 
-const localeCodes: Record<Locale, string> = { en: "en-US", "zh-hant": "zh-TW", de: "de-DE", ja: "ja-JP", es: "es-ES", fr: "fr-FR", "pt-br": "pt-BR", ko: "ko-KR" };
+const localeCodes: Record<Locale, string> = { en: "en-US", "zh-hant": "zh-TW", "zh-hans": "zh-CN", de: "de-DE", ja: "ja-JP", es: "es-ES", fr: "fr-FR", "pt-br": "pt-BR", ko: "ko-KR" };
 const emptyDetails: QuoteDetails = { companyName: "", companyDetails: "", customerName: "", customerDetails: "", quoteNumber: "", validDays: "" };
 
 function NumberField({ field, value, input, currency, onChange }: { field: SimpleQuoteField; value: number; input: QuoteInput; currency: Currency; onChange: (value: number) => void }) {

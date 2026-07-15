@@ -12,7 +12,7 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 import { getHousePaintingCopy } from "@/lib/i18n/house-painting";
 import { createBasicQuoteCsv } from "@/lib/quotes/basic-csv";
 
-const localeCodes: Record<Locale, string> = { en: "en-US", "zh-hant": "zh-TW", de: "de-DE", ja: "ja-JP", es: "es-ES", fr: "fr-FR", "pt-br": "pt-BR", ko: "ko-KR" };
+const localeCodes: Record<Locale, string> = { en: "en-US", "zh-hant": "zh-TW", "zh-hans": "zh-CN", de: "de-DE", ja: "ja-JP", es: "es-ES", fr: "fr-FR", "pt-br": "pt-BR", ko: "ko-KR" };
 
 function NumberField({ label, value, onChange, suffix, min = 0, max, step = "any" }: { label: string; value: number; onChange: (value: number) => void; suffix?: string; min?: number; max?: number; step?: number | "any" }) {
   const commit = (next: number) => { if (Number.isFinite(next)) onChange(Math.min(max ?? Number.POSITIVE_INFINITY, Math.max(min, next))); };

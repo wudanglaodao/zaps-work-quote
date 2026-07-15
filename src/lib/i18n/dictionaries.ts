@@ -1,4 +1,5 @@
 import type { Locale } from "./config";
+import { toSimplifiedChinese } from "./simplified-chinese";
 
 export type Dictionary = {
   common: {
@@ -453,7 +454,15 @@ const ko: Dictionary = {
   },
 };
 
-const dictionaries: Record<Locale, Dictionary> = { en, "zh-hant": zhHant, de, ja, es, fr, "pt-br": ptBr, ko };
+const zhHans: Dictionary = {
+  ...toSimplifiedChinese(zhHant),
+  common: { ...toSimplifiedChinese(zhHant.common), tools: "工具", allTools: "所有工具", language: "语言", currency: "货币", searchLanguage: "搜索语言", noLanguageResults: "未找到匹配的语言", searchCurrency: "搜索货币", noCurrencyResults: "未找到匹配的货币", darkMode: "切换至深色模式", lightMode: "切换至浅色模式", live: "已上线", soon: "即将推出" },
+  home: { ...toSimplifiedChinese(zhHant.home), title: "免费成本计算器与报价工具 | zaps.work", description: "使用 zaps.work 免费计算工作成本、检查利润，并导出可直接交付客户的报价单。", heading: "算清成本，再发出报价。", subheading: "掌握工作真实成本、守住利润，发出清晰的报价。", secondaryCta: "浏览工具", toolsKicker: "工具库", toolsHeading: "先处理眼前的工作。", privacyKicker: "隐私设计", privacyHeading: "客户数据始终属于你。" },
+  tool: { ...toSimplifiedChinese(zhHant.tool), title: "3D 打印成本计算器与报价工具 | zaps.work", heading: "3D 打印成本计算器", intro: "用材料、机器时间、人工、失败风险与目标利润，完成 FDM 打印定价并导出 PDF 或 CSV。", methodologyTitle: "计算器包含哪些成本", faqTitle: "3D 打印成本常见问题" },
+  calculator: toSimplifiedChinese(zhHant.calculator),
+};
+
+const dictionaries: Record<Locale, Dictionary> = { en, "zh-hant": zhHant, "zh-hans": zhHans, de, ja, es, fr, "pt-br": ptBr, ko };
 
 export function getDictionary(locale: Locale) {
   return dictionaries[locale];

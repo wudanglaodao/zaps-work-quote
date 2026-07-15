@@ -1,9 +1,10 @@
 import type { Locale } from "@/lib/i18n/config";
 import type { LocalizedGuideCopy } from "./types";
+import { withSimplifiedChinese } from "@/lib/i18n/simplified-chinese";
 
 type TranslatedLocale = Exclude<Locale, "en">;
 
-export const houseCleaningGuide: Record<TranslatedLocale, LocalizedGuideCopy> = {
+const baseHouseCleaningGuide: Record<Exclude<TranslatedLocale, "zh-hans">, LocalizedGuideCopy> = {
   "zh-hant": {
     title: "居家清潔如何報價：人工時、成本與毛利指南", description: "依房屋面積、清潔類型、人工時、耗材、交通、附加服務、最低收費與毛利建立清潔報價。", readingTime: "閱讀約 9 分鐘", toolLabel: "開啟清潔報價工具",
     toc: [{ id: "scope", label: "定義範圍" }, { id: "hours", label: "估算人工時" }, { id: "costs", label: "加入成本" }, { id: "pricing", label: "設定價格" }, { id: "example", label: "計算實例" }, { id: "quote", label: "寫入報價" }],
@@ -51,7 +52,9 @@ export const houseCleaningGuide: Record<TranslatedLocale, LocalizedGuideCopy> = 
   },
 };
 
-export const houseCleaningHoursFormula: Record<TranslatedLocale, string> = {
+export const houseCleaningGuide: Record<TranslatedLocale, LocalizedGuideCopy> = withSimplifiedChinese(baseHouseCleaningGuide);
+
+const baseHouseCleaningHoursFormula: Record<Exclude<TranslatedLocale, "zh-hans">, string> = {
   "zh-hant": "基礎人工時 = max（0.25，面積 ÷ 生產率 + 房間調整）× 房屋 × 清潔類型 × 難度 × 頻率係數",
   de: "Stunden = max(0,25; Fläche ÷ Leistung + Raumanpassung) × Objekt × Art × Schwierigkeit × Häufigkeit",
   ja: "基本人時 = max（0.25、面積 ÷ 作業効率 + 部屋調整）× 物件 × タイプ × 難易度 × 頻度係数",
@@ -60,3 +63,5 @@ export const houseCleaningHoursFormula: Record<TranslatedLocale, string> = {
   "pt-br": "Horas = máx.(0,25; área ÷ produtividade + ajuste de cômodos) × imóvel × tipo × dificuldade × frequência",
   ko: "기본 인시 = max(0.25, 면적 ÷ 작업 효율 + 방 조정) × 공간 × 유형 × 난이도 × 주기 계수",
 };
+
+export const houseCleaningHoursFormula: Record<TranslatedLocale, string> = withSimplifiedChinese(baseHouseCleaningHoursFormula);

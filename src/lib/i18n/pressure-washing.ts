@@ -1,4 +1,5 @@
 import type { Locale } from "./config";
+import { withSimplifiedChinese } from "./simplified-chinese";
 
 export type PressureWashingCopy = {
   title: string;
@@ -56,7 +57,7 @@ export type PressureWashingCopy = {
   faq: Array<{ question: string; answer: string }>;
 };
 
-const copies: Record<Locale, PressureWashingCopy> = {
+const baseCopies: Record<Exclude<Locale, "zh-hans">, PressureWashingCopy> = {
   en: {
     title: "Pressure Washing Quote Calculator | zaps.work", description: "Estimate driveway pressure washing costs, protect your margin, and export a customer-ready quote.", heading: "Pressure Washing Quote", intro: "Price a driveway cleaning job with area, condition, crew time, operating costs, and a ready-to-send quote.", serviceDetails: "Driveway details", drivewayArea: "Driveway size", measurementMode: "Measure by", areaMode: "Area", dimensionsMode: "Length × width", area: "Area", length: "Length", width: "Width", squareFeet: "sq ft", squareMeters: "sq m", ratePerArea: "Surface rate", condition: "Surface condition", light: "Light", standard: "Standard", heavy: "Heavy", access: "Site access", normalAccess: "Normal", difficultAccess: "Difficult", sharedCosts: "Crew & operating costs", crewSize: "Crew size", crewHours: "Crew hours", laborRate: "Labor rate", chemicals: "Chemicals", equipment: "Equipment", travel: "Travel", other: "Other cost", pricing: "Pricing", addOnAmount: "Add-ons", packageDiscount: "Package discount", targetMargin: "Target margin", minimumFee: "Minimum service fee", taxRate: "Tax", quoteDetails: "Quote details", targetQuote: "Target quote", measuredArea: "Measured area", directCost: "Direct cost", profit: "Profit", margin: "Margin", surfaceRate: "Surface service", labor: "Crew labor", operatingCosts: "Operating costs", pricingFloor: "Pricing floor", conditionNote: "Condition", accessNote: "Access", methodologyTitle: "What this estimate includes", methodologyBody: "The estimate combines the measured driveway area, surface condition, access difficulty, crew time, labor, chemicals, equipment, travel, add-ons, discounts, minimum fee, margin, and tax.", privacyNote: "Customer names and contact details stay in your browser and are not stored in our database.", faqTitle: "Pressure washing quote questions", faq: [{ question: "How is the driveway quote calculated?", answer: "The calculator applies a surface rate to the measured area, adjusts for condition and access, then checks labor, operating costs, margin, and the minimum service fee." }, { question: "Can I use square meters instead of square feet?", answer: "Yes. Choose square feet or square meters and enter the rate in the same unit." }, { question: "Can I quote add-on services?", answer: "Yes. Add-ons and package discounts are included before the minimum service fee and tax are applied." }],
   },
@@ -82,6 +83,8 @@ const copies: Record<Locale, PressureWashingCopy> = {
     title: "고압 세척 견적 계산기 | zaps.work", description: "진입로 고압 세척 비용을 계산하고 마진을 보호하며 견적서를 내보내세요.", heading: "고압 세척 견적", intro: "면적, 상태, 작업 시간과 운영 비용을 입력해 진입로 세척 견적을 만드세요.", serviceDetails: "진입로 정보", drivewayArea: "진입로 크기", measurementMode: "측정 방식", areaMode: "면적", dimensionsMode: "길이 × 너비", area: "면적", length: "길이", width: "너비", squareFeet: "제곱피트", squareMeters: "제곱미터", ratePerArea: "면적 단가", condition: "표면 상태", light: "가벼움", standard: "표준", heavy: "심함", access: "현장 접근", normalAccess: "보통", difficultAccess: "어려움", sharedCosts: "인력 및 운영 비용", crewSize: "팀 규모", crewHours: "팀 작업 시간", laborRate: "인건비 단가", chemicals: "세척제", equipment: "장비", travel: "이동 비용", other: "기타 비용", pricing: "가격 설정", addOnAmount: "추가 서비스", packageDiscount: "패키지 할인", targetMargin: "목표 마진", minimumFee: "최소 방문 요금", taxRate: "세금", quoteDetails: "견적 정보", targetQuote: "목표 견적", measuredArea: "측정 면적", directCost: "직접 비용", profit: "이익", margin: "마진", surfaceRate: "표면 서비스", labor: "팀 인건비", operatingCosts: "운영 비용", pricingFloor: "가격 하한", conditionNote: "상태", accessNote: "접근", methodologyTitle: "견적에 포함되는 항목", methodologyBody: "면적, 표면 상태, 접근성, 작업 시간, 인건비, 세척제, 장비, 이동, 추가 서비스, 할인, 최소 요금, 마진과 세금을 함께 계산합니다.", privacyNote: "고객 이름과 연락처는 브라우저에 남으며 데이터베이스에 저장되지 않습니다.", faqTitle: "고압 세척 견적 질문", faq: [{ question: "견적은 어떻게 계산되나요?", answer: "면적 단가를 면적에 적용하고 상태와 접근성에 따라 조정한 뒤 인건비, 운영 비용, 마진과 최소 요금을 확인합니다." }, { question: "제곱미터를 사용할 수 있나요?", answer: "네. 제곱피트 또는 제곱미터를 선택하고 같은 단위로 단가를 입력하세요." }, { question: "추가 서비스를 넣을 수 있나요?", answer: "네. 최소 요금과 세금을 적용하기 전에 추가 서비스와 할인을 반영할 수 있습니다." }],
   },
 };
+
+const copies: Record<Locale, PressureWashingCopy> = withSimplifiedChinese(baseCopies);
 
 export function getPressureWashingCopy(locale: Locale) {
   return copies[locale];

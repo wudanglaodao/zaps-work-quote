@@ -1,9 +1,10 @@
 import type { Locale } from "@/lib/i18n/config";
 import type { LocalizedGuideCopy } from "./types";
+import { withSimplifiedChinese } from "@/lib/i18n/simplified-chinese";
 
 type TranslatedLocale = Exclude<Locale, "en">;
 
-export const threeDPrintGuide: Record<TranslatedLocale, LocalizedGuideCopy> = {
+const baseThreeDPrintGuide: Record<Exclude<TranslatedLocale, "zh-hans">, LocalizedGuideCopy> = {
   "zh-hant": {
     title: "3D 列印如何定價：成本、毛利與報價公式",
     description: "用耗材、機器時間、人工、失敗風險、營運費用與目標毛利，計算 FDM 3D 列印價格。",
@@ -173,3 +174,5 @@ export const threeDPrintGuide: Record<TranslatedLocale, LocalizedGuideCopy> = {
     checklist: ["슬라이서의 재료와 시간 예상값 사용.", "서포트, 폐기와 소모품 포함.", "장비 점유와 실제 작업 시간 계산.", "정상 실패 비용 배분.", "포장과 작업별 구매품 추가.", "올바른 마진 공식 적용.", "최소 주문액과 비교.", "범위, 가정, 납기와 견적 유효기간 기록."],
   },
 };
+
+export const threeDPrintGuide: Record<TranslatedLocale, LocalizedGuideCopy> = withSimplifiedChinese(baseThreeDPrintGuide);

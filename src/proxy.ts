@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const localizedToolsPath = /^\/(en|zh-hant|de|ja|es|fr|pt-br|ko)\/tools(?:(\/.*))?$/;
+const localizedToolsPath = /^\/(en|zh-hant|zh-hans|de|ja|es|fr|pt-br|ko)\/tools(?:(\/.*))?$/;
 
 function calculatorPath(pathname: string) {
   if (pathname === "/tools-sitemap.xml") return "/calculators-sitemap.xml";
@@ -23,5 +23,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/tools/:path*", "/en/tools/:path*", "/zh-hant/tools/:path*", "/de/tools/:path*", "/ja/tools/:path*", "/es/tools/:path*", "/fr/tools/:path*", "/pt-br/tools/:path*", "/ko/tools/:path*", "/tools-sitemap.xml"],
+  matcher: ["/tools/:path*", "/en/tools/:path*", "/zh-hant/tools/:path*", "/zh-hans/tools/:path*", "/de/tools/:path*", "/ja/tools/:path*", "/es/tools/:path*", "/fr/tools/:path*", "/pt-br/tools/:path*", "/ko/tools/:path*", "/tools-sitemap.xml"],
 };

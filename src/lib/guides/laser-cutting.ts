@@ -1,9 +1,10 @@
 import type { Locale } from "@/lib/i18n/config";
 import type { LocalizedGuideCopy } from "./types";
+import { withSimplifiedChinese } from "@/lib/i18n/simplified-chinese";
 
 type TranslatedLocale = Exclude<Locale, "en">;
 
-export const laserMaterialFormula: Record<TranslatedLocale, string> = {
+const baseLaserMaterialFormula: Record<Exclude<TranslatedLocale, "zh-hans">, string> = {
   "zh-hant": "材料成本 = 占用面積 × 基準面積單價 × 材料係數 × 厚度係數（厚度 ÷ 3 mm）×（1 + 損耗率）× 數量",
   de: "Materialkosten = Fläche × Basis-Flächensatz × Materialfaktor × Dickenfaktor (Dicke ÷ 3 mm) × (1 + Ausschuss) × Menge",
   ja: "材料費 = 占有面積 × 基準面積単価 × 材料係数 × 厚さ係数（厚さ ÷ 3 mm）×（1 + ロス率）× 数量",
@@ -13,7 +14,9 @@ export const laserMaterialFormula: Record<TranslatedLocale, string> = {
   ko: "재료비 = 면적 × 기준 면적 단가 × 재료 계수 × 두께 계수(두께 ÷ 3mm) × (1 + 폐기율) × 수량",
 };
 
-export const laserCuttingGuide: Record<TranslatedLocale, LocalizedGuideCopy> = {
+export const laserMaterialFormula: Record<TranslatedLocale, string> = withSimplifiedChinese(baseLaserMaterialFormula);
+
+const baseLaserCuttingGuide: Record<Exclude<TranslatedLocale, "zh-hans">, LocalizedGuideCopy> = {
   "zh-hant": {
     title: "雷射切割如何報價：材料、機器時間與毛利指南",
     description: "用板材、損耗、切割時間、設定人工、後處理與目標毛利，建立可重複的雷射切割報價。",
@@ -93,3 +96,5 @@ export const laserCuttingGuide: Record<TranslatedLocale, LocalizedGuideCopy> = {
     sections: [{ id: "job-data", title: "1. CAD/CAM 작업 데이터를 정리합니다", paragraphs: ["재료, 두께, 수량, 점유 면적, 절단 시간, 길이, 피어싱과 파일 버전을 기록합니다. 수동 버전은 CAM 또는 네스팅 통계를 입력합니다."] }, { id: "material", title: "2. 재료와 폐기물을 계산합니다", paragraphs: ["완성 형상만이 아니라 실제 점유 면적을 사용하고 가장자리, 시험, 불량과 재사용 불가능한 잔재를 포함합니다."], formula: "재료비 = 면적 × 단가 × (1 + 폐기율) × 수량" }, { id: "machine", title: "3. 장비, 설정과 작업을 분리합니다", paragraphs: ["장비 단가에는 감가, 레이저 소스, 가스, 전기, 광학, 노즐과 유지보수를 포함할 수 있습니다. 설정은 배치 단위이며 취급과 디버링은 수량에 따라 늘어납니다."] }, { id: "margin", title: "4. 목표 마진을 올바르게 적용합니다", paragraphs: ["원가 100에 목표 마진 30%면 가격은 142.86입니다. 30%를 더하기만 하면 마진은 약 23.1%입니다."], formula: "목표 가격 = 직접 원가 ÷ (1 − 목표 마진)" }, { id: "example", title: "5. 계산 예시", paragraphs: ["재료 48, 장비 32, 설정 18, 취급 22, 기타 5이면 직접 원가는 125입니다. 목표 마진 35%의 세전 견적은 192.31입니다."] }, { id: "quote", title: "6. 고객 견적서를 작성합니다", paragraphs: ["재료, 두께, 수량, 단가, 합계, 납기, 파일 버전과 후처리를 적고 공차, 변경, 제외와 유효기간을 문서화합니다."] }], checklistTitle: "레이저 절단 견적 체크리스트", checklist: ["재료, 두께, 수량, 파일 버전 확인.", "점유 면적과 폐기물 입력.", "CAM 시간, 길이, 피어싱 기록.", "장비, 설정과 후처리 분리.", "올바른 마진 공식 적용.", "할인 후 원가 확인.", "범위와 유효기간 문서화."],
   },
 };
+
+export const laserCuttingGuide: Record<TranslatedLocale, LocalizedGuideCopy> = withSimplifiedChinese(baseLaserCuttingGuide);

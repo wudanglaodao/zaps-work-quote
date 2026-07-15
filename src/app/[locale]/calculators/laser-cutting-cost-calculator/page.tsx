@@ -12,7 +12,7 @@ import { siteConfig } from "@/lib/site";
 
 const path = "calculators/laser-cutting-cost-calculator";
 const guideLabels: Record<Locale, string> = {
-  en: "Read the complete laser cutting pricing guide →", "zh-hant": "閱讀完整雷射切割報價指南 →", de: "Vollständigen Kalkulationsleitfaden lesen →", ja: "レーザー加工見積ガイドを読む →", es: "Leer la guía completa de corte láser →", fr: "Lire le guide complet de découpe laser →", "pt-br": "Ler o guia completo de corte a laser →", ko: "레이저 절단 견적 가이드 읽기 →",
+  en: "Read the complete laser cutting pricing guide →", "zh-hant": "閱讀完整雷射切割報價指南 →", "zh-hans": "阅读完整激光切割报价指南 →", de: "Vollständigen Kalkulationsleitfaden lesen →", ja: "レーザー加工見積ガイドを読む →", es: "Leer la guía completa de corte láser →", fr: "Lire le guide complet de découpe laser →", "pt-br": "Ler o guia completo de corte a laser →", ko: "레이저 절단 견적 가이드 읽기 →",
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
@@ -27,7 +27,7 @@ export function LaserCuttingView({ locale }: { locale: Locale }) {
   const copy = getLaserCuttingCopy(locale);
   const url = `${siteConfig.url}${localizedPath(locale, path)}`;
   const structuredData = [
-    { "@context": "https://schema.org", "@type": "WebApplication", name: copy.heading, description: copy.description, url, applicationCategory: "BusinessApplication", operatingSystem: "Any", browserRequirements: "Requires JavaScript", offers: { "@type": "Offer", price: "0", priceCurrency: ({ en: "USD", "zh-hant": "TWD", de: "EUR", ja: "JPY", es: "EUR", fr: "EUR", "pt-br": "BRL", ko: "KRW" } as const)[locale] }, inLanguage: htmlLanguage(locale) },
+    { "@context": "https://schema.org", "@type": "WebApplication", name: copy.heading, description: copy.description, url, applicationCategory: "BusinessApplication", operatingSystem: "Any", browserRequirements: "Requires JavaScript", offers: { "@type": "Offer", price: "0", priceCurrency: ({ en: "USD", "zh-hant": "TWD", "zh-hans": "CNY", de: "EUR", ja: "JPY", es: "EUR", fr: "EUR", "pt-br": "BRL", ko: "KRW" } as const)[locale] }, inLanguage: htmlLanguage(locale) },
     { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "zaps.work", item: `${siteConfig.url}${localizedPath(locale)}` }, { "@type": "ListItem", position: 2, name: dictionary.common.tools, item: `${siteConfig.url}${localizedPath(locale, "calculators")}` }, { "@type": "ListItem", position: 3, name: copy.heading, item: url }] },
     { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: copy.faq.map((entry) => ({ "@type": "Question", name: entry.question, acceptedAnswer: { "@type": "Answer", text: entry.answer } })) },
   ];

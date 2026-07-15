@@ -25,6 +25,7 @@ export function HomeView({ locale }: { locale: Locale }) {
   const workflowLabels = ({
     en: ["Input", "Cost + margin", "Quote"],
     "zh-hant": ["輸入", "成本與毛利", "報價"],
+    "zh-hans": ["输入", "成本与毛利", "报价"],
     de: ["Eingabe", "Kosten + Marge", "Angebot"],
     ja: ["入力", "コストと利益", "見積書"],
     es: ["Entrada", "Coste y margen", "Presupuesto"],
@@ -32,9 +33,9 @@ export function HomeView({ locale }: { locale: Locale }) {
     "pt-br": ["Entrada", "Custo e margem", "Orçamento"],
     ko: ["입력", "비용 및 마진", "견적"],
   } as const)[locale];
-  const seeHowItWorks = ({ en: "See how it works", "zh-hant": "查看運作方式", de: "So funktioniert es", ja: "使い方を見る", es: "Cómo funciona", fr: "Voir comment ça marche", "pt-br": "Como funciona", ko: "사용 방법 보기" } as const)[locale];
-  const companyLabel = ({ en: "YOUR COMPANY", "zh-hant": "您的公司", de: "IHR UNTERNEHMEN", ja: "あなたの会社", es: "TU EMPRESA", fr: "VOTRE ENTREPRISE", "pt-br": "SUA EMPRESA", ko: "귀사" } as const)[locale];
-  const quoteLabel = ({ en: "QUOTE", "zh-hant": "報價", de: "ANGEBOT", ja: "見積書", es: "PRESUPUESTO", fr: "DEVIS", "pt-br": "ORÇAMENTO", ko: "견적서" } as const)[locale];
+  const seeHowItWorks = ({ en: "See how it works", "zh-hant": "查看運作方式", "zh-hans": "查看运作方式", de: "So funktioniert es", ja: "使い方を見る", es: "Cómo funciona", fr: "Voir comment ça marche", "pt-br": "Como funciona", ko: "사용 방법 보기" } as const)[locale];
+  const companyLabel = ({ en: "YOUR COMPANY", "zh-hant": "您的公司", "zh-hans": "您的公司", de: "IHR UNTERNEHMEN", ja: "あなたの会社", es: "TU EMPRESA", fr: "VOTRE ENTREPRISE", "pt-br": "SUA EMPRESA", ko: "귀사" } as const)[locale];
+  const quoteLabel = ({ en: "QUOTE", "zh-hant": "報價", "zh-hans": "报价", de: "ANGEBOT", ja: "見積書", es: "PRESUPUESTO", fr: "DEVIS", "pt-br": "ORÇAMENTO", ko: "견적서" } as const)[locale];
   const secondaryTools = tools.filter((tool) => tool.status === "live").slice(1, 5);
   return (
     <div className="home-page">

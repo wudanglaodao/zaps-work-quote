@@ -18,7 +18,7 @@ type Preferences = {
 const PreferencesContext = createContext<Preferences | null>(null);
 
 export function PreferencesProvider({ locale, children }: { locale: Locale; children: React.ReactNode }) {
-  const defaultCurrency: Currency = ({ en: "USD", "zh-hant": "TWD", de: "EUR", ja: "JPY", es: "EUR", fr: "EUR", "pt-br": "BRL", ko: "KRW" } as const)[locale];
+  const defaultCurrency: Currency = ({ en: "USD", "zh-hant": "TWD", "zh-hans": "CNY", de: "EUR", ja: "JPY", es: "EUR", fr: "EUR", "pt-br": "BRL", ko: "KRW" } as const)[locale];
   const [currency, setCurrencyState] = useState<Currency>(defaultCurrency);
   const [theme, setTheme] = useState<"light" | "dark">("light");
 

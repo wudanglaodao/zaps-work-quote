@@ -14,11 +14,20 @@ export type ToolEvent = EventBase & (
   | { eventType: "calculator_used" | "summary_copied"; quoteSnapshot?: never }
 );
 
+function browserTimeZone() {
+  try {
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    return timeZone && timeZone.length <= 64 ? timeZone : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export function trackToolEvent(event: ToolEvent) {
   void fetch("/api/events", {
     method: "POST",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify(event),
+    body: JSON.stringify({ ...event, timeZone: browserTimeZone() }),
     keepalive: true,
   }).catch(() => undefined);
 }

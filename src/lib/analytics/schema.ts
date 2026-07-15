@@ -152,6 +152,7 @@ export const analyticsEventSchema = z.object({
   toolSlug: z.enum(["3d-print-cost-calculator", "pressure-washing-quote", "laser-cutting-cost-calculator", "cleaning-quote-generator"]),
   locale: z.enum(locales),
   currency: z.enum(currencies),
+  timeZone: z.string().regex(/^(?:UTC|[A-Za-z_]+(?:\/[A-Za-z_+-]+)+)$/).max(64).optional(),
   metrics: z.object({
     itemCount: z.number().int().min(1).max(10),
     totalCost: z.number().finite().min(0).max(1_000_000_000),

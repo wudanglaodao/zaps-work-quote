@@ -16,7 +16,7 @@ import { getQuoteActionLabels } from "@/lib/i18n/quote-actions";
 import { createBasicQuoteCsv } from "@/lib/quotes/basic-csv";
 
 type QuoteDetails = { companyName: string; companyDetails: string; customerName: string; customerDetails: string; quoteNumber: string; validDays: string };
-const localeCodes: Record<Locale, string> = { en: "en-US", "zh-hant": "zh-TW", de: "de-DE", ja: "ja-JP", es: "es-ES", fr: "fr-FR", "pt-br": "pt-BR", ko: "ko-KR" };
+const localeCodes: Record<Locale, string> = { en: "en-US", "zh-hant": "zh-TW", "zh-hans": "zh-CN", de: "de-DE", ja: "ja-JP", es: "es-ES", fr: "fr-FR", "pt-br": "pt-BR", ko: "ko-KR" };
 const addOnKeys: CleaningAddOnKey[] = ["oven", "fridge", "windows", "cabinets", "laundry", "petHair"];
 
 function localIsoDate(date = new Date()) { return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`; }

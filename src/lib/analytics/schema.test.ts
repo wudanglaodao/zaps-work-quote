@@ -38,7 +38,11 @@ const exportEvent = {
 
 describe("analytics event privacy schema", () => {
   it("accepts an allowlisted export snapshot", () => {
-    expect(analyticsEventSchema.safeParse(exportEvent).success).toBe(true);
+    expect(analyticsEventSchema.safeParse({ ...exportEvent, timeZone: "Asia/Shanghai" }).success).toBe(true);
+  });
+
+  it("rejects malformed time zones", () => {
+    expect(analyticsEventSchema.safeParse({ ...exportEvent, timeZone: "Asia/Shanghai; private-data" }).success).toBe(false);
   });
 
   it("rejects free-text and customer fields", () => {

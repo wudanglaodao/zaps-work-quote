@@ -1,9 +1,10 @@
 import type { Locale } from "@/lib/i18n/config";
 import type { LocalizedGuideCopy } from "./types";
+import { withSimplifiedChinese } from "@/lib/i18n/simplified-chinese";
 
 type TranslatedLocale = Exclude<Locale, "en">;
 
-export const pressureWashingGuide: Record<TranslatedLocale, LocalizedGuideCopy> = {
+const basePressureWashingGuide: Record<Exclude<TranslatedLocale, "zh-hans">, LocalizedGuideCopy> = {
   "zh-hant": {
     title: "高壓清洗如何報價：逐步估價指南",
     description: "依清洗面積、表面狀況、團隊工時、營運成本、最低收費與目標毛利建立高壓清洗報價。",
@@ -187,3 +188,5 @@ export const pressureWashingGuide: Record<TranslatedLocale, LocalizedGuideCopy> 
     checklist: ["각 표면을 확인하고 면적 측정.", "재질, 상태, 접근, 물과 배수 기록.", "설정과 정리를 포함한 총 팀 시간 추정.", "약품, 연료, 장비, 이동과 간접비 추가.", "특별 난이도와 위험 조정.", "올바른 마진 공식 적용.", "최소 요금과 비교.", "범위, 가정, 제외 사항과 유효기간 기록."],
   },
 };
+
+export const pressureWashingGuide: Record<TranslatedLocale, LocalizedGuideCopy> = withSimplifiedChinese(basePressureWashingGuide);

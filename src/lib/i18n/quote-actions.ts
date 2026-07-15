@@ -1,6 +1,7 @@
 import type { Locale } from "@/lib/i18n/config";
+import { withSimplifiedChinese } from "@/lib/i18n/simplified-chinese";
 
-const labels: Record<Locale, { printOrSavePdf: string; viewQuote: string }> = {
+const baseLabels: Record<Exclude<Locale, "zh-hans">, { printOrSavePdf: string; viewQuote: string }> = {
   en: { printOrSavePdf: "Print / save PDF", viewQuote: "View quote" },
   "zh-hant": { printOrSavePdf: "列印／儲存 PDF", viewQuote: "查看報價" },
   de: { printOrSavePdf: "Drucken / als PDF speichern", viewQuote: "Angebot ansehen" },
@@ -10,6 +11,8 @@ const labels: Record<Locale, { printOrSavePdf: string; viewQuote: string }> = {
   "pt-br": { printOrSavePdf: "Imprimir / salvar PDF", viewQuote: "Ver orçamento" },
   ko: { printOrSavePdf: "인쇄 / PDF로 저장", viewQuote: "견적 보기" },
 };
+
+const labels: Record<Locale, { printOrSavePdf: string; viewQuote: string }> = withSimplifiedChinese(baseLabels);
 
 export function getQuoteActionLabels(locale: Locale) {
   return labels[locale];
