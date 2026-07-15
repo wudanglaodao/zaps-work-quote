@@ -28,7 +28,7 @@ export async function POST(request: Request) {
   if (!supabase) return NextResponse.json({ error: "Analytics unavailable" }, { status: 503 });
   const event = parsed.data;
   const context = requestContext(request);
-  const { error } = await supabase.from("analytics_events").insert({
+  const eventRow = {
     event_type: event.eventType,
     tool_slug: event.toolSlug,
     tool_version: "1.0.0",
@@ -43,7 +43,12 @@ export async function POST(request: Request) {
     quote_total: event.metrics.quoteTotal,
     margin: event.metrics.margin,
     quote_snapshot: event.quoteSnapshot ?? null,
-  });
+  };
+  let { error } = await supabase.from("analytics_events").insert(eventRow);
+  if (error?.code === "PGRST204") {
+    const { time_zone, country_code, region_code, ...legacyEventRow } = eventRow;
+    ({ error } = await supabase.from("analytics_events").insert(legacyEventRow));
+  }
   if (error) {
     console.error("analytics insert failed", error.code);
     return NextResponse.json({ error: "Event unavailable" }, { status: 503 });
