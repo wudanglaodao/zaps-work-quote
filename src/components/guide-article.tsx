@@ -25,7 +25,7 @@ export type GuideLabels = {
 };
 
 const englishLabels: GuideLabels = {
-  home: "Home", guides: "Guides", guide: "Guide", category: "Pricing & quoting", updated: "Updated", by: "By zaps.work",
+  home: "Home", guides: "Guides", guide: "Guide", category: "Pricing & quoting", updated: "Updated", by: "By LOEME Quote",
   onThisPage: "On this page", toolTitle: "Put the formula to work", toolDescription: "Use your own costs and target margin to build a quote in the free calculator.",
   freeNoSignup: "Free · No sign-up", commonQuestions: "Common questions", faqTitle: "Frequently asked questions", finalKicker: "Build your quote",
   finalTitle: "Use your numbers, not a generic market average.",

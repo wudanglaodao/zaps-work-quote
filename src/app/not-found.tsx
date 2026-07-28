@@ -4,7 +4,7 @@ import { ArrowRight, CircleSlash2, House, Wrench } from "lucide-react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Page not found | zaps.work",
+  title: "Page not found | LOEME Quote",
   robots: { index: false, follow: true },
 };
 

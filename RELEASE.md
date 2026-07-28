@@ -1,4 +1,4 @@
-# zaps.work Release Runbook
+# LOEME Quote Release Runbook
 
 ## Production Stack
 
@@ -76,9 +76,9 @@ Copy `.env.example` to `.env.local` for local development. Configure the same na
 
 1. Import the GitHub repository.
 2. Keep `main` as the production branch.
-3. Add `zaps.work` and `www.zaps.work`; redirect one host to the canonical host.
-4. Set `NEXT_PUBLIC_SITE_URL=https://zaps.work` in every environment.
-5. Set `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID` in Preview and Production.
+3. Add `quote.loeme.com` as the canonical production host. Keep `zaps.work` and `www.zaps.work` attached to this project so Proxy can return a path- and query-preserving `301` to the new host.
+4. Set `NEXT_PUBLIC_SITE_URL=https://quote.loeme.com` in every environment.
+5. Set `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=G-7HE8VQXGTQ` in Preview and Production.
 6. Enable Web Analytics and Speed Insights.
 7. Verify the Preview deployment before merging to `main`.
 
@@ -97,7 +97,7 @@ Copy `.env.example` to `.env.local` for local development. Configure the same na
 3. Run `npm run check` locally.
 4. Push a feature branch and verify its Vercel Preview deployment.
 5. Merge into `main`; Vercel deploys Production from the GitHub commit.
-6. Verify `/api/health` and the changed user flow on `https://www.zaps.work`.
+6. Verify `/api/health` and the changed user flow on `https://quote.loeme.com`.
 7. Mark the log entry as released, use the production date, and add the final link or screenshots needed for the blog post.
 
 ## SEO Launch Checklist
@@ -107,14 +107,14 @@ Copy `.env.example` to `.env.local` for local development. Configure the same na
 - Verify every supported locale route returns `200` and contains one language only.
 - Confirm legacy `/en` routes permanently redirect to unprefixed English equivalents and are not indexed as duplicate content.
 - Inspect canonical and `hreflang` links, including `x-default`.
-- Verify the tool and all localized equivalents appear in `tools-sitemap.xml`; verify its guide and localized equivalents appear in `guides-sitemap.xml`.
+- Verify the tool and all localized equivalents appear in `calculators-sitemap.xml`; verify its guide and localized equivalents appear in `guides-sitemap.xml`.
 - Update `/llms.txt` with the new tool, related guide, capabilities, and current public URLs; verify the production file returns the current public page map and privacy boundary.
-- Submit `https://zaps.work/sitemap.xml` to Google Search Console and Bing Webmaster Tools.
-- Verify the domain property and both protocol/host redirects.
+- Submit `https://quote.loeme.com/sitemap.xml` to Google Search Console and Bing Webmaster Tools, then submit the old sitemap once more so crawlers observe the permanent migration.
+- Verify the domain property and that `zaps.work` plus `www.zaps.work` permanently redirect every path and query to `quote.loeme.com`.
 - Run Rich Results Test for the tool page.
 - Confirm localized visible FAQ matches FAQ structured data.
 - Confirm `/api`, Preview URLs, and admin routes are not indexed.
-- Confirm the PDF includes only filled optional fields and no zaps.work branding.
+- Confirm the PDF includes only filled optional fields and no obsolete zaps.work branding.
 - Open the CSV in Excel or Numbers and verify UTF-8 text, currency, and formulas remain inert.
 - Check Core Web Vitals on mobile after production traffic begins.
 

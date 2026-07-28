@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+const legacyHosts = new Set(["zaps.work", "www.zaps.work"]);
+
 const localizedToolsPath = /^\/(en|zh-hant|zh-hans|de|ja|es|fr|pt-br|ko)\/tools(?:(\/.*))?$/;
 
 function calculatorPath(pathname: string) {
@@ -14,6 +16,11 @@ function calculatorPath(pathname: string) {
 }
 
 export function proxy(request: NextRequest) {
+  if (legacyHosts.has(request.nextUrl.hostname.toLowerCase())) {
+    const destination = new URL(`${request.nextUrl.pathname}${request.nextUrl.search}`, "https://quote.loeme.com");
+    return NextResponse.redirect(destination, 301);
+  }
+
   const destinationPath = calculatorPath(request.nextUrl.pathname);
   if (!destinationPath) return NextResponse.next();
 
@@ -23,5 +30,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/tools/:path*", "/en/tools/:path*", "/zh-hant/tools/:path*", "/zh-hans/tools/:path*", "/de/tools/:path*", "/ja/tools/:path*", "/es/tools/:path*", "/fr/tools/:path*", "/pt-br/tools/:path*", "/ko/tools/:path*", "/tools-sitemap.xml"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
 };

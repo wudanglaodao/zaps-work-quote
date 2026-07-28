@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, CircleSlash2, House, Wrench } from "lucide-react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Page not found | zaps.work",
-  description: "The requested page could not be found. Browse the free cost calculators and quote tools on zaps.work.",
+  title: "Page not found | LOEME Quote",
+  description: "The requested page could not be found. Browse the free cost calculators and quote tools on LOEME Quote.",
   robots: { index: false, follow: true },
   icons: { icon: [{ url: "/icon.svg", type: "image/svg+xml" }] },
 };
@@ -15,7 +16,7 @@ export default function GlobalNotFound() {
     <html lang="en" dir="ltr">
       <body className="global-not-found-body">
         <header className="global-not-found-header">
-          <Link className="brand" href="/">zaps<span>.</span>work</Link>
+          <Link className="brand" href="/" aria-label="LOEME Quote home"><Image src="/assets/loeme-quote-logo.svg" alt="LOEME Quote" width={220} height={48} priority /></Link>
           <Link className="global-not-found-header-link" href="/calculators">All tools <ArrowRight aria-hidden="true" /></Link>
         </header>
         <main className="global-not-found-main">
@@ -32,7 +33,7 @@ export default function GlobalNotFound() {
             </div>
           </section>
         </main>
-        <footer className="global-not-found-footer"><span>© 2026 zaps.work</span><span>Free cost calculators and quote tools</span></footer>
+        <footer className="global-not-found-footer"><span>© 2026 LOEME Quote</span><span>Free cost calculators and quote tools</span></footer>
       </body>
     </html>
   );

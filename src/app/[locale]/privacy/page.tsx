@@ -4,6 +4,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { withSimplifiedChinese } from "@/lib/i18n/simplified-chinese";
 import { buildMetadata } from "@/lib/seo";
+import { siteConfig } from "@/lib/site";
 
 type PrivacyCopy = { title: string; description: string; heading: string; intro: string; customerHeading: string; customerBody: string; dataHeading: string; dataBody: string; analyticsHeading: string; analyticsBody: string; exportsHeading: string; exportsBody: string };
 
@@ -20,16 +21,20 @@ const baseCopy: Record<Exclude<Locale, "zh-hans">, PrivacyCopy> = {
 
 const copy: Record<Locale, PrivacyCopy> = withSimplifiedChinese(baseCopy);
 
+function brandedCopy(item: PrivacyCopy): PrivacyCopy {
+  return Object.fromEntries(Object.entries(item).map(([key, value]) => [key, value.replaceAll("zaps.work", siteConfig.name)])) as PrivacyCopy;
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale: rawLocale } = await params;
   if (!isLocale(rawLocale)) return {};
   const locale = rawLocale as Locale;
-  const item = copy[locale];
+  const item = brandedCopy(copy[locale]);
   return buildMetadata({ locale, path: "privacy", title: item.title, description: item.description });
 }
 
 export function PrivacyView({ locale }: { locale: Locale }) {
-  const item = copy[locale];
+  const item = brandedCopy(copy[locale]);
   const cards = [
     { icon: LockKeyhole, title: item.customerHeading, body: item.customerBody, className: "primary" },
     { icon: Database, title: item.dataHeading, body: item.dataBody, className: "data" },

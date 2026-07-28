@@ -1,4 +1,4 @@
-# zaps.work
+# LOEME Quote
 
 Free, multilingual cost calculators and quote generators for real work.
 
@@ -6,7 +6,7 @@ The source code is public so the calculation logic, privacy boundary, and export
 
 Repository: [github.com/wudanglaodao/zaps-work-quote](https://github.com/wudanglaodao/zaps-work-quote)
 
-Available tools include 3D print, laser cutting, CNC machining, pressure washing, house cleaning, house painting, freelance work, and lawn care quote calculators. They support margin-based pricing, PDF quotes, CSV exports, English, Traditional Chinese, German, Japanese, Spanish, French, Brazilian Portuguese, Korean, and global currency preferences.
+Available tools include 3D print, laser cutting, CNC machining, pressure washing, house cleaning, house painting, freelance work, lawn care, and window-cleaning quote calculators. They support margin-based pricing, PDF quotes, CSV exports, English, Traditional Chinese, Simplified Chinese, German, Japanese, Spanish, French, Brazilian Portuguese, Korean, and global currency preferences.
 
 ## Stack
 
@@ -41,6 +41,7 @@ English uses clean, unprefixed URLs. Other languages use stable locale prefixes:
 
 - `/...`
 - `/zh-hant/...`
+- `/zh-hans/...`
 - `/de/...`
 - `/ja/...`
 - `/es/...`
@@ -50,7 +51,7 @@ English uses clean, unprefixed URLs. Other languages use stable locale prefixes:
 
 Each complete localized page emits a language-specific canonical URL, reciprocal `hreflang` links, and an `x-default` English fallback. The sitemap repeats the same alternate mapping. Legacy `/en/...` routes permanently redirect to their unprefixed English equivalents. New locales are added only after their full page copy and SEO metadata are ready.
 
-The site also publishes [`/robots.txt`](https://zaps.work/robots.txt), a styled sitemap index at [`/sitemap.xml`](https://zaps.work/sitemap.xml), child sitemaps for [`pages-sitemap.xml`](https://zaps.work/pages-sitemap.xml) and [`tools-sitemap.xml`](https://zaps.work/tools-sitemap.xml), and [`/llms.txt`](https://zaps.work/llms.txt). `llms.txt` is an AI-readable navigation aid; canonical metadata, sitemap, robots rules, and page content remain the source of truth for search indexing.
+The site also publishes [`/robots.txt`](https://quote.loeme.com/robots.txt), a styled sitemap index at [`/sitemap.xml`](https://quote.loeme.com/sitemap.xml), child sitemaps for [`pages-sitemap.xml`](https://quote.loeme.com/pages-sitemap.xml) and [`calculators-sitemap.xml`](https://quote.loeme.com/calculators-sitemap.xml), and [`/llms.txt`](https://quote.loeme.com/llms.txt). `llms.txt` is an AI-readable navigation aid; canonical metadata, sitemap, robots rules, and page content remain the source of truth for search indexing.
 
 ## Data Boundary
 

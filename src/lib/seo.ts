@@ -24,19 +24,21 @@ export function buildMetadata(args: {
   includeLanguageAlternates?: boolean;
 }): Metadata {
   const { locale, path = "", title, description, includeLanguageAlternates = true } = args;
+  const brandedTitle = title.replaceAll("zaps.work", siteConfig.name);
+  const brandedDescription = description.replaceAll("zaps.work", siteConfig.name);
   const canonical = `${siteConfig.url}${localizedPath(locale, path)}`;
   return {
-    title,
-    description,
+    title: brandedTitle,
+    description: brandedDescription,
     alternates: { canonical, ...(includeLanguageAlternates ? { languages: languageAlternates(path) } : {}) },
     openGraph: {
       type: "website",
       siteName: siteConfig.name,
-      title,
-      description,
+      title: brandedTitle,
+      description: brandedDescription,
       url: canonical,
       locale: htmlLanguage(locale).replace("-", "_"),
     },
-    twitter: { card: "summary_large_image", title, description },
+    twitter: { card: "summary_large_image", title: brandedTitle, description: brandedDescription },
   };
 }

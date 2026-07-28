@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ChevronDown, Coins, Globe2, Moon, Sun } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
@@ -50,7 +51,7 @@ export function SiteHeader({ locale, dictionary }: { locale: Locale; dictionary:
   const { currency, setCurrency, theme, toggleTheme } = usePreferences();
   const [languageQuery, setLanguageQuery] = useState("");
   const [currencyQuery, setCurrencyQuery] = useState("");
-  const routePath = pathname.replace(/^\/(en|zh-hant|de|ja|es|fr|pt-br|ko)(?=\/|$)/, "").replace(/^\//, "");
+  const routePath = pathname.replace(/^\/(en|zh-hant|zh-hans|de|ja|es|fr|pt-br|ko)(?=\/|$)/, "").replace(/^\//, "");
   const normalizedLanguageQuery = languageQuery.trim().toLowerCase();
   const normalizedCurrencyQuery = currencyQuery.trim().toLowerCase();
   const filteredLocales = locales.filter((option) => `${option} ${localeNames[option]}`.toLowerCase().includes(normalizedLanguageQuery));
@@ -59,7 +60,7 @@ export function SiteHeader({ locale, dictionary }: { locale: Locale; dictionary:
     <header className="site-header">
       <a className="skip-link" href="#main-content">{skipLabels[locale]}</a>
       <nav className="shell nav" aria-label={navigationLabels[locale]}>
-        <Link className="brand" href={localizedPath(locale)}>zaps<span>.</span>work</Link>
+        <Link className="brand" href={localizedPath(locale)} aria-label="LOEME Quote home"><Image src="/assets/loeme-quote-logo.svg" alt="LOEME Quote" width={220} height={48} priority /></Link>
         <div className="nav-links">
           <Link href={localizedPath(locale, "calculators")}>{dictionary.common.tools}</Link>
           <Link href={localizedPath(locale, "guides")}>{dictionary.common.guides}</Link>

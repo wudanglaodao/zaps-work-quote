@@ -1,6 +1,8 @@
 import Script from "next/script";
 
-const measurementId = process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID;
+// Keep the production property explicit during the zaps.work → quote.loeme.com migration.
+// An obsolete Vercel environment value must not keep sending traffic to the retired property.
+const measurementId = "G-7HE8VQXGTQ";
 
 export function GoogleAnalytics() {
   if (!measurementId || !/^G-[A-Z0-9]+$/.test(measurementId)) return null;

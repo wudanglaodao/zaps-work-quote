@@ -1,0 +1,8 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <title id="title">LOEME Quote</title>
+  <rect width="64" height="64" rx="14" fill="#07100A"/>
+  <path d="M15 13.5C15 11.567 16.567 10 18.5 10H35.4L45 19.6V48.5C45 50.433 43.433 52 41.5 52H18.5C16.567 52 15 50.433 15 48.5V13.5Z" stroke="#F7F9F7" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M35 10V18C35 19.105 35.895 20 37 20H45" stroke="#F7F9F7" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M22.5 29.2H28.1V34.8C28.1 38 26.1 40.1 22.5 40.8V37.5C24.1 37.1 24.8 36.2 24.8 34.8H22.5V29.2ZM31.4 29.2H37V34.8C37 38 35 40.1 31.4 40.8V37.5C33 37.1 33.7 36.2 33.7 34.8H31.4V29.2Z" fill="#F7F9F7"/>
+  <circle cx="44" cy="47" r="6" fill="#16A34A" stroke="#07100A" stroke-width="3"/>
+</svg>

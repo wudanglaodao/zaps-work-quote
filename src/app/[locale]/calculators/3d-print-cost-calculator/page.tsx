@@ -49,7 +49,7 @@ export function ThreeDPrintView({ locale }: { locale: Locale }) {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "zaps.work", item: `${siteConfig.url}${localizedPath(locale)}` },
+        { "@type": "ListItem", position: 1, name: siteConfig.name, item: `${siteConfig.url}${localizedPath(locale)}` },
         { "@type": "ListItem", position: 2, name: dictionary.common.tools, item: `${siteConfig.url}${localizedPath(locale, "calculators")}` },
         { "@type": "ListItem", position: 3, name: dictionary.tool.heading, item: url },
       ],

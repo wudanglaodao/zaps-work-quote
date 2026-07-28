@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { GuideArticle } from "@/components/guide-article";
 
-const title = "How to Price Window Cleaning Jobs | zaps.work";
+const title = "How to Price Window Cleaning Jobs | LOEME Quote";
 const description = "A practical guide to pricing window cleaning from window type, access, crew time, add-ons, minimum fees, margin, and tax.";
 
 export default function Page() {
