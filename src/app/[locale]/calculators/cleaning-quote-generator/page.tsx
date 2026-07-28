@@ -4,6 +4,7 @@ import { notFound, permanentRedirect } from "next/navigation";
 import { BrushCleaning } from "lucide-react";
 import { CleaningCalculator } from "@/components/cleaning-calculator";
 import { JsonLd } from "@/components/json-ld";
+import { AdsenseSlot } from "@/components/adsense";
 import { htmlLanguage, isLocale, type Locale } from "@/lib/i18n/config";
 import { getCleaningCopy } from "@/lib/i18n/cleaning";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -28,7 +29,7 @@ export function CleaningView({ locale }: { locale: Locale }) {
     { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: siteConfig.name, item: `${siteConfig.url}${localizedPath(locale)}` }, { "@type": "ListItem", position: 2, name: dictionary.common.tools, item: `${siteConfig.url}${localizedPath(locale, "calculators")}` }, { "@type": "ListItem", position: 3, name: copy.heading, item: url }] },
     { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: copy.faq.map((entry) => ({ "@type": "Question", name: entry.question, acceptedAnswer: { "@type": "Answer", text: entry.answer } })) },
   ];
-  return <article className="tool-page"><JsonLd data={structuredData} /><header className="shell tool-intro"><span className="tool-icon"><BrushCleaning aria-hidden="true" /></span><div><h1>{copy.heading}</h1><p>{copy.intro}</p></div></header><CleaningCalculator locale={locale} dictionary={dictionary} /><p className="shell tool-privacy-note">{copy.privacyNote}</p><section className="section seo-content"><div className="shell seo-grid"><div><p className="section-kicker">Method</p><h2>{copy.methodologyTitle}</h2><p>{copy.methodologyBody}</p><Link className="seo-guide-link" href={localizedPath(locale, "guides/how-to-price-house-cleaning-jobs")}>{copy.guideLink}</Link></div><div><h2>{copy.faqTitle}</h2><div className="faq-list">{copy.faq.map((entry) => <details key={entry.question}><summary>{entry.question}</summary><p>{entry.answer}</p></details>)}</div></div></div></section></article>;
+  return <article className="tool-page"><JsonLd data={structuredData} /><header className="shell tool-intro"><span className="tool-icon"><BrushCleaning aria-hidden="true" /></span><div><h1>{copy.heading}</h1><p>{copy.intro}</p></div></header><CleaningCalculator locale={locale} dictionary={dictionary} /><p className="shell tool-privacy-note">{copy.privacyNote}</p><div className="shell tool-ad"><AdsenseSlot /></div><section className="section seo-content"><div className="shell seo-grid"><div><p className="section-kicker">Method</p><h2>{copy.methodologyTitle}</h2><p>{copy.methodologyBody}</p><Link className="seo-guide-link" href={localizedPath(locale, "guides/how-to-price-house-cleaning-jobs")}>{copy.guideLink}</Link></div><div><h2>{copy.faqTitle}</h2><div className="faq-list">{copy.faq.map((entry) => <details key={entry.question}><summary>{entry.question}</summary><p>{entry.answer}</p></details>)}</div></div></div></section></article>;
 }
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {

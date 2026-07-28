@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, CalendarDays, Calculator, CheckCircle2, Clock3, List } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
+import { AdsenseSlot } from "@/components/adsense";
 import { htmlLanguage, type Locale } from "@/lib/i18n/config";
 import { localizedPath } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
@@ -69,6 +70,7 @@ export function GuideArticle({ locale = "en", labels = englishLabels, title, des
       <section className="guide-faq shell" aria-labelledby="guide-faq-title"><p className="section-kicker">{labels.commonQuestions}</p><h2 id="guide-faq-title">{labels.faqTitle}</h2>
         <div className="guide-faq-list">{faq.map((item) => <details key={item.question}><summary>{item.question}</summary><p>{item.answer}</p></details>)}</div>
       </section>
+      <div className="shell guide-ad"><AdsenseSlot /></div>
       <section className="guide-final-cta"><div className="shell"><div><p className="section-kicker">{labels.finalKicker}</p><h2>{labels.finalTitle}</h2></div><Link className="button primary" href={toolHref}>{toolLabel}<ArrowRight aria-hidden="true" /></Link></div></section>
     </article>
   </>;

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound, permanentRedirect } from "next/navigation";
 import { Box } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
+import { AdsenseSlot } from "@/components/adsense";
 import { ThreeDPrintCalculator } from "@/components/three-d-print-calculator";
 import { htmlLanguage, isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -65,6 +66,7 @@ export function ThreeDPrintView({ locale }: { locale: Locale }) {
     <header className="shell tool-intro"><span className="tool-icon"><Box aria-hidden="true" /></span><div><h1>{dictionary.tool.heading}</h1><p>{dictionary.tool.intro}</p></div></header>
     <ThreeDPrintCalculator locale={locale} dictionary={dictionary} />
     <p className="shell tool-privacy-note">{dictionary.tool.privacyNote}</p>
+    <div className="shell tool-ad"><AdsenseSlot /></div>
     <section className="section seo-content"><div className="shell seo-grid"><div><p className="section-kicker">Method</p><h2>{dictionary.tool.methodologyTitle}</h2><p>{dictionary.tool.methodologyBody}</p><Link className="seo-guide-link" href={localizedPath(locale, "guides/how-to-price-3d-prints")}>{guideLinkLabels[locale]}</Link></div><div><h2>{dictionary.tool.faqTitle}</h2><div className="faq-list">{dictionary.tool.faq.map((entry) => <details key={entry.question}><summary>{entry.question}</summary><p>{entry.answer}</p></details>)}</div></div></div>
       {locale === "en" || locale === "de" ? <div className="shell seo-detail-grid">{searchContent[locale].map((entry) => <div key={entry.heading}><h2>{entry.heading}</h2><p>{entry.body}</p></div>)}</div> : null}
     </section>

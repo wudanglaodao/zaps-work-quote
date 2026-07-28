@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Paintbrush } from "lucide-react";
 import { notFound, permanentRedirect } from "next/navigation";
 import { JsonLd } from "@/components/json-ld";
+import { AdsenseSlot } from "@/components/adsense";
 import { HousePaintingCalculator } from "@/components/house-painting-calculator";
 import { htmlLanguage, isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -28,7 +29,7 @@ export function HousePaintingView({ locale }: { locale: Locale }) {
     { "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: siteConfig.name, item: `${siteConfig.url}${localizedPath(locale)}` }, { "@type": "ListItem", position: 2, name: dictionary.common.tools, item: `${siteConfig.url}${localizedPath(locale, "calculators")}` }, { "@type": "ListItem", position: 3, name: copy.heading, item: url }] },
     { "@context": "https://schema.org", "@type": "FAQPage", mainEntity: copy.faq.map((entry) => ({ "@type": "Question", name: entry.question, acceptedAnswer: { "@type": "Answer", text: entry.answer } })) },
   ];
-  return <article className="tool-page"><JsonLd data={structuredData} /><header className="shell tool-intro"><span className="tool-icon"><Paintbrush aria-hidden="true" /></span><div><h1>{copy.heading}</h1><p>{copy.intro}</p></div></header><HousePaintingCalculator locale={locale} dictionary={dictionary} />{locale === "en" ? <section className="section seo-content"><div className="shell"><Link className="seo-guide-link" href="/guides/how-to-price-house-painting-jobs">Read the house painting pricing guide →</Link></div></section> : null}</article>;
+  return <article className="tool-page"><JsonLd data={structuredData} /><header className="shell tool-intro"><span className="tool-icon"><Paintbrush aria-hidden="true" /></span><div><h1>{copy.heading}</h1><p>{copy.intro}</p></div></header><HousePaintingCalculator locale={locale} dictionary={dictionary} /><div className="shell tool-ad"><AdsenseSlot /></div>{locale === "en" ? <section className="section seo-content"><div className="shell"><Link className="seo-guide-link" href="/guides/how-to-price-house-painting-jobs">Read the house painting pricing guide →</Link></div></section> : null}</article>;
 }
 
 export default async function HousePaintingPage({ params }: { params: Promise<{ locale: string }> }) {

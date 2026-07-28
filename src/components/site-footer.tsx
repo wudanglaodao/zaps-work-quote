@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { Moon, Sun } from "lucide-react";
 import { usePathname } from "next/navigation";
 import type { Dictionary } from "@/lib/i18n/dictionaries";
 import type { Locale } from "@/lib/i18n/config";
 import { localizedPath } from "@/lib/seo";
 import { usePreferences } from "./preferences-provider";
+import { BrandLogo } from "./brand-logo";
 
 const githubUrl = "https://github.com/wudanglaodao/zaps-work-quote";
 const feedbackUrl = "https://github.com/wudanglaodao/zaps-work-quote/issues";
@@ -21,7 +21,7 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
     return (
       <footer className="site-footer site-footer-compact">
         <div className="shell footer-compact-inner">
-          <Link className="brand footer-brand" href={homePath} aria-label="LOEME Quote home"><Image src="/assets/loeme-quote-logo.svg" alt="LOEME Quote" width={220} height={48} /></Link>
+          <Link className="brand footer-brand" href={homePath} aria-label="LOEME Quote home"><BrandLogo /></Link>
           <div className="footer-compact-links">
             <Link href={localizedPath(locale, "calculators")}>{dictionary.common.tools}</Link>
             <Link href={localizedPath(locale, "privacy")}>{dictionary.common.privacy}</Link>
@@ -39,7 +39,7 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
     <footer className="site-footer">
       <div className="shell footer-top">
         <div className="footer-summary">
-          <Link className="brand footer-brand" href={homePath} aria-label="LOEME Quote home"><Image src="/assets/loeme-quote-logo.svg" alt="LOEME Quote" width={220} height={48} /></Link>
+          <Link className="brand footer-brand" href={homePath} aria-label="LOEME Quote home"><BrandLogo /></Link>
           <p>{dictionary.common.footerSummary}</p>
           <p className="footer-privacy-promise">{dictionary.common.footerPrivacyPromise}</p>
         </div>

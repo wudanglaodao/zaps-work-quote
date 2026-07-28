@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { ArrowRight, CircleSlash2, House, Wrench } from "lucide-react";
 import "./globals.css";
+import { BrandLogo } from "@/components/brand-logo";
 
 export const metadata: Metadata = {
   title: "Page not found | LOEME Quote",
@@ -16,7 +16,7 @@ export default function GlobalNotFound() {
     <html lang="en" dir="ltr">
       <body className="global-not-found-body">
         <header className="global-not-found-header">
-          <Link className="brand" href="/" aria-label="LOEME Quote home"><Image src="/assets/loeme-quote-logo.svg" alt="LOEME Quote" width={220} height={48} priority /></Link>
+          <Link className="brand" href="/" aria-label="LOEME Quote home"><BrandLogo /></Link>
           <Link className="global-not-found-header-link" href="/calculators">All tools <ArrowRight aria-hidden="true" /></Link>
         </header>
         <main className="global-not-found-main">
