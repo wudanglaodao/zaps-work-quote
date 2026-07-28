@@ -3,7 +3,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { notFound } from "next/navigation";
 import { GoogleAnalytics } from "@/components/google-analytics";
-import { AdsenseScript } from "@/components/adsense";
+import { AdsenseScript } from "@/components/adsense-script";
 import { PreferencesProvider } from "@/components/preferences-provider";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -29,6 +29,9 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   const dictionary = getDictionary(rawLocale);
   return (
     <html lang={htmlLanguage(rawLocale)} dir={directionFor(rawLocale)} data-scroll-behavior="smooth" suppressHydrationWarning>
+      <head>
+        <AdsenseScript />
+      </head>
       <body>
         <PreferencesProvider locale={rawLocale}>
           <SiteHeader locale={rawLocale} dictionary={dictionary} />
@@ -38,7 +41,6 @@ export default async function LocaleLayout({ children, params }: { children: Rea
         <Analytics />
         <SpeedInsights />
         <GoogleAnalytics />
-        <AdsenseScript />
       </body>
     </html>
   );

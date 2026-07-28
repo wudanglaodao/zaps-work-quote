@@ -1,19 +1,13 @@
 "use client";
 
-import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
+import { adsensePublisherId, adsenseSlotId } from "@/lib/adsense";
 
-const publisherId = "ca-pub-2115668195727576";
-const slotId = "9060437642";
 
 declare global {
   interface Window {
     adsbygoogle?: unknown[];
   }
-}
-
-export function AdsenseScript() {
-  return <Script id="adsense-script" strategy="afterInteractive" async crossOrigin="anonymous" src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${publisherId}`} />;
 }
 
 export function AdsenseSlot() {
@@ -31,11 +25,15 @@ export function AdsenseSlot() {
     }
 
     const checkStatus = () => {
-      if (slot.current?.getAttribute("data-ad-status") === "unfilled") setUnfilled(true);
+      const element = slot.current;
+      if (!element) return;
+      const explicitlyUnfilled = element.getAttribute("data-ad-status") === "unfilled";
+      const finishedWithoutCreative = element.getAttribute("data-adsbygoogle-status") === "done" && !element.querySelector("iframe");
+      if (explicitlyUnfilled || finishedWithoutCreative) setUnfilled(true);
     };
     const observer = new MutationObserver(checkStatus);
     if (slot.current) observer.observe(slot.current, { attributes: true, attributeFilter: ["data-ad-status"] });
-    const timeout = window.setTimeout(checkStatus, 8000);
+    const timeout = window.setTimeout(checkStatus, 10000);
     return () => {
       observer.disconnect();
       window.clearTimeout(timeout);
@@ -45,7 +43,7 @@ export function AdsenseSlot() {
   return (
     <section className={`adsense-slot${unfilled ? " is-unfilled" : ""}`} aria-label="Advertisement">
       <p>Advertisement</p>
-      <ins ref={slot} className="adsbygoogle" style={{ display: "block" }} data-ad-client={publisherId} data-ad-slot={slotId} data-ad-format="auto" data-full-width-responsive="true" />
+      <ins ref={slot} className="adsbygoogle" style={{ display: "block" }} data-ad-client={adsensePublisherId} data-ad-slot={adsenseSlotId} data-ad-format="auto" data-full-width-responsive="true" />
     </section>
   );
 }
