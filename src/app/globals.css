@@ -333,6 +333,7 @@ svg { flex: 0 0 auto; }
 .guide-tool-card small svg { width: 14px; }
 .guide-ad { max-width: 900px; padding-bottom: 32px; }
 .adsense-slot { min-height: 92px; position: relative; overflow: hidden; border-block: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 86%, transparent); }
+.adsense-slot.is-unfilled { display: none; }
 .adsense-slot > p { position: absolute; inset-block-start: 8px; inset-inline-start: 0; z-index: 1; margin: 0; color: var(--subtle); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
 .adsense-slot ins { min-height: 90px; }
 .guide-faq { max-width: 900px; padding-block: 88px 100px; border-top: 1px solid var(--line); }
