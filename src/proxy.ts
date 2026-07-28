@@ -16,12 +16,13 @@ function calculatorPath(pathname: string) {
 }
 
 export function proxy(request: NextRequest) {
+  const destinationPath = calculatorPath(request.nextUrl.pathname);
+
   if (legacyHosts.has(request.nextUrl.hostname.toLowerCase())) {
-    const destination = new URL(`${request.nextUrl.pathname}${request.nextUrl.search}`, "https://quote.loeme.com");
+    const destination = new URL(`${destinationPath || request.nextUrl.pathname}${request.nextUrl.search}`, "https://quote.loeme.com");
     return NextResponse.redirect(destination, 301);
   }
 
-  const destinationPath = calculatorPath(request.nextUrl.pathname);
   if (!destinationPath) return NextResponse.next();
 
   const destination = request.nextUrl.clone();

@@ -16,4 +16,11 @@ describe("domain and legacy-path redirects", () => {
     expect(response.status).toBe(301);
     expect(response.headers.get("location")).toBe("https://quote.loeme.com/zh-hans/calculators/laser-cutting-cost-calculator");
   });
+
+  it("sends old-domain tools URLs directly to their final calculator URL", () => {
+    const response = proxy(new NextRequest("https://www.zaps.work/tools/3d-print-cost-calculator"));
+
+    expect(response.status).toBe(301);
+    expect(response.headers.get("location")).toBe("https://quote.loeme.com/calculators/3d-print-cost-calculator");
+  });
 });
