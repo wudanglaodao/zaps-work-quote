@@ -48,7 +48,7 @@ Copy `.env.example` to `.env.local` for local development. Worker bindings are d
 1. Push this repository to `wudanglaodao/zaps-work-quote`.
 2. Keep branch protection on `main` after the first release.
 3. Require the `quality` GitHub Actions job before merging.
-4. Configure Cloudflare Workers Builds with `npm run deploy:workers` if deployments should run automatically from `main`.
+4. Configure Cloudflare Workers Builds for `main` with build command `npx opennextjs-cloudflare build` and deploy command `npx wrangler deploy`. Keep non-production branch builds disabled unless preview deployments are needed.
 5. Use GitHub as the release source of truth; do not mix Vercel and Workers production deployments.
 
 ## Release Flow
