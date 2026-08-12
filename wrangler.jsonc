@@ -15,7 +15,7 @@
     {
       "binding": "DB",
       "database_name": "zaps-work-analytics",
-      "database_id": "REPLACE_WITH_CLOUDFLARE_D1_DATABASE_ID",
+      "database_id": "209e0e7a-52b3-48cc-850f-4cbff193482e",
       "migrations_dir": "cloudflare/d1/migrations"
     }
   ]
