@@ -447,6 +447,18 @@ svg { flex: 0 0 auto; }
 .result-column { position: sticky; top: 80px; display: grid; gap: 16px; }
 .result-card { overflow: hidden; scroll-margin-top: 76px; border-color: color-mix(in srgb, var(--green) 36%, var(--line)); box-shadow: var(--shadow); }
 .mobile-quote-bar { display: none; }
+.holesnap-ad { position: relative; isolation: isolate; display: grid; grid-template-columns: 210px minmax(0, 1fr) auto; align-items: center; gap: 20px; overflow: hidden; padding: 16px; border: 1px solid color-mix(in srgb, var(--green) 42%, var(--line)); border-radius: 4px; background: linear-gradient(135deg, color-mix(in srgb, var(--green-soft) 86%, var(--surface)) 0%, var(--surface) 72%); box-shadow: 0 8px 26px rgba(7, 16, 10, .04); }
+.holesnap-ad::after { content: ""; width: 180px; height: 180px; position: absolute; z-index: -1; inset-inline-end: -50px; inset-block-start: -72px; border: 1px solid color-mix(in srgb, var(--green) 22%, transparent); border-radius: 50%; box-shadow: 0 0 0 18px color-mix(in srgb, var(--green) 5%, transparent), 0 0 0 36px color-mix(in srgb, var(--green) 4%, transparent); }
+.holesnap-ad-visual { height: 118px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--green) 24%, var(--line)); border-radius: 3px; background: var(--surface-2); }
+.holesnap-ad-visual img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; }
+.holesnap-ad-copy { min-width: 0; }
+.holesnap-ad-kicker { margin: 0 0 7px; color: var(--green-dark); font-size: 10px; font-weight: 760; letter-spacing: .04em; text-transform: uppercase; }
+.holesnap-ad h2 { max-width: 520px; margin: 0; font-size: 20px; line-height: 1.2; }
+.holesnap-ad-copy > p:last-child { max-width: 560px; margin: 9px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.holesnap-ad-link { min-height: 40px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 14px; border: 1px solid var(--green); border-radius: 3px; background: var(--green); color: #fff; font-size: 12px; font-weight: 720; white-space: nowrap; }
+.holesnap-ad-link:hover { border-color: var(--green-dark); background: var(--green-dark); color: #fff; }
+.holesnap-ad-link span { font-size: 16px; line-height: 1; }
+.holesnap-ad-shell { margin-block: 18px 30px; }
 .result-label { margin: 0; padding: 24px 26px 0; display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 12px; font-weight: 680; }
 .result-label::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
 .result-value { display: block; padding: 10px 26px 24px; font-size: clamp(50px, 6vw, 72px); line-height: 1; font-weight: 710; font-variant-numeric: tabular-nums; }
@@ -703,6 +715,9 @@ svg { flex: 0 0 auto; }
   .result-metrics p { padding: 14px 12px; }
   .result-metrics strong { font-size: 15px; }
   .result-actions { grid-template-columns: 1fr; padding: 16px 18px 20px; }
+  .holesnap-ad { grid-template-columns: 1fr; gap: 16px; padding: 16px 18px 18px; }
+  .holesnap-ad-visual { height: 160px; }
+  .holesnap-ad-link { justify-self: start; }
   .mobile-quote-bar { position: fixed; z-index: 40; inset-inline: 12px; inset-block-end: 12px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 14px; border: 1px solid color-mix(in srgb, var(--green) 44%, var(--line)); border-radius: 12px; background: color-mix(in srgb, var(--surface) 94%, transparent); box-shadow: 0 14px 36px rgba(7, 16, 10, .18); backdrop-filter: blur(14px); }
   .mobile-quote-bar span { min-width: 0; display: grid; gap: 2px; }
   .mobile-quote-bar small { overflow: hidden; color: var(--muted); font-size: 10px; font-weight: 680; text-overflow: ellipsis; white-space: nowrap; }
