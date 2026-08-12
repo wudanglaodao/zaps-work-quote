@@ -1,18 +1,17 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { insertAnalyticsEvent, isD1Configured } from "./d1";
 
-afterEach(() => {
-  vi.unstubAllEnvs();
-  vi.unstubAllGlobals();
-});
+vi.mock("@opennextjs/cloudflare", () => ({ getCloudflareContext: vi.fn() }));
+
+afterEach(() => vi.clearAllMocks());
 
 describe("Cloudflare D1 analytics client", () => {
-  it("uses a server-only D1 token to insert a parameterized event", async () => {
-    vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", "account-id");
-    vi.stubEnv("CLOUDFLARE_D1_DATABASE_ID", "database-id");
-    vi.stubEnv("CLOUDFLARE_D1_API_TOKEN", "secret-token");
-    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify({ success: true, result: [{ success: true, results: [] }] })));
-    vi.stubGlobal("fetch", fetchMock);
+  it("uses the Worker D1 binding and parameterized SQL", async () => {
+    const run = vi.fn().mockResolvedValue({ success: true });
+    const bind = vi.fn().mockReturnValue({ run });
+    const prepare = vi.fn().mockReturnValue({ bind });
+    vi.mocked(getCloudflareContext).mockReturnValue({ env: { DB: { prepare } } } as never);
 
     await insertAnalyticsEvent({
       eventType: "pdf_exported", toolSlug: "3d-print-cost-calculator", toolVersion: "1.0.0", formulaVersion: "3d-print-v1",
@@ -20,22 +19,16 @@ describe("Cloudflare D1 analytics client", () => {
       itemCount: 1, totalCost: 10, quoteTotal: 15, margin: .33, quoteSnapshot: { kind: "3d-print" },
     });
 
-    expect(fetchMock).toHaveBeenCalledWith(
-      "https://api.cloudflare.com/client/v4/accounts/account-id/d1/database/database-id/query",
-      expect.objectContaining({
-        method: "POST",
-        headers: expect.objectContaining({ authorization: "Bearer secret-token" }),
-      }),
+    expect(prepare).toHaveBeenCalledWith(expect.stringContaining("insert into analytics_events"));
+    expect(bind).toHaveBeenCalledWith(
+      "pdf_exported", "3d-print-cost-calculator", "1.0.0", "3d-print-v1", "en", "USD",
+      "Asia/Shanghai", "CN", "SH", 1, 10, 15, .33, '{"kind":"3d-print"}',
     );
-    const body = JSON.parse(fetchMock.mock.calls[0][1].body);
-    expect(body.sql).toContain("insert into analytics_events");
-    expect(body.params.at(-1)).toBe('{"kind":"3d-print"}');
+    expect(run).toHaveBeenCalledOnce();
   });
 
-  it("does not report D1 as configured when a required secret is missing", () => {
-    vi.stubEnv("CLOUDFLARE_ACCOUNT_ID", "account-id");
-    vi.stubEnv("CLOUDFLARE_D1_DATABASE_ID", "database-id");
-    vi.stubEnv("CLOUDFLARE_D1_API_TOKEN", "");
+  it("reports the binding as unavailable outside a Worker context", () => {
+    vi.mocked(getCloudflareContext).mockImplementation(() => { throw new Error("missing context"); });
     expect(isD1Configured()).toBe(false);
   });
 });

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
-import { GuidesView } from "@/app/(root)/guides/page";
+import { GuidesView } from "@/components/guides-view";
 import { guidesIndexCopy } from "@/lib/guides/ui";
 import { isLocale } from "@/lib/i18n/config";
 import { buildMetadata } from "@/lib/seo";

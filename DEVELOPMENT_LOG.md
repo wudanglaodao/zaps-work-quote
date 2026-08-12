@@ -115,7 +115,7 @@
 
 - 使用 Next.js、React 与 TypeScript 建立多语言工具平台。
 - 将计算逻辑拆分为可测试的纯函数，并加入单元测试与发布质量检查。
-- 使用 Vercel 承载预览与生产环境，使用 Cloudflare D1 保存隐私安全的匿名分析事件。
+- 使用 Cloudflare Workers 承载预览与生产环境，使用 Cloudflare D1 保存隐私安全的匿名分析事件。
 - 建立 canonical、`hreflang`、多语言路由和搜索引擎索引基础。
 
 ### 下一步

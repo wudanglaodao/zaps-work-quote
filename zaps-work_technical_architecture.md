@@ -20,7 +20,7 @@ Every new scenario ships as a complete vertical release: calculator or quote wor
 
 ```text
 GitHub
-  -> Vercel / Next.js App Router
+        -> Cloudflare Workers / Next.js App Router via OpenNext
        -> static localized pages and metadata
        -> client-side calculator and document exports
        -> server-only analytics API
@@ -32,7 +32,7 @@ GitHub
 - PDF and CSV exports are generated in the browser for a fast, no-login MVP.
 - All quote-entered content, including company details, customer names, contact details, addresses, item names, quote numbers, notes, and terms, remains in the browser.
 - Cloudflare D1 stores only allowlisted aggregate product events.
-- Vercel handles deployments, previews, Web Analytics, and Speed Insights.
+- Cloudflare Workers handles deployments, previews, custom domains, and the Worker runtime.
 - No ORM is required for the MVP's single append-only analytics table. Add a typed query layer only when the domain schema grows.
 
 ## 3. Runtime Stack
@@ -45,7 +45,7 @@ GitHub
 | Calculation | Pure TypeScript | Shared deterministic formulas |
 | UI | CSS tokens, Lucide icons | Light/dark and responsive interface |
 | Database | Cloudflare D1 | Aggregate analytics events |
-| Hosting | Vercel | CDN, functions, previews, analytics |
+| Hosting | Cloudflare Workers + OpenNext | CDN, Worker runtime, previews, custom domains |
 | Tests | Vitest, ESLint, TypeScript | Formula and release safety |
 
 ## 4. Locale And SEO Routing
@@ -54,7 +54,6 @@ Every indexable language has a stable path prefix:
 
 ```text
 /
-/tools
 /calculators/3d-print-cost-calculator
 /zh-hant
 /zh-hant/tools
@@ -182,7 +181,7 @@ The browser posts to `POST /api/events`. The route:
 
 - Rejects payloads larger than 4 KB.
 - Validates a strict event-name and property allowlist with Zod.
-- Uses the Cloudflare D1 API token only on the server.
+- Uses the Cloudflare D1 `DB` binding only on the server.
 - Returns `503` for an analytics event when D1 is not configured, without blocking calculator use or document export.
 - Never accepts or stores company names, customer details, quote numbers, addresses, emails, notes, item names, quote fields, or full calculator snapshots.
 
@@ -199,20 +198,20 @@ Allowed properties are aggregate dimensions such as tool slug, locale, currency,
 
 Cloudflare D1 access policy:
 
-- The D1 API token is stored only in Vercel environment variables.
-- It is scoped to this analytics database with only `D1 Read` and `D1 Write` permissions.
+- The D1 database is exposed to the Worker only through the `DB` binding.
+- Wrangler controls the binding; no database token is shipped to the browser.
 - The browser has no database credentials and can only call the validated Next.js route.
 - Production access happens through the schema-validated Next.js route.
 
 ## 9. Security Baseline
 
-- `CLOUDFLARE_D1_API_TOKEN` must never use a `NEXT_PUBLIC_` prefix.
-- Secrets exist only in Vercel environment variables and local ignored files.
+- The D1 `DB` binding must never be exposed through a `NEXT_PUBLIC_` variable.
+- Secrets and local Worker variables exist only in Cloudflare Worker bindings and ignored local files.
 - Security headers disable MIME sniffing, framing, camera, microphone, and geolocation.
 - Public API payloads are size-limited and schema-validated.
 - CSV export guards against spreadsheet formula injection.
 - Dependencies and the full quality gate run before release.
-- Rate limiting can be added at the Vercel layer if event abuse appears.
+- Rate limiting can be added at the Cloudflare layer if event abuse appears.
 
 ## 10. Repository Structure
 
@@ -251,9 +250,9 @@ public/
 feature branch
   -> GitHub pull request
   -> GitHub Actions: lint + typecheck + tests + production build
-  -> Vercel Preview
+  -> Cloudflare Workers preview
   -> merge to main
-  -> Vercel Production
+  -> Cloudflare Workers Production
   -> zaps.work
 ```
 
@@ -261,9 +260,9 @@ Production environment variables:
 
 ```text
 NEXT_PUBLIC_SITE_URL=https://zaps.work
-CLOUDFLARE_ACCOUNT_ID=...
-CLOUDFLARE_D1_DATABASE_ID=...
-CLOUDFLARE_D1_API_TOKEN=...
+
+Worker binding:
+DB -> zaps-work-analytics (Cloudflare D1)
 ```
 
 The database token is never available to client-side code. The current calculator does not require customer accounts or browser database access.

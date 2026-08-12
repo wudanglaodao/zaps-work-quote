@@ -16,7 +16,7 @@ function calculatorPath(pathname: string) {
   return locale === "en" ? `/calculators${suffix}` : `/${locale}/calculators${suffix}`;
 }
 
-export function proxy(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const destinationPath = calculatorPath(request.nextUrl.pathname);
 
   if (redirectHosts.has(request.nextUrl.hostname.toLowerCase())) {

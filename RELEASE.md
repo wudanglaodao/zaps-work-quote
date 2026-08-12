@@ -3,9 +3,9 @@
 ## Production Stack
 
 - GitHub: `wudanglaodao/zaps-work-quote`
-- Hosting and previews: Vercel
+- Hosting and previews: Cloudflare Workers via OpenNext
 - Database and aggregate product analytics: Cloudflare D1
-- Public traffic analytics: Vercel Web Analytics and Speed Insights
+- Page-level traffic analytics: Google Analytics (`G-7HE8VQXGTQ`)
 
 ## Launch Routes
 
@@ -25,42 +25,39 @@
 
 ## Environment Variables
 
-Copy `.env.example` to `.env.local` for local development. Configure the same names in Vercel for Preview and Production.
-
-`CLOUDFLARE_D1_API_TOKEN` is server-only. Never prefix it with `NEXT_PUBLIC_` or expose it in the browser.
+Copy `.env.example` to `.env.local` for local development. Worker bindings are declared in `wrangler.jsonc`; the D1 database is available to the application as `env.DB`.
 
 ## Cloudflare D1
 
-1. Create a D1 database named `zaps-work-analytics` in Cloudflare.
-2. Apply `cloudflare/d1/migrations/0001_analytics_events.sql` in the D1 dashboard or with Wrangler before deploying code that writes events.
-3. Create a Cloudflare API token scoped only to this database with `D1 Read` and `D1 Write` permissions.
-4. Set `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_D1_DATABASE_ID`, and `CLOUDFLARE_D1_API_TOKEN` in Vercel for Preview and Production.
+1. Create a D1 database named `zaps-work-analytics`: `npx wrangler d1 create zaps-work-analytics`.
+2. Copy the returned database ID into `wrangler.jsonc` as `database_id`.
+3. Apply `cloudflare/d1/migrations/0001_analytics_events.sql`: `npx wrangler d1 migrations apply zaps-work-analytics --remote`.
+4. Generate binding types with `npm run cf-typegen`.
 
-## Vercel
+## Cloudflare Workers
 
-1. Import the GitHub repository.
-2. Keep `main` as the production branch.
-3. Add `zaps.work` as the canonical production host. Keep `www.zaps.work`, `quote.loeme.com`, and `www.quote.loeme.com` attached to this project so Proxy can return a path- and query-preserving `301` to the canonical host.
-4. Set `NEXT_PUBLIC_SITE_URL=https://zaps.work` in every environment.
-5. Set `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=G-7HE8VQXGTQ` in Preview and Production.
-6. Enable Web Analytics and Speed Insights.
-7. Verify the Preview deployment before merging to `main`.
+1. Log in with `npx wrangler login`.
+2. Set `database_id` in `wrangler.jsonc` and confirm the `DB` binding is present.
+3. Run `npm run preview:workers` and verify the site through Wrangler locally.
+4. Run `npm run deploy:workers` to publish the Worker.
+5. Add `zaps.work` as the Worker custom domain in Cloudflare. Keep `www.zaps.work`, `quote.loeme.com`, and `www.quote.loeme.com` attached during the migration so the application can return path- and query-preserving `301` redirects.
+6. Verify `/api/health` and the changed user flow on `https://zaps.work`.
 
 ## GitHub
 
 1. Push this repository to `wudanglaodao/zaps-work-quote`.
 2. Keep branch protection on `main` after the first release.
 3. Require the `quality` GitHub Actions job before merging.
-4. Let Vercel create Preview deployments for pull requests and Production deployments from `main`.
-5. Use GitHub as the release source of truth; do not run manual production deployments during the normal release flow.
+4. Configure Cloudflare Workers Builds with `npm run deploy:workers` if deployments should run automatically from `main`.
+5. Use GitHub as the release source of truth; do not mix Vercel and Workers production deployments.
 
 ## Release Flow
 
 1. Confirm the release version and update the newest entry in `DEVELOPMENT_LOG.md`.
 2. Apply any pending Cloudflare D1 migrations.
 3. Run `npm run check` locally.
-4. Push a feature branch and verify its Vercel Preview deployment.
-5. Merge into `main`; Vercel deploys Production from the GitHub commit.
+4. Push a feature branch and verify `npm run preview:workers` locally or through a Cloudflare preview Worker.
+5. Merge into `main`; Cloudflare Workers Builds deploys the production Worker.
 6. Verify `/api/health` and the changed user flow on `https://zaps.work`.
 7. Mark the log entry as released, use the production date, and add the final link or screenshots needed for the blog post.
 

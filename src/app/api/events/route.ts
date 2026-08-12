@@ -1,12 +1,19 @@
 import { NextResponse } from "next/server";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { analyticsEventSchema } from "@/lib/analytics/schema";
 import { insertAnalyticsEvent, isD1Configured } from "@/lib/cloudflare/d1";
 
 export const runtime = "nodejs";
 
 function requestContext(request: Request) {
-  const countryCode = request.headers.get("x-vercel-ip-country")?.trim().toUpperCase() ?? "";
-  const regionCode = request.headers.get("x-vercel-ip-country-region")?.trim().toUpperCase() ?? "";
+  let cf: Record<string, unknown> | undefined;
+  try {
+    cf = getCloudflareContext().cf as Record<string, unknown> | undefined;
+  } catch {
+    cf = undefined;
+  }
+  const countryCode = (request.headers.get("cf-ipcountry") || String(cf?.country ?? "")).trim().toUpperCase();
+  const regionCode = String(cf?.region ?? "").trim().toUpperCase();
   return {
     countryCode: /^[A-Z]{2}$/.test(countryCode) ? countryCode : null,
     regionCode: /^[A-Z0-9-]{1,8}$/.test(regionCode) ? regionCode : null,

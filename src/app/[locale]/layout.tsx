@@ -1,6 +1,4 @@
 import type { Metadata } from "next";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { notFound } from "next/navigation";
 import { GoogleAnalytics } from "@/components/google-analytics";
 import { PreferencesProvider } from "@/components/preferences-provider";
@@ -34,8 +32,6 @@ export default async function LocaleLayout({ children, params }: { children: Rea
           <main className="site-main" id="main-content">{children}</main>
           <SiteFooter locale={rawLocale} dictionary={dictionary} />
         </PreferencesProvider>
-        <Analytics />
-        <SpeedInsights />
         <GoogleAnalytics />
       </body>
     </html>

@@ -12,8 +12,8 @@ Available tools include 3D print, laser cutting, CNC machining, pressure washing
 
 - Next.js 16 App Router, React 19, and TypeScript
 - Zod schemas and pure calculation functions
+- Cloudflare Workers with OpenNext for hosting and previews
 - Cloudflare D1 for privacy-safe product analytics
-- Vercel hosting, previews, Web Analytics, and Speed Insights
 - Google Analytics for page-level traffic analysis
 - Vitest, ESLint, and TypeScript release checks
 
@@ -25,7 +25,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open [http://localhost:3102](http://localhost:3102). Cloudflare D1 variables may remain empty during local UI work; analytics then becomes a no-op.
+Open [http://localhost:3102](http://localhost:3102). The local Worker `DB` binding may remain unavailable during UI work; analytics then becomes a no-op.
 
 ## Quality Gate
 
@@ -55,11 +55,11 @@ The site also publishes [`/robots.txt`](https://zaps.work/robots.txt), a styled 
 
 ## Data Boundary
 
-Calculations and PDF/CSV generation run in the browser. On export, the analytics API accepts a strictly allowlisted anonymous snapshot containing categorical and numeric calculation data such as material type, quantity, production time, rates, cost breakdown, and quote result. Strict schemas reject free text and customer-related fields. The Cloudflare D1 API token is server-only and is scoped to this analytics database.
+Calculations and PDF/CSV generation run in the browser. On export, the analytics API accepts a strictly allowlisted anonymous snapshot containing categorical and numeric calculation data such as material type, quantity, production time, rates, cost breakdown, and quote result. Strict schemas reject free text and customer-related fields. The D1 database is available to the Worker only through the server-side `DB` binding.
 
 ## Deployment
 
-See [RELEASE.md](./RELEASE.md) for GitHub, Vercel, Cloudflare D1, domain, and SEO launch steps. Architecture decisions are documented in [zaps-work_technical_architecture.md](./zaps-work_technical_architecture.md).
+See [RELEASE.md](./RELEASE.md) for GitHub, Cloudflare Workers, D1, domain, and SEO launch steps. Architecture decisions are documented in [zaps-work_technical_architecture.md](./zaps-work_technical_architecture.md).
 
 ## Development Log
 
