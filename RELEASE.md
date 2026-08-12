@@ -40,7 +40,7 @@ Copy `.env.example` to `.env.local` for local development. Worker bindings are d
 2. Set `database_id` in `wrangler.jsonc` and confirm the `DB` binding is present.
 3. Run `npm run preview:workers` and verify the site through Wrangler locally.
 4. Run `npm run deploy:workers` to publish the Worker.
-5. Add `zaps.work` as the Worker custom domain in Cloudflare. Keep `www.zaps.work`, `quote.loeme.com`, and `www.quote.loeme.com` attached during the migration so the application can return path- and query-preserving `301` redirects.
+5. Add the Cloudflare zone routes `zaps.work/*` and `*.zaps.work/*` to the Worker (a custom domain is also supported). Keep `www.zaps.work`, `quote.loeme.com`, and `www.quote.loeme.com` attached during the migration so the application can return path- and query-preserving `301` redirects.
 6. Verify `/api/health` and the changed user flow on `https://zaps.work`.
 
 ## GitHub
