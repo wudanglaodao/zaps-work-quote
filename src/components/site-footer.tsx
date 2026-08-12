@@ -7,7 +7,6 @@ import type { Dictionary } from "@/lib/i18n/dictionaries";
 import type { Locale } from "@/lib/i18n/config";
 import { localizedPath } from "@/lib/seo";
 import { usePreferences } from "./preferences-provider";
-import { BrandLogo } from "./brand-logo";
 
 const githubUrl = "https://github.com/wudanglaodao/zaps-work-quote";
 const feedbackUrl = "https://github.com/wudanglaodao/zaps-work-quote/issues";
@@ -21,14 +20,14 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
     return (
       <footer className="site-footer site-footer-compact">
         <div className="shell footer-compact-inner">
-          <Link className="brand footer-brand" href={homePath} aria-label="LOEME Quote home"><BrandLogo /></Link>
+          <Link className="brand footer-brand" href={homePath} aria-label="zaps.work home">zaps<span>.</span>work</Link>
           <div className="footer-compact-links">
             <Link href={localizedPath(locale, "calculators")}>{dictionary.common.tools}</Link>
             <Link href={localizedPath(locale, "privacy")}>{dictionary.common.privacy}</Link>
             <a href="mailto:info@lopuo.com">{dictionary.common.contact}</a>
             <a href={feedbackUrl} target="_blank" rel="noreferrer">{dictionary.common.feedback}</a>
             <a href={githubUrl} target="_blank" rel="noreferrer">{dictionary.common.github}</a>
-            <span>© 2026 LOEME Quote</span>
+            <span>© 2026 zaps.work</span>
           </div>
         </div>
       </footer>
@@ -39,7 +38,7 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
     <footer className="site-footer">
       <div className="shell footer-top">
         <div className="footer-summary">
-          <Link className="brand footer-brand" href={homePath} aria-label="LOEME Quote home"><BrandLogo /></Link>
+          <Link className="brand footer-brand" href={homePath} aria-label="zaps.work home">zaps<span>.</span>work</Link>
           <p>{dictionary.common.footerSummary}</p>
           <p className="footer-privacy-promise">{dictionary.common.footerPrivacyPromise}</p>
         </div>
@@ -54,7 +53,7 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
           <Link href={localizedPath(locale, "guides")}>{dictionary.common.guides}</Link>
         </div>
         <div className="footer-column">
-          <h3>LOEME Quote</h3>
+          <h3>zaps.work</h3>
           <Link href={localizedPath(locale, "privacy")}>{dictionary.common.privacy}</Link>
           <a href="mailto:info@lopuo.com">{dictionary.common.contact}</a>
           <a href={feedbackUrl} target="_blank" rel="noreferrer">{dictionary.common.feedback}</a>
@@ -62,7 +61,7 @@ export function SiteFooter({ locale, dictionary }: { locale: Locale; dictionary:
         </div>
       </div>
       <div className="shell footer-bottom">
-        <span>© 2026 LOEME Quote</span>
+        <span>© 2026 zaps.work</span>
         <div className="footer-bottom-actions">
           <span className="online">{dictionary.common.footerLive}</span>
           <button

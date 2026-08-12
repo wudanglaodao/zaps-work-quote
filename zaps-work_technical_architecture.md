@@ -24,14 +24,14 @@ GitHub
        -> static localized pages and metadata
        -> client-side calculator and document exports
        -> server-only analytics API
-            -> Supabase Postgres
+            -> Cloudflare D1
 ```
 
 - One Next.js application owns public pages, tools, metadata, API routes, and future admin pages.
 - Calculators are client-side, deterministic pure TypeScript functions validated by Zod.
 - PDF and CSV exports are generated in the browser for a fast, no-login MVP.
 - All quote-entered content, including company details, customer names, contact details, addresses, item names, quote numbers, notes, and terms, remains in the browser.
-- Supabase stores only allowlisted aggregate product events.
+- Cloudflare D1 stores only allowlisted aggregate product events.
 - Vercel handles deployments, previews, Web Analytics, and Speed Insights.
 - No ORM is required for the MVP's single append-only analytics table. Add a typed query layer only when the domain schema grows.
 
@@ -44,7 +44,7 @@ GitHub
 | Validation | Zod | Inputs and analytics payload contracts |
 | Calculation | Pure TypeScript | Shared deterministic formulas |
 | UI | CSS tokens, Lucide icons | Light/dark and responsive interface |
-| Database | Supabase Postgres | Aggregate analytics events |
+| Database | Cloudflare D1 | Aggregate analytics events |
 | Hosting | Vercel | CDN, functions, previews, analytics |
 | Tests | Vitest, ESLint, TypeScript | Formula and release safety |
 
@@ -55,28 +55,28 @@ Every indexable language has a stable path prefix:
 ```text
 /
 /tools
-/tools/3d-print-cost-calculator
+/calculators/3d-print-cost-calculator
 /zh-hant
 /zh-hant/tools
-/zh-hant/tools/3d-print-cost-calculator
+/zh-hant/calculators/3d-print-cost-calculator
 /de
 /de/tools
-/de/tools/3d-print-cost-calculator
+/de/calculators/3d-print-cost-calculator
 /ja
 /ja/tools
-/ja/tools/3d-print-cost-calculator
+/ja/calculators/3d-print-cost-calculator
 /es
 /es/tools
-/es/tools/3d-print-cost-calculator
+/es/calculators/3d-print-cost-calculator
 /fr
 /fr/tools
-/fr/tools/3d-print-cost-calculator
+/fr/calculators/3d-print-cost-calculator
 /pt-br
 /pt-br/tools
-/pt-br/tools/3d-print-cost-calculator
+/pt-br/calculators/3d-print-cost-calculator
 /ko
 /ko/tools
-/ko/tools/3d-print-cost-calculator
+/ko/calculators/3d-print-cost-calculator
 ```
 
 Rules:
@@ -155,7 +155,7 @@ User edits item or shared assumptions
   -> render result and quote preview
 ```
 
-The browser never depends on Supabase for a calculation. A database outage must not prevent using the calculator or exporting a quote.
+The browser never depends on Cloudflare D1 for a calculation. A database outage must not prevent using the calculator or exporting a quote.
 
 ## 7. PDF And CSV Exports
 
@@ -182,18 +182,14 @@ The browser posts to `POST /api/events`. The route:
 
 - Rejects payloads larger than 4 KB.
 - Validates a strict event-name and property allowlist with Zod.
-- Uses the Supabase service-role key only on the server.
-- Returns `204` without blocking the UI when Supabase is not configured.
+- Uses the Cloudflare D1 API token only on the server.
+- Returns `503` for an analytics event when D1 is not configured, without blocking calculator use or document export.
 - Never accepts or stores company names, customer details, quote numbers, addresses, emails, notes, item names, quote fields, or full calculator snapshots.
 
 Allowed examples:
 
 ```text
-tool_view
-item_added
-item_removed
-currency_changed
-locale_changed
+calculator_used
 pdf_exported
 csv_exported
 summary_copied
@@ -201,16 +197,16 @@ summary_copied
 
 Allowed properties are aggregate dimensions such as tool slug, locale, currency, item count, export type, and formula version.
 
-Supabase table policy:
+Cloudflare D1 access policy:
 
-- Row Level Security is enabled.
-- `anon` and `authenticated` have no direct read or write access.
-- Only `service_role` can insert and select analytics events.
-- Production access happens through the validated Next.js route.
+- The D1 API token is stored only in Vercel environment variables.
+- It is scoped to this analytics database with only `D1 Read` and `D1 Write` permissions.
+- The browser has no database credentials and can only call the validated Next.js route.
+- Production access happens through the schema-validated Next.js route.
 
 ## 9. Security Baseline
 
-- `SUPABASE_SERVICE_ROLE_KEY` must never use a `NEXT_PUBLIC_` prefix.
+- `CLOUDFLARE_D1_API_TOKEN` must never use a `NEXT_PUBLIC_` prefix.
 - Secrets exist only in Vercel environment variables and local ignored files.
 - Security headers disable MIME sniffing, framing, camera, microphone, and geolocation.
 - Public API payloads are size-limited and schema-validated.
@@ -233,7 +229,7 @@ src/
     robots.ts
     sitemap.xml/route.ts
     pages-sitemap.xml/route.ts
-    tools-sitemap.xml/route.ts
+    calculators-sitemap.xml/route.ts
     sitemap.xsl/route.ts
   components/
   lib/
@@ -242,8 +238,9 @@ src/
     i18n/
     sitemap.ts
     tools/
-supabase/
-  migrations/
+cloudflare/
+  d1/
+    migrations/
 public/
   assets/
 ```
@@ -264,13 +261,12 @@ Production environment variables:
 
 ```text
 NEXT_PUBLIC_SITE_URL=https://zaps.work
-NEXT_PUBLIC_SUPABASE_URL=...
-NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=...
-SUPABASE_SERVICE_ROLE_KEY=...
-ANALYTICS_SALT=...
+CLOUDFLARE_ACCOUNT_ID=...
+CLOUDFLARE_D1_DATABASE_ID=...
+CLOUDFLARE_D1_API_TOKEN=...
 ```
 
-The publishable key is reserved for future client-side Supabase features. The current calculator does not require it.
+The database token is never available to client-side code. The current calculator does not require customer accounts or browser database access.
 
 ## 12. Release Phases
 
@@ -284,7 +280,7 @@ The publishable key is reserved for future client-side Supabase features. The cu
 
 ### Phase 2: Learn
 
-- Connect Supabase and build aggregate reports.
+- Connect Cloudflare D1 and build aggregate reports.
 - Measure tool views, completed calculations, exports, locale, and currency.
 - Add guides based on actual search intent.
 - Tune performance and Core Web Vitals from production data.
@@ -298,7 +294,5 @@ The publishable key is reserved for future client-side Supabase features. The cu
 
 ### Phase 4: Monetize
 
-- Consider AdSense on educational or related-tool sections.
-- Keep ads away from input fields, result panels, and export controls.
-- Reserve stable ad dimensions to prevent layout shift.
-- Keep all core calculators usable without registration.
+- Keep the core calculators free and usable without registration.
+- Evaluate first-party workflow features only after repeat usage justifies them.

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const legacyHosts = new Set(["zaps.work", "www.zaps.work"]);
+const canonicalHost = "zaps.work";
+const redirectHosts = new Set(["www.zaps.work", "quote.loeme.com", "www.quote.loeme.com"]);
 
 const localizedToolsPath = /^\/(en|zh-hant|zh-hans|de|ja|es|fr|pt-br|ko)\/tools(?:(\/.*))?$/;
 
@@ -18,8 +19,8 @@ function calculatorPath(pathname: string) {
 export function proxy(request: NextRequest) {
   const destinationPath = calculatorPath(request.nextUrl.pathname);
 
-  if (legacyHosts.has(request.nextUrl.hostname.toLowerCase())) {
-    const destination = new URL(`${destinationPath || request.nextUrl.pathname}${request.nextUrl.search}`, "https://quote.loeme.com");
+  if (redirectHosts.has(request.nextUrl.hostname.toLowerCase())) {
+    const destination = new URL(`${destinationPath || request.nextUrl.pathname}${request.nextUrl.search}`, `https://${canonicalHost}`);
     return NextResponse.redirect(destination, 301);
   }
 

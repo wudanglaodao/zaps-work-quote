@@ -1,4 +1,4 @@
-# LOEME Quote
+# zaps.work
 
 Free, multilingual cost calculators and quote generators for real work.
 
@@ -12,7 +12,7 @@ Available tools include 3D print, laser cutting, CNC machining, pressure washing
 
 - Next.js 16 App Router, React 19, and TypeScript
 - Zod schemas and pure calculation functions
-- Supabase Postgres for privacy-safe product analytics
+- Cloudflare D1 for privacy-safe product analytics
 - Vercel hosting, previews, Web Analytics, and Speed Insights
 - Google Analytics for page-level traffic analysis
 - Vitest, ESLint, and TypeScript release checks
@@ -25,7 +25,7 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Open [http://localhost:3102](http://localhost:3102). Supabase variables may remain empty during local UI work; analytics then becomes a no-op.
+Open [http://localhost:3102](http://localhost:3102). Cloudflare D1 variables may remain empty during local UI work; analytics then becomes a no-op.
 
 ## Quality Gate
 
@@ -51,15 +51,15 @@ English uses clean, unprefixed URLs. Other languages use stable locale prefixes:
 
 Each complete localized page emits a language-specific canonical URL, reciprocal `hreflang` links, and an `x-default` English fallback. The sitemap repeats the same alternate mapping. Legacy `/en/...` routes permanently redirect to their unprefixed English equivalents. New locales are added only after their full page copy and SEO metadata are ready.
 
-The site also publishes [`/robots.txt`](https://quote.loeme.com/robots.txt), a styled sitemap index at [`/sitemap.xml`](https://quote.loeme.com/sitemap.xml), child sitemaps for [`pages-sitemap.xml`](https://quote.loeme.com/pages-sitemap.xml) and [`calculators-sitemap.xml`](https://quote.loeme.com/calculators-sitemap.xml), and [`/llms.txt`](https://quote.loeme.com/llms.txt). `llms.txt` is an AI-readable navigation aid; canonical metadata, sitemap, robots rules, and page content remain the source of truth for search indexing.
+The site also publishes [`/robots.txt`](https://zaps.work/robots.txt), a styled sitemap index at [`/sitemap.xml`](https://zaps.work/sitemap.xml), child sitemaps for [`pages-sitemap.xml`](https://zaps.work/pages-sitemap.xml) and [`calculators-sitemap.xml`](https://zaps.work/calculators-sitemap.xml), and [`/llms.txt`](https://zaps.work/llms.txt). `llms.txt` is an AI-readable navigation aid; canonical metadata, sitemap, robots rules, and page content remain the source of truth for search indexing.
 
 ## Data Boundary
 
-Calculations and PDF/CSV generation run in the browser. On export, the analytics API accepts a strictly allowlisted anonymous snapshot containing categorical and numeric calculation data such as material type, quantity, production time, rates, cost breakdown, and quote result. Strict schemas reject free text and customer-related fields. The service-role key is server-only and the analytics table has Row Level Security enabled.
+Calculations and PDF/CSV generation run in the browser. On export, the analytics API accepts a strictly allowlisted anonymous snapshot containing categorical and numeric calculation data such as material type, quantity, production time, rates, cost breakdown, and quote result. Strict schemas reject free text and customer-related fields. The Cloudflare D1 API token is server-only and is scoped to this analytics database.
 
 ## Deployment
 
-See [RELEASE.md](./RELEASE.md) for GitHub, Vercel, Supabase, domain, and SEO launch steps. Architecture decisions are documented in [zaps-work_technical_architecture.md](./zaps-work_technical_architecture.md).
+See [RELEASE.md](./RELEASE.md) for GitHub, Vercel, Cloudflare D1, domain, and SEO launch steps. Architecture decisions are documented in [zaps-work_technical_architecture.md](./zaps-work_technical_architecture.md).
 
 ## Development Log
 

@@ -1,7 +1,7 @@
 import Script from "next/script";
 
-// Keep the production property explicit during the zaps.work → quote.loeme.com migration.
-// An obsolete Vercel environment value must not keep sending traffic to the retired property.
+// Keep the production property explicit so an obsolete environment value cannot
+// silently send traffic to another Analytics property.
 const measurementId = "G-7HE8VQXGTQ";
 
 export function GoogleAnalytics() {

@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { GoogleAnalytics } from "@/components/google-analytics";
-import { AdsenseScript } from "@/components/adsense-script";
 import { PreferencesProvider } from "@/components/preferences-provider";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -20,5 +19,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootEntryLayout({ children }: { children: React.ReactNode }) {
-  return <html lang="en" dir="ltr" data-scroll-behavior="smooth" suppressHydrationWarning><head><AdsenseScript /></head><body><PreferencesProvider locale="en"><SiteHeader locale="en" dictionary={dictionary} /><main className="site-main" id="main-content">{children}</main><SiteFooter locale="en" dictionary={dictionary} /></PreferencesProvider><Analytics /><SpeedInsights /><GoogleAnalytics /></body></html>;
+  return <html lang="en" dir="ltr" data-scroll-behavior="smooth" suppressHydrationWarning><body><PreferencesProvider locale="en"><SiteHeader locale="en" dictionary={dictionary} /><main className="site-main" id="main-content">{children}</main><SiteFooter locale="en" dictionary={dictionary} /></PreferencesProvider><Analytics /><SpeedInsights /><GoogleAnalytics /></body></html>;
 }

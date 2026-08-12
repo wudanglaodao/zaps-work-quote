@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Box, BriefcaseBusiness, BrushCleaning, Cpu, Database, DraftingCompass, Droplets, FileDown, LockKeyhole, Paintbrush, PanelsTopLeft, ScanLine, ShieldCheck, Sprout } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
-import { AdsenseSlot } from "@/components/adsense";
 import { htmlLanguage, isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { buildMetadata } from "@/lib/seo";
@@ -93,7 +92,6 @@ export function HomeView({ locale }: { locale: Locale }) {
           </div>
         </div>
       </section>
-      <section className="home-ad-section"><div className="shell"><AdsenseSlot /></div></section>
       <section className="home-privacy-section">
         <div className="shell home-privacy-layout">
           <div className="home-privacy-visual" aria-hidden="true">

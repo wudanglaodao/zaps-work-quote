@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { analyticsEventSchema } from "@/lib/analytics/schema";
-import { getSupabaseAdmin } from "@/lib/supabase/server";
+import { insertAnalyticsEvent, isD1Configured } from "@/lib/cloudflare/d1";
 
 export const runtime = "nodejs";
 
@@ -24,33 +24,29 @@ export async function POST(request: Request) {
   }
   const parsed = analyticsEventSchema.safeParse(json);
   if (!parsed.success) return NextResponse.json({ error: "Invalid event" }, { status: 400 });
-  const supabase = getSupabaseAdmin();
-  if (!supabase) return NextResponse.json({ error: "Analytics unavailable" }, { status: 503 });
+  if (!isD1Configured()) return NextResponse.json({ error: "Analytics unavailable" }, { status: 503 });
   const event = parsed.data;
   const context = requestContext(request);
   const eventRow = {
-    event_type: event.eventType,
-    tool_slug: event.toolSlug,
-    tool_version: "1.0.0",
-    formula_version: event.toolSlug === "pressure-washing-quote" ? "pressure-washing-v1" : event.toolSlug === "laser-cutting-cost-calculator" ? "laser-cutting-v1" : "3d-print-v1",
+    eventType: event.eventType,
+    toolSlug: event.toolSlug,
+    toolVersion: "1.0.0",
+    formulaVersion: event.toolSlug === "pressure-washing-quote" ? "pressure-washing-v1" : event.toolSlug === "laser-cutting-cost-calculator" ? "laser-cutting-v1" : "3d-print-v1",
     locale: event.locale,
     currency: event.currency,
-    time_zone: event.timeZone ?? null,
-    country_code: context.countryCode,
-    region_code: context.regionCode,
-    item_count: event.metrics.itemCount,
-    total_cost: event.metrics.totalCost,
-    quote_total: event.metrics.quoteTotal,
+    timeZone: event.timeZone ?? null,
+    countryCode: context.countryCode,
+    regionCode: context.regionCode,
+    itemCount: event.metrics.itemCount,
+    totalCost: event.metrics.totalCost,
+    quoteTotal: event.metrics.quoteTotal,
     margin: event.metrics.margin,
-    quote_snapshot: event.quoteSnapshot ?? null,
+    quoteSnapshot: event.quoteSnapshot ?? null,
   };
-  let { error } = await supabase.from("analytics_events").insert(eventRow);
-  if (error?.code === "PGRST204") {
-    const { time_zone, country_code, region_code, ...legacyEventRow } = eventRow;
-    ({ error } = await supabase.from("analytics_events").insert(legacyEventRow));
-  }
-  if (error) {
-    console.error("analytics insert failed", error.code);
+  try {
+    await insertAnalyticsEvent(eventRow);
+  } catch (error) {
+    console.error("analytics insert failed", error instanceof Error ? error.message : "unknown error");
     return NextResponse.json({ error: "Event unavailable" }, { status: 503 });
   }
   return new NextResponse(null, { status: 204 });

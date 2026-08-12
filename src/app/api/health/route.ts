@@ -1,17 +1,22 @@
 import { NextResponse } from "next/server";
-import { getSupabaseAdmin } from "@/lib/supabase/server";
+import { checkD1Analytics, isD1Configured } from "@/lib/cloudflare/d1";
+import { siteConfig } from "@/lib/site";
 
 export async function GET() {
-  const supabase = getSupabaseAdmin();
-  if (!supabase) {
-    return NextResponse.json({ status: "ok", service: "quote.loeme.com", analytics: "not_configured", time: new Date().toISOString() });
+  if (!isD1Configured()) {
+    return NextResponse.json({ status: "ok", service: new URL(siteConfig.url).hostname, analytics: "not_configured", time: new Date().toISOString() });
   }
 
-  const { error } = await supabase.from("analytics_events").select("id, quote_snapshot").limit(1);
+  let analytics = "ready";
+  try {
+    await checkD1Analytics();
+  } catch {
+    analytics = "migration_required";
+  }
   return NextResponse.json({
     status: "ok",
-    service: "quote.loeme.com",
-    analytics: error ? "migration_required" : "ready",
+    service: new URL(siteConfig.url).hostname,
+    analytics,
     time: new Date().toISOString(),
   });
 }

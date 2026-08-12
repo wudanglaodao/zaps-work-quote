@@ -9,7 +9,6 @@ import { localeLabel, locales, type Locale } from "@/lib/i18n/config";
 import { currencies, currencyNames } from "@/lib/currency";
 import { localizedPath } from "@/lib/seo";
 import { usePreferences } from "./preferences-provider";
-import { BrandLogo } from "./brand-logo";
 
 const localeNames: Record<Locale, string> = { en: "English", "zh-hant": "繁體中文", "zh-hans": "简体中文", de: "Deutsch", ja: "日本語", es: "Español", fr: "Français", "pt-br": "Português (Brasil)", ko: "한국어" };
 const skipLabels: Record<Locale, string> = { en: "Skip to content", "zh-hant": "跳至主要內容", "zh-hans": "跳至主要内容", de: "Zum Inhalt springen", ja: "本文へ移動", es: "Saltar al contenido", fr: "Aller au contenu", "pt-br": "Ir para o conteúdo", ko: "본문으로 건너뛰기" };
@@ -60,7 +59,7 @@ export function SiteHeader({ locale, dictionary }: { locale: Locale; dictionary:
     <header className="site-header">
       <a className="skip-link" href="#main-content">{skipLabels[locale]}</a>
       <nav className="shell nav" aria-label={navigationLabels[locale]}>
-        <Link className="brand" href={localizedPath(locale)} aria-label="LOEME Quote home"><BrandLogo /></Link>
+        <Link className="brand" href={localizedPath(locale)} aria-label="zaps.work home">zaps<span>.</span>work</Link>
         <div className="nav-links">
           <Link href={localizedPath(locale, "calculators")}>{dictionary.common.tools}</Link>
           <Link href={localizedPath(locale, "guides")}>{dictionary.common.guides}</Link>

@@ -239,7 +239,7 @@ CSV rules:
 
 ## 10. Privacy And Storage
 
-MVP quote details stay in browser memory. No quote-entered field is sent to or stored in Supabase analytics.
+MVP quote details stay in browser memory. No quote-entered field is sent to or stored in Cloudflare D1 analytics.
 
 Never store in analytics:
 

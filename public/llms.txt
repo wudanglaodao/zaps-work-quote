@@ -1,39 +1,39 @@
-# LOEME Quote
+# zaps.work
 
-> LOEME Quote is a free, multilingual collection of practical cost calculators and quote tools for fabrication, local services, and independent work.
+> zaps.work is a free, multilingual collection of practical cost calculators and quote tools for fabrication, local services, and independent work.
 
 ## About
 
-LOEME Quote helps people turn job inputs into a cost breakdown, margin check, and customer-ready quote. Available scenarios cover 3D printing, pressure washing, laser cutting, residential cleaning, house painting, freelance work, CNC machining, lawn care, and window cleaning.
+zaps.work helps people turn job inputs into a cost breakdown, margin check, and customer-ready quote. Available scenarios cover 3D printing, pressure washing, laser cutting, residential cleaning, house painting, freelance work, CNC machining, lawn care, and window cleaning.
 
 Calculations and PDF or CSV generation run in the user's browser. Customer names, emails, phone numbers, addresses, company details, quote numbers, item names, notes, and other customer-related fields are not sent to or stored in the product analytics database.
 
 ## Primary pages
 
-- [Homepage](https://quote.loeme.com/): Overview of the cost calculator and quote tool library.
-- [Tool library](https://quote.loeme.com/calculators): Available calculators by category.
-- [3D Print Cost Calculator](https://quote.loeme.com/calculators/3d-print-cost-calculator): Calculate filament, machine time, electricity, labor, failure risk, margin, shipping, tax, and quote totals. Export PDF or CSV.
-- [Pressure Washing Quote Calculator](https://quote.loeme.com/calculators/pressure-washing-quote): Estimate surface work, crew time, operating costs, minimum charges, and margin.
-- [Laser Cutting Cost Calculator](https://quote.loeme.com/calculators/laser-cutting-cost-calculator): Estimate sheet material, waste, machine time, setup, handling, finishing, quantity, and margin from manual CAD/CAM statistics.
-- [Cleaning Quote Generator](https://quote.loeme.com/calculators/cleaning-quote-generator): Estimate cleaner-hours, labor, overhead, supplies, travel, add-ons, minimum fees, and margin for residential cleaning.
-- [House Painting Quote Calculator](https://quote.loeme.com/calculators/house-painting-quote): Build a house painting quote from paintable area, coats, coverage, paint waste, material cost, labor production, surface condition, overhead, minimum fee, margin, and tax.
-- [Freelance Job Quote Calculator](https://quote.loeme.com/calculators/freelance-job-quote): Price a freelance project from scope hours, revisions, rush premium, fixed costs, margin, minimum fee, and tax.
-- [CNC Machining Cost Calculator](https://quote.loeme.com/calculators/cnc-machining-cost-calculator): Estimate a 3-axis CNC milling batch from material, programming, setup, machine time, inspection, tooling, finishing, margin, and tax.
-- [Lawn Care Quote Calculator](https://quote.loeme.com/calculators/lawn-care-quote): Price lawn service from mowable area, grass condition, crew production, labor, equipment, travel, add-ons, overhead, margin, and tax.
-- [Window Cleaning Quote Calculator](https://quote.loeme.com/calculators/window-cleaning-quote): Price window cleaning from window types, service scope, access, condition, screens, tracks, crew time, supplies, travel, margin, and tax.
-- [Pricing Guides](https://quote.loeme.com/guides): Practical job costing and quote guides.
-- [Privacy](https://quote.loeme.com/privacy): Data boundary and analytics practices.
+- [Homepage](https://zaps.work/): Overview of the cost calculator and quote tool library.
+- [Tool library](https://zaps.work/calculators): Available calculators by category.
+- [3D Print Cost Calculator](https://zaps.work/calculators/3d-print-cost-calculator): Calculate filament, machine time, electricity, labor, failure risk, margin, shipping, tax, and quote totals. Export PDF or CSV.
+- [Pressure Washing Quote Calculator](https://zaps.work/calculators/pressure-washing-quote): Estimate surface work, crew time, operating costs, minimum charges, and margin.
+- [Laser Cutting Cost Calculator](https://zaps.work/calculators/laser-cutting-cost-calculator): Estimate sheet material, waste, machine time, setup, handling, finishing, quantity, and margin from manual CAD/CAM statistics.
+- [Cleaning Quote Generator](https://zaps.work/calculators/cleaning-quote-generator): Estimate cleaner-hours, labor, overhead, supplies, travel, add-ons, minimum fees, and margin for residential cleaning.
+- [House Painting Quote Calculator](https://zaps.work/calculators/house-painting-quote): Build a house painting quote from paintable area, coats, coverage, paint waste, material cost, labor production, surface condition, overhead, minimum fee, margin, and tax.
+- [Freelance Job Quote Calculator](https://zaps.work/calculators/freelance-job-quote): Price a freelance project from scope hours, revisions, rush premium, fixed costs, margin, minimum fee, and tax.
+- [CNC Machining Cost Calculator](https://zaps.work/calculators/cnc-machining-cost-calculator): Estimate a 3-axis CNC milling batch from material, programming, setup, machine time, inspection, tooling, finishing, margin, and tax.
+- [Lawn Care Quote Calculator](https://zaps.work/calculators/lawn-care-quote): Price lawn service from mowable area, grass condition, crew production, labor, equipment, travel, add-ons, overhead, margin, and tax.
+- [Window Cleaning Quote Calculator](https://zaps.work/calculators/window-cleaning-quote): Price window cleaning from window types, service scope, access, condition, screens, tracks, crew time, supplies, travel, margin, and tax.
+- [Pricing Guides](https://zaps.work/guides): Practical job costing and quote guides.
+- [Privacy](https://zaps.work/privacy): Data boundary and analytics practices.
 
 ## Localized pages
 
-- [繁體中文首頁](https://quote.loeme.com/zh-hant): Traditional Chinese site navigation.
-- [简体中文首页](https://quote.loeme.com/zh-hans): Simplified Chinese site navigation.
-- [Deutsch Startseite](https://quote.loeme.com/de): German site navigation.
-- [日本語 3Dプリントコスト計算機](https://quote.loeme.com/ja/calculators/3d-print-cost-calculator): Japanese calculator page.
-- [Calculadora de costes de impresión 3D](https://quote.loeme.com/es/calculators/3d-print-cost-calculator): Spanish calculator page.
-- [Calculateur de coût d’impression 3D](https://quote.loeme.com/fr/calculators/3d-print-cost-calculator): French calculator page.
-- [Calculadora de custos de impressão 3D](https://quote.loeme.com/pt-br/calculators/3d-print-cost-calculator): Brazilian Portuguese calculator page.
-- [3D 프린팅 비용 계산기](https://quote.loeme.com/ko/calculators/3d-print-cost-calculator): Korean calculator page.
+- [繁體中文首頁](https://zaps.work/zh-hant): Traditional Chinese site navigation.
+- [简体中文首页](https://zaps.work/zh-hans): Simplified Chinese site navigation.
+- [Deutsch Startseite](https://zaps.work/de): German site navigation.
+- [日本語 3Dプリントコスト計算機](https://zaps.work/ja/calculators/3d-print-cost-calculator): Japanese calculator page.
+- [Calculadora de costes de impresión 3D](https://zaps.work/es/calculators/3d-print-cost-calculator): Spanish calculator page.
+- [Calculateur de coût d’impression 3D](https://zaps.work/fr/calculators/3d-print-cost-calculator): French calculator page.
+- [Calculadora de custos de impressão 3D](https://zaps.work/pt-br/calculators/3d-print-cost-calculator): Brazilian Portuguese calculator page.
+- [3D 프린팅 비용 계산기](https://zaps.work/ko/calculators/3d-print-cost-calculator): Korean calculator page.
 
 Pressure washing, laser cutting, residential cleaning, pricing guides, and guide articles are also available under each locale prefix. English remains unprefixed.
 
@@ -50,7 +50,7 @@ Pressure washing, laser cutting, residential cleaning, pricing guides, and guide
 
 - [Open-source repository](https://github.com/wudanglaodao/zaps-work-quote): Source code, calculation logic, privacy boundary, and release workflow.
 - [Feedback and issues](https://github.com/wudanglaodao/zaps-work-quote/issues): Report bugs or suggest tools.
-- [Contact](mailto:info@lopuo.com): Contact LOEME Quote.
+- [Contact](mailto:info@lopuo.com): Contact zaps.work.
 
 ## Canonical guidance
 

@@ -1,54 +1,18 @@
-# LOEME Quote Release Runbook
+# zaps.work Release Runbook
 
 ## Production Stack
 
 - GitHub: `wudanglaodao/zaps-work-quote`
 - Hosting and previews: Vercel
-- Database and aggregate product analytics: Supabase Postgres
+- Database and aggregate product analytics: Cloudflare D1
 - Public traffic analytics: Vercel Web Analytics and Speed Insights
 
 ## Launch Routes
 
 - `/`
-- `/zh-hant`
-- `/de`
-- `/ja`
-- `/es`
-- `/fr`
-- `/pt-br`
-- `/ko`
-- `/tools/3d-print-cost-calculator`
-- `/zh-hant/tools/3d-print-cost-calculator`
-- `/de/tools/3d-print-cost-calculator`
-- `/ja/tools/3d-print-cost-calculator`
-- `/es/tools/3d-print-cost-calculator`
-- `/fr/tools/3d-print-cost-calculator`
-- `/pt-br/tools/3d-print-cost-calculator`
-- `/ko/tools/3d-print-cost-calculator`
-- `/tools/pressure-washing-quote`
-- `/zh-hant/tools/pressure-washing-quote`
-- `/de/tools/pressure-washing-quote`
-- `/ja/tools/pressure-washing-quote`
-- `/es/tools/pressure-washing-quote`
-- `/fr/tools/pressure-washing-quote`
-- `/pt-br/tools/pressure-washing-quote`
-- `/ko/tools/pressure-washing-quote`
-- `/tools/laser-cutting-cost-calculator`
-- `/zh-hant/tools/laser-cutting-cost-calculator`
-- `/de/tools/laser-cutting-cost-calculator`
-- `/ja/tools/laser-cutting-cost-calculator`
-- `/es/tools/laser-cutting-cost-calculator`
-- `/fr/tools/laser-cutting-cost-calculator`
-- `/pt-br/tools/laser-cutting-cost-calculator`
-- `/ko/tools/laser-cutting-cost-calculator`
-- `/tools/cleaning-quote-generator`
-- `/zh-hant/tools/cleaning-quote-generator`
-- `/de/tools/cleaning-quote-generator`
-- `/ja/tools/cleaning-quote-generator`
-- `/es/tools/cleaning-quote-generator`
-- `/fr/tools/cleaning-quote-generator`
-- `/pt-br/tools/cleaning-quote-generator`
-- `/ko/tools/cleaning-quote-generator`
+- `/{locale}` for every supported locale
+- `/calculators` and `/{locale}/calculators`
+- `/calculators/{tool-slug}` and `/{locale}/calculators/{tool-slug}` for every published calculator
 - `/guides/how-to-price-3d-prints`
 - `/guides/how-to-price-pressure-washing-jobs`
 - `/guides/how-to-price-laser-cutting-jobs`
@@ -63,21 +27,21 @@
 
 Copy `.env.example` to `.env.local` for local development. Configure the same names in Vercel for Preview and Production.
 
-`SUPABASE_SERVICE_ROLE_KEY` is server-only. Never prefix it with `NEXT_PUBLIC_`.
+`CLOUDFLARE_D1_API_TOKEN` is server-only. Never prefix it with `NEXT_PUBLIC_` or expose it in the browser.
 
-## Supabase
+## Cloudflare D1
 
-1. Create a Supabase project in the region closest to the expected users.
-2. Apply every SQL file in `supabase/migrations` in filename order before deploying code that depends on it.
-3. Set `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` in Vercel.
-4. Confirm that `anon` and `authenticated` cannot select or insert into `analytics_events`.
+1. Create a D1 database named `zaps-work-analytics` in Cloudflare.
+2. Apply `cloudflare/d1/migrations/0001_analytics_events.sql` in the D1 dashboard or with Wrangler before deploying code that writes events.
+3. Create a Cloudflare API token scoped only to this database with `D1 Read` and `D1 Write` permissions.
+4. Set `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_D1_DATABASE_ID`, and `CLOUDFLARE_D1_API_TOKEN` in Vercel for Preview and Production.
 
 ## Vercel
 
 1. Import the GitHub repository.
 2. Keep `main` as the production branch.
-3. Add `quote.loeme.com` as the canonical production host. Keep `zaps.work` and `www.zaps.work` attached to this project so Proxy can return a path- and query-preserving `301` to the new host.
-4. Set `NEXT_PUBLIC_SITE_URL=https://quote.loeme.com` in every environment.
+3. Add `zaps.work` as the canonical production host. Keep `www.zaps.work`, `quote.loeme.com`, and `www.quote.loeme.com` attached to this project so Proxy can return a path- and query-preserving `301` to the canonical host.
+4. Set `NEXT_PUBLIC_SITE_URL=https://zaps.work` in every environment.
 5. Set `NEXT_PUBLIC_GOOGLE_ANALYTICS_ID=G-7HE8VQXGTQ` in Preview and Production.
 6. Enable Web Analytics and Speed Insights.
 7. Verify the Preview deployment before merging to `main`.
@@ -93,11 +57,11 @@ Copy `.env.example` to `.env.local` for local development. Configure the same na
 ## Release Flow
 
 1. Confirm the release version and update the newest entry in `DEVELOPMENT_LOG.md`.
-2. Apply any pending Supabase migrations.
+2. Apply any pending Cloudflare D1 migrations.
 3. Run `npm run check` locally.
 4. Push a feature branch and verify its Vercel Preview deployment.
 5. Merge into `main`; Vercel deploys Production from the GitHub commit.
-6. Verify `/api/health` and the changed user flow on `https://quote.loeme.com`.
+6. Verify `/api/health` and the changed user flow on `https://zaps.work`.
 7. Mark the log entry as released, use the production date, and add the final link or screenshots needed for the blog post.
 
 ## SEO Launch Checklist
@@ -109,8 +73,8 @@ Copy `.env.example` to `.env.local` for local development. Configure the same na
 - Inspect canonical and `hreflang` links, including `x-default`.
 - Verify the tool and all localized equivalents appear in `calculators-sitemap.xml`; verify its guide and localized equivalents appear in `guides-sitemap.xml`.
 - Update `/llms.txt` with the new tool, related guide, capabilities, and current public URLs; verify the production file returns the current public page map and privacy boundary.
-- Submit `https://quote.loeme.com/sitemap.xml` to Google Search Console and Bing Webmaster Tools, then submit the old sitemap once more so crawlers observe the permanent migration.
-- Verify the domain property and that `zaps.work` plus `www.zaps.work` permanently redirect every path and query to `quote.loeme.com`.
+- Submit `https://zaps.work/sitemap.xml` to Google Search Console and Bing Webmaster Tools, then submit the old sitemap once more so crawlers observe the permanent migration.
+- Verify the domain property and that `quote.loeme.com`, `www.quote.loeme.com`, and `www.zaps.work` permanently redirect every path and query to `zaps.work`.
 - Run Rich Results Test for the tool page.
 - Confirm localized visible FAQ matches FAQ structured data.
 - Confirm `/api`, Preview URLs, and admin routes are not indexed.

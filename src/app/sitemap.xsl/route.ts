@@ -6,7 +6,7 @@ const sitemapXsl = `<?xml version="1.0" encoding="UTF-8"?>
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>LOEME Quote sitemap</title>
+        <title>zaps.work sitemap</title>
         <style>
           :root { color-scheme: light; --bg: #f7f9f7; --surface: #fff; --ink: #07100a; --muted: #526158; --line: #dce4de; --green: #087b32; --soft: #ebfaf0; }
           * { box-sizing: border-box; }
@@ -30,7 +30,7 @@ const sitemapXsl = `<?xml version="1.0" encoding="UTF-8"?>
       </head>
       <body>
         <main>
-          <header><div><h1>LOEME Quote sitemap</h1><p>Search-engine index for cost calculators and quote tools.</p></div><span class="badge"><xsl:value-of select="count(//s:url) + count(//s:sitemap)" /> entries</span></header>
+          <header><div><h1>zaps.work sitemap</h1><p>Search-engine index for cost calculators and quote tools.</p></div><span class="badge"><xsl:value-of select="count(//s:url) + count(//s:sitemap)" /> entries</span></header>
           <xsl:choose>
             <xsl:when test="s:sitemapindex">
               <section><h2>Sitemap sections</h2><table><thead><tr><th>File</th><th>Last modified</th></tr></thead><tbody><xsl:for-each select="s:sitemapindex/s:sitemap"><tr><td><a href="{s:loc}"><xsl:value-of select="s:loc" /></a></td><td><xsl:value-of select="s:lastmod" /></td></tr></xsl:for-each></tbody></table></section>

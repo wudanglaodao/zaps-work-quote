@@ -24,17 +24,17 @@ describe("sitemap output", () => {
   it("publishes localized guide URLs and reciprocal language alternates", () => {
     const output = renderUrlSet(guideSitemapPaths);
 
-    expect(output).toContain("https://quote.loeme.com/guides/how-to-price-3d-prints");
-    expect(output).toContain("https://quote.loeme.com/de/guides/how-to-price-3d-prints");
-    expect(output).toContain("https://quote.loeme.com/ja/guides/how-to-price-laser-cutting-jobs");
-    expect(output).toContain("https://quote.loeme.com/fr/guides/how-to-price-house-cleaning-jobs");
+    expect(output).toContain("https://zaps.work/guides/how-to-price-3d-prints");
+    expect(output).toContain("https://zaps.work/de/guides/how-to-price-3d-prints");
+    expect(output).toContain("https://zaps.work/ja/guides/how-to-price-laser-cutting-jobs");
+    expect(output).toContain("https://zaps.work/fr/guides/how-to-price-house-cleaning-jobs");
     expect(output).toContain('hreflang="de"');
     expect(output).toContain('hreflang="x-default"');
   });
 
   it("publishes the cleaning quote generator in every language", () => {
     const output = renderUrlSet(toolSitemapPaths);
-    expect(output).toContain("https://quote.loeme.com/calculators/cleaning-quote-generator");
-    expect(output).toContain("https://quote.loeme.com/ja/calculators/cleaning-quote-generator");
+    expect(output).toContain("https://zaps.work/calculators/cleaning-quote-generator");
+    expect(output).toContain("https://zaps.work/ja/calculators/cleaning-quote-generator");
   });
 });
