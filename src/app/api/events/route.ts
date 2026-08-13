@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCloudflareContext } from "@opennextjs/cloudflare";
+import { hashIpAddress } from "@/lib/analytics/ip";
 import { analyticsEventSchema } from "@/lib/analytics/schema";
 import { insertAnalyticsEvent, isD1Configured } from "@/lib/cloudflare/d1";
 
@@ -14,10 +15,21 @@ function requestContext(request: Request) {
   }
   const countryCode = (request.headers.get("cf-ipcountry") || String(cf?.country ?? "")).trim().toUpperCase();
   const regionCode = String(cf?.region ?? "").trim().toUpperCase();
+  const clientIp = request.headers.get("cf-connecting-ip")?.trim() || null;
   return {
     countryCode: /^[A-Z]{2}$/.test(countryCode) ? countryCode : null,
     regionCode: /^[A-Z0-9-]{1,8}$/.test(regionCode) ? regionCode : null,
+    clientIp: clientIp && clientIp.length <= 64 ? clientIp : null,
   };
+}
+
+function ipHashSecret() {
+  try {
+    const context = getCloudflareContext() as unknown as { env?: { ANALYTICS_IP_HASH_SECRET?: string } };
+    return context.env?.ANALYTICS_IP_HASH_SECRET?.trim() || null;
+  } catch {
+    return null;
+  }
 }
 
 export async function POST(request: Request) {
@@ -34,6 +46,7 @@ export async function POST(request: Request) {
   if (!isD1Configured()) return NextResponse.json({ error: "Analytics unavailable" }, { status: 503 });
   const event = parsed.data;
   const context = requestContext(request);
+  const ipHash = await hashIpAddress(context.clientIp, ipHashSecret());
   const eventRow = {
     eventType: event.eventType,
     toolSlug: event.toolSlug,
@@ -44,6 +57,7 @@ export async function POST(request: Request) {
     timeZone: event.timeZone ?? null,
     countryCode: context.countryCode,
     regionCode: context.regionCode,
+    ipHash,
     itemCount: event.metrics.itemCount,
     totalCost: event.metrics.totalCost,
     quoteTotal: event.metrics.quoteTotal,

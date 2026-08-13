@@ -25,7 +25,7 @@
 
 ## Environment Variables
 
-Copy `.env.example` to `.env.local` for local development. Worker bindings are declared in `wrangler.jsonc`; the D1 database is available to the application as `env.DB`.
+Copy `.env.example` to `.env.local` for local development. Worker bindings are declared in `wrangler.jsonc`; the D1 database is available to the application as `env.DB`. Set `ANALYTICS_IP_HASH_SECRET` as a Cloudflare Worker secret in production; never commit it or expose it as a `NEXT_PUBLIC_` variable.
 
 ## Cloudflare D1
 
@@ -33,6 +33,7 @@ Copy `.env.example` to `.env.local` for local development. Worker bindings are d
 2. Copy the returned database ID into `wrangler.jsonc` as `database_id`.
 3. Apply `cloudflare/d1/migrations/0001_analytics_events.sql`: `npx wrangler d1 migrations apply zaps-work-analytics --remote`.
 4. Generate binding types with `npm run cf-typegen`.
+5. Apply `cloudflare/d1/migrations/0003_add_ip_hash.sql` after deploying the IP-hash analytics change.
 
 ## Cloudflare Workers
 
@@ -41,7 +42,8 @@ Copy `.env.example` to `.env.local` for local development. Worker bindings are d
 3. Run `npm run preview:workers` and verify the site through Wrangler locally.
 4. Run `npm run deploy:workers` to publish the Worker.
 5. Add the Cloudflare zone routes `zaps.work/*` and `*.zaps.work/*` to the Worker (a custom domain is also supported). Keep `www.zaps.work`, `quote.loeme.com`, and `www.quote.loeme.com` attached during the migration so the application can return path- and query-preserving `301` redirects.
-6. Verify `/api/health` and the changed user flow on `https://zaps.work`.
+6. Set the production secret: `npx wrangler secret put ANALYTICS_IP_HASH_SECRET`.
+7. Verify `/api/health` and the changed user flow on `https://zaps.work`.
 
 ## GitHub
 

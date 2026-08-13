@@ -31,7 +31,7 @@ GitHub
 - Calculators are client-side, deterministic pure TypeScript functions validated by Zod.
 - PDF and CSV exports are generated in the browser for a fast, no-login MVP.
 - All quote-entered content, including company details, customer names, contact details, addresses, item names, quote numbers, notes, and terms, remains in the browser.
-- Cloudflare D1 stores only allowlisted aggregate product events.
+- Cloudflare D1 stores only allowlisted aggregate product events. New events may include a keyed HMAC-SHA-256 IP hash, browser-reported time zone, and coarse Cloudflare location fields; plaintext IP addresses are never stored.
 - Cloudflare Workers handles deployments, previews, custom domains, and the Worker runtime.
 - No ORM is required for the MVP's single append-only analytics table. Add a typed query layer only when the domain schema grows.
 
@@ -182,6 +182,7 @@ The browser posts to `POST /api/events`. The route:
 - Rejects payloads larger than 4 KB.
 - Validates a strict event-name and property allowlist with Zod.
 - Uses the Cloudflare D1 `DB` binding only on the server.
+- Derives `ip_hash` from the trusted Cloudflare client-IP header with the server-only `ANALYTICS_IP_HASH_SECRET`; missing secrets result in `NULL`, never plaintext fallback.
 - Returns `503` for an analytics event when D1 is not configured, without blocking calculator use or document export.
 - Never accepts or stores company names, customer details, quote numbers, addresses, emails, notes, item names, quote fields, or full calculator snapshots.
 
@@ -206,6 +207,7 @@ Cloudflare D1 access policy:
 ## 9. Security Baseline
 
 - The D1 `DB` binding must never be exposed through a `NEXT_PUBLIC_` variable.
+- `ANALYTICS_IP_HASH_SECRET` must remain a Cloudflare Worker secret and must never be committed or sent to the browser.
 - Secrets and local Worker variables exist only in Cloudflare Worker bindings and ignored local files.
 - Security headers disable MIME sniffing, framing, camera, microphone, and geolocation.
 - Public API payloads are size-limited and schema-validated.

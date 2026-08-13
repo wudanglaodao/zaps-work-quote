@@ -26,6 +26,7 @@ export type AnalyticsEventRow = {
   timeZone: string | null;
   countryCode: string | null;
   regionCode: string | null;
+  ipHash?: string | null;
   itemCount: number;
   totalCost: number;
   quoteTotal: number;
@@ -63,12 +64,12 @@ export async function insertAnalyticsEvent(row: AnalyticsEventRow) {
   const result = await prepare(
     `insert into analytics_events (
       event_type, tool_slug, tool_version, formula_version, locale, currency,
-      time_zone, country_code, region_code, item_count, total_cost, quote_total,
+      time_zone, country_code, region_code, ip_hash, item_count, total_cost, quote_total,
       margin, quote_snapshot
-    ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    ) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       row.eventType, row.toolSlug, row.toolVersion, row.formulaVersion, row.locale, row.currency,
-      row.timeZone, row.countryCode, row.regionCode, row.itemCount, row.totalCost, row.quoteTotal,
+      row.timeZone, row.countryCode, row.regionCode, row.ipHash ?? null, row.itemCount, row.totalCost, row.quoteTotal,
       row.margin, row.quoteSnapshot ? JSON.stringify(row.quoteSnapshot) : null,
     ],
   ).run();

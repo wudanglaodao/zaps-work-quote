@@ -13,7 +13,7 @@ Available tools include 3D print, laser cutting, CNC machining, pressure washing
 - Next.js 16 App Router, React 19, and TypeScript
 - Zod schemas and pure calculation functions
 - Cloudflare Workers with OpenNext for hosting and previews
-- Cloudflare D1 for privacy-safe product analytics
+- Cloudflare D1 for privacy-safe product analytics (including keyed IP hashes and browser time zones)
 - Google Analytics for page-level traffic analysis
 - Vitest, ESLint, and TypeScript release checks
 
@@ -55,7 +55,7 @@ The site also publishes [`/robots.txt`](https://zaps.work/robots.txt), a styled 
 
 ## Data Boundary
 
-Calculations and PDF/CSV generation run in the browser. On export, the analytics API accepts a strictly allowlisted anonymous snapshot containing categorical and numeric calculation data such as material type, quantity, production time, rates, cost breakdown, and quote result. Strict schemas reject free text and customer-related fields. The D1 database is available to the Worker only through the server-side `DB` binding.
+Calculations and PDF/CSV generation run in the browser. On export, the analytics API accepts a strictly allowlisted anonymous snapshot containing categorical and numeric calculation data such as material type, quantity, production time, rates, cost breakdown, and quote result. Strict schemas reject free text and customer-related fields. The Worker stores no plaintext IP: when `ANALYTICS_IP_HASH_SECRET` is configured, it stores only a keyed HMAC-SHA-256 IP hash together with the browser-reported time zone and coarse Cloudflare location fields. The D1 database is available to the Worker only through the server-side `DB` binding.
 
 ## Deployment
 
