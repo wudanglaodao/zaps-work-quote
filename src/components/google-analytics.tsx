@@ -2,7 +2,7 @@ import Script from "next/script";
 
 // Keep the production property explicit so an obsolete environment value cannot
 // silently send traffic to another Analytics property.
-const measurementId = "G-7HE8VQXGTQ";
+const measurementId = "G-JN80QC8FHB";
 
 export function GoogleAnalytics() {
   if (!measurementId || !/^G-[A-Z0-9]+$/.test(measurementId)) return null;

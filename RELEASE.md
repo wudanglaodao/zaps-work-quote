@@ -5,7 +5,7 @@
 - GitHub: `wudanglaodao/zaps-work-quote`
 - Hosting and previews: Cloudflare Workers via OpenNext
 - Database and aggregate product analytics: Cloudflare D1
-- Page-level traffic analytics: Google Analytics (`G-7HE8VQXGTQ`)
+- Page-level traffic analytics: Google Analytics (`G-JN80QC8FHB`)
 
 ## Launch Routes
 
