@@ -50,7 +50,8 @@ export function SiteHeader({ locale, dictionary }: { locale: Locale; dictionary:
   const { currency, setCurrency, theme, toggleTheme } = usePreferences();
   const [languageQuery, setLanguageQuery] = useState("");
   const [currencyQuery, setCurrencyQuery] = useState("");
-  const routePath = pathname.replace(/^\/(en|zh-hant|zh-hans|de|ja|es|fr|pt-br|ko)(?=\/|$)/, "").replace(/^\//, "");
+  const localePrefixRegex = new RegExp(`^/(${locales.join("|")})(?=/|$)`);
+  const routePath = pathname.replace(localePrefixRegex, "").replace(/^\//, "");
   const normalizedLanguageQuery = languageQuery.trim().toLowerCase();
   const normalizedCurrencyQuery = currencyQuery.trim().toLowerCase();
   const filteredLocales = locales.filter((option) => `${option} ${localeNames[option]}`.toLowerCase().includes(normalizedLanguageQuery));
