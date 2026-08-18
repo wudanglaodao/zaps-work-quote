@@ -10,6 +10,9 @@ const baseLabels: Record<Exclude<Locale, "zh-hans">, { printOrSavePdf: string; v
   fr: { printOrSavePdf: "Imprimer / enregistrer en PDF", viewQuote: "Voir le devis" },
   "pt-br": { printOrSavePdf: "Imprimir / salvar PDF", viewQuote: "Ver orçamento" },
   ko: { printOrSavePdf: "인쇄 / PDF로 저장", viewQuote: "견적 보기" },
+  it: { printOrSavePdf: "Stampa / salva PDF", viewQuote: "Vedi preventivo" },
+  nl: { printOrSavePdf: "Afdrukken / opslaan als PDF", viewQuote: "Offerte bekijken" },
+  pl: { printOrSavePdf: "Drukuj / zapisz PDF", viewQuote: "Zobacz wycenę" },
 };
 
 const labels: Record<Locale, { printOrSavePdf: string; viewQuote: string }> = withSimplifiedChinese(baseLabels);

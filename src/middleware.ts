@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 const canonicalHost = "zaps.work";
 const redirectHosts = new Set(["www.zaps.work", "quote.loeme.com", "www.quote.loeme.com"]);
 
-const localizedToolsPath = /^\/(en|zh-hant|zh-hans|de|ja|es|fr|pt-br|ko)\/tools(?:(\/.*))?$/;
+const localizedToolsPath = /^\/(en|zh-hant|zh-hans|de|ja|es|fr|pt-br|ko|it|nl|pl)\/tools(?:(\/.*))?$/;
 
 function calculatorPath(pathname: string) {
   if (pathname === "/tools-sitemap.xml") return "/calculators-sitemap.xml";

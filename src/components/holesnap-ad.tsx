@@ -58,6 +58,24 @@ const copy: Record<Locale, { kicker: string; title: string; body: string; cta: s
     body: "HoleSnap Mesh로 홀 모양, 간격, 배치를 조정하고 CAD/CAM용 파일로 내보낼 수 있습니다.",
     cta: "HoleSnap 둘러보기",
   },
+  it: {
+    kicker: "Strumento consigliato",
+    title: "Crea pattern di foratura perfetti prima di calcolare il preventivo.",
+    body: "HoleSnap Mesh ti permette di regolare forma, passo e disposizione, esportando file pronti per CAD/CAM.",
+    cta: "Scopri HoleSnap",
+  },
+  nl: {
+    kicker: "Aanbevolen tool",
+    title: "Ontwerp strakke gatenpatronen voordat je de offerte opstelt.",
+    body: "Met HoleSnap Mesh pas je vorm, afstand en lay-out aan en exporteer je bestanden direct voor CAD/CAM.",
+    cta: "Ontdek HoleSnap",
+  },
+  pl: {
+    kicker: "Polecane narzędzie",
+    title: "Stwórz precyzyjny układ otworów przed wykonaniem wyceny.",
+    body: "HoleSnap Mesh pozwala dostosować kształt, rozstaw i układ oraz wyeksportować pliki gotowe do CAD/CAM.",
+    cta: "Poznaj HoleSnap",
+  },
 };
 
 export function HoleSnapAd({ locale }: { locale: Locale }) {
