@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
-import { LaserCuttingView } from "@/app/[locale]/calculators/laser-cutting-cost-calculator/page";
+import { LaserCuttingView } from "@/components/laser-cutting-view";
 import { getLaserCuttingCopy } from "@/lib/i18n/laser-cutting";
 import { buildMetadata } from "@/lib/seo";
 
-const copy = getLaserCuttingCopy("en");
+const path = "calculators/laser-cutting-cost-calculator";
 
-export const metadata: Metadata = buildMetadata({ locale: "en", path: "calculators/laser-cutting-cost-calculator", title: copy.title, description: copy.description });
+export function generateMetadata(): Metadata {
+  const copy = getLaserCuttingCopy("en");
+  return buildMetadata({ locale: "en", path, title: copy.title, description: copy.description });
+}
 
-export default function LaserCuttingPage() {
+export default function LaserCuttingRootPage() {
   return <LaserCuttingView locale="en" />;
 }

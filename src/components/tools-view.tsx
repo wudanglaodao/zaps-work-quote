@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Box, BriefcaseBusiness, BrushCleaning, Cpu, Droplets, Paintbrush, PanelsTopLeft, ScanLine, Sprout } from "lucide-react";
+import { Box, BriefcaseBusiness, BrushCleaning, Cpu, Droplets, FoldHorizontal, Paintbrush, PanelsTopLeft, ScanLine, Sprout } from "lucide-react";
 import type { Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getToolsByCategory, toolCategories } from "@/lib/tools/registry";
@@ -7,7 +7,18 @@ import { localizedPath } from "@/lib/seo";
 
 export function ToolsView({ locale }: { locale: Locale }) {
   const dictionary = getDictionary(locale);
-  const icons = { "3d-print-cost-calculator": Box, "laser-cutting-cost-calculator": ScanLine, "cleaning-quote-generator": BrushCleaning, "house-painting-quote": Paintbrush, "pressure-washing-quote": Droplets, "freelance-job-quote": BriefcaseBusiness, "cnc-machining-cost-calculator": Cpu, "lawn-care-quote": Sprout, "window-cleaning-quote": PanelsTopLeft } as const;
+  const icons = {
+    "3d-print-cost-calculator": Box,
+    "laser-cutting-cost-calculator": ScanLine,
+    "sheet-metal-bend-calculator": FoldHorizontal,
+    "cleaning-quote-generator": BrushCleaning,
+    "house-painting-quote": Paintbrush,
+    "pressure-washing-quote": Droplets,
+    "freelance-job-quote": BriefcaseBusiness,
+    "cnc-machining-cost-calculator": Cpu,
+    "lawn-care-quote": Sprout,
+    "window-cleaning-quote": PanelsTopLeft,
+  } as const;
   return (
     <section className="section page-section">
       <div className="shell">

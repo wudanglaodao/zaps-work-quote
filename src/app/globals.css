@@ -499,11 +499,11 @@ svg { flex: 0 0 auto; }
 .quote-line { min-height: 46px; border-bottom: 1px solid #e1e7e3; font-size: 10px; }
 .quote-line > span:first-child { display: grid; gap: 3px; }
 .quote-line small { color: #657269; font-size: 8px; }
-.quote-summary { width: min(260px, 58%); display: grid; gap: 7px; margin: 18px 0 0 auto; }
+.quote-summary { width: min(320px, 70%); display: grid; gap: 7px; margin: 18px 0 0 auto; }
 .quote-summary p { margin: 0; display: flex; justify-content: space-between; gap: 18px; color: #657269; font-size: 10px; }
-.quote-summary strong { color: #07100a; }
+.quote-summary strong { color: #07100a; white-space: nowrap; }
 .quote-summary .quote-total { margin-top: 2px; padding-top: 9px; border-top: 1px solid #07100a; color: #07100a; font-size: 13px; font-weight: 700; }
-.quote-total strong { font-size: 20px; }
+.quote-total strong { font-size: 18px; white-space: nowrap; }
 .quote-notes { display: grid; gap: 6px; margin-top: 18px; padding-top: 12px; border-top: 1px solid #e1e7e3; color: #657269; font-size: 9px; line-height: 1.45; }
 .quote-notes p { display: grid; grid-template-columns: 72px 1fr; gap: 8px; margin: 0; }
 .quote-notes strong { color: #07100a; }
@@ -737,6 +737,248 @@ svg { flex: 0 0 auto; }
   .footer-compact-links { flex-wrap: wrap; gap: 8px 16px; }
 }
 
+/* Sheet Metal Bend Calculator & Visualizer */
+.sheet-metal-visualizer {
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  box-shadow: 0 4px 18px rgba(11, 17, 13, 0.04);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.visualizer-header {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.visualizer-title {
+  font-size: 13px;
+  font-weight: 680;
+  color: var(--ink);
+}
+.visualizer-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: var(--green-soft);
+  color: var(--green-dark);
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+.visualizer-canvas-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 560 / 340;
+  min-height: 280px;
+  padding: 8px 12px;
+  background: radial-gradient(circle at 50% 50%, var(--surface-2) 0%, var(--surface) 100%);
+  display: grid;
+  place-items: center;
+}
+.visualizer-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.visualizer-footer {
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.legend-indicator {
+  width: 12px;
+  height: 2px;
+  background: #ef4444;
+  border-radius: 1px;
+}
+.legend-text {
+  margin: 0;
+  font-size: 11px;
+  color: var(--muted);
+}
+.unit-pill-group {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 2px;
+  background: var(--surface-2);
+  gap: 2px;
+}
+.unit-pill {
+  padding: 5px 12px;
+  border-radius: 4px;
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.unit-pill:hover {
+  color: var(--ink);
+}
+.unit-pill.active {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+.kfactor-control-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.kfactor-input {
+  width: 80px;
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+.kfactor-badge {
+  font-size: 11px;
+  color: var(--subtle);
+  background: var(--surface-2);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+}
+.angle-slider-field {
+  display: grid;
+  gap: 8px;
+}
+.angle-slider-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  color: var(--muted);
+}
+.angle-slider-header strong {
+  font-size: 16px;
+  color: var(--ink);
+  font-family: var(--font-mono);
+}
+.angle-slider-controls {
+  display: grid;
+  gap: 10px;
+}
+.slider-input {
+  width: 100%;
+  accent-color: var(--green);
+  cursor: pointer;
+}
+.quick-angle-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.angle-btn {
+  padding: 3px 8px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface-2);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.angle-btn:hover, .angle-btn.active {
+  background: var(--green-soft);
+  border-color: var(--green);
+  color: var(--green-dark);
+}
+.bend-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+}
+.batch-total-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  border-top: 1px solid var(--line);
+  background: var(--surface-2);
+  font-size: 13px;
+}
+.batch-total-row strong {
+  font-family: var(--font-mono);
+  color: var(--ink);
+}
+.laser-bridge-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+  border: 1px dashed var(--green);
+  border-radius: 4px;
+  background: var(--green-soft);
+}
+.laser-bridge-icon {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green);
+  color: #fff;
+  flex-shrink: 0;
+}
+.laser-bridge-icon svg {
+  width: 18px;
+  height: 18px;
+}
+.laser-bridge-copy {
+  flex: 1;
+  min-width: 0;
+}
+.laser-bridge-copy h4 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 680;
+  color: var(--ink);
+}
+.laser-bridge-copy p {
+  margin: 2px 0 0;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.laser-bridge-btn {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  flex-shrink: 0;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+.laser-bridge-btn:hover {
+  transform: translateX(2px);
+  background: var(--green);
+  color: #fff;
+}
+
 @media print {
   @page { size: A4 portrait; margin: 0; }
   html, body { width: auto !important; min-width: 0 !important; min-height: 0 !important; background: #fff !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
@@ -755,10 +997,10 @@ svg { flex: 0 0 auto; }
   .print-document .quote-columns, .print-document .quote-line { grid-template-columns: minmax(0, 1fr) 17mm 28mm 32mm; gap: 5mm; }
   .print-document .quote-columns { margin-top: 6mm; padding-bottom: 2.5mm; font-size: 7.5pt; break-inside: avoid; }
   .print-document .quote-line { min-height: 11mm; font-size: 9pt; break-inside: avoid; }
-  .print-document .quote-line small { font-size: 7.5pt; }
-  .print-document .quote-summary { width: 72mm; gap: 2mm; margin-top: 7mm; break-inside: avoid; }
+  .print-document .quote-summary { width: 88mm; gap: 2mm; margin-top: 7mm; break-inside: avoid; }
   .print-document .quote-summary p { font-size: 9pt; }
+  .print-document .quote-summary strong { white-space: nowrap; }
   .print-document .quote-summary .quote-total { padding-top: 3mm; font-size: 11pt; }
-  .print-document .quote-total strong { font-size: 18pt; }
+  .print-document .quote-total strong { font-size: 15pt; white-space: nowrap; }
   .print-document .quote-footer { padding-top: 8mm; font-size: 7.5pt; break-inside: avoid; }
 }

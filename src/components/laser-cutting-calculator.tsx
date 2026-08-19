@@ -48,7 +48,44 @@ export function LaserCuttingCalculator({ locale, dictionary }: { locale: Locale;
   const copy = getLaserCuttingCopy(locale);
   const { currency } = usePreferences();
   const quoteActions = getQuoteActionLabels(locale);
-  const [input, setInput] = useState<LaserCuttingInput>(() => createDefaultLaserCuttingInput(currency));
+  const [input, setInput] = useState<LaserCuttingInput>(() => {
+    const initial = createDefaultLaserCuttingInput(currency);
+    if (typeof window === "undefined" || !window.location.search) return initial;
+    const params = new URLSearchParams(window.location.search);
+    const updated = { ...initial };
+    const mat = params.get("material");
+    if (mat && ["mildSteel", "stainlessSteel", "aluminum", "acrylic", "plywood", "other"].includes(mat)) {
+      updated.material = mat as LaserCuttingInput["material"];
+    }
+    const unit = params.get("unit");
+    if (unit === "in") {
+      updated.measurementUnit = "sqft";
+      updated.thicknessUnit = "in";
+      updated.cutLengthUnit = "in";
+    } else if (unit === "mm") {
+      updated.measurementUnit = "sqm";
+      updated.thicknessUnit = "mm";
+      updated.cutLengthUnit = "mm";
+    }
+    const thickness = Number(params.get("thickness"));
+    if (Number.isFinite(thickness) && thickness > 0) {
+      updated.materialThickness = thickness;
+    }
+    const qty = Number(params.get("quantity"));
+    if (Number.isFinite(qty) && qty >= 1) {
+      updated.quantity = Math.round(qty);
+    }
+    const cutLength = Number(params.get("cutLength"));
+    if (Number.isFinite(cutLength) && cutLength > 0) {
+      updated.cutLength = cutLength;
+      updated.cutTimeMinutes = Math.max(0.5, Number((cutLength / 1200).toFixed(1)));
+    }
+    const area = Number(params.get("area"));
+    if (Number.isFinite(area) && area > 0) {
+      updated.materialArea = area;
+    }
+    return updated;
+  });
   const previousCurrency = useRef(currency);
   const [optionalCostsEnabled, setOptionalCostsEnabled] = useState(false);
   const [detailsEnabled, setDetailsEnabled] = useState(false);

@@ -6,7 +6,18 @@ export const sitemapLastModified = "2026-07-15";
 export const sitemapStyleHref = "/sitemap.xsl?v=20260715";
 
 export const pageSitemapPaths = ["", "calculators", "privacy"] as const;
-export const toolSitemapPaths = ["calculators/3d-print-cost-calculator", "calculators/pressure-washing-quote", "calculators/laser-cutting-cost-calculator", "calculators/cleaning-quote-generator", "calculators/house-painting-quote", "calculators/freelance-job-quote", "calculators/cnc-machining-cost-calculator", "calculators/lawn-care-quote", "calculators/window-cleaning-quote"] as const;
+export const toolSitemapPaths = [
+  "calculators/3d-print-cost-calculator",
+  "calculators/laser-cutting-cost-calculator",
+  "calculators/sheet-metal-bend-calculator",
+  "calculators/cleaning-quote-generator",
+  "calculators/house-painting-quote",
+  "calculators/pressure-washing-quote",
+  "calculators/freelance-job-quote",
+  "calculators/cnc-machining-cost-calculator",
+  "calculators/lawn-care-quote",
+  "calculators/window-cleaning-quote",
+] as const;
 export const guideSitemapPaths = ["guides", "guides/how-to-price-3d-prints", "guides/how-to-price-pressure-washing-jobs", "guides/how-to-price-laser-cutting-jobs", "guides/how-to-price-house-cleaning-jobs"] as const;
 export const guideEnglishOnlySitemapPaths = ["guides/how-to-price-house-painting-jobs", "guides/how-to-price-freelance-projects", "guides/how-to-price-cnc-machining", "guides/how-to-price-lawn-care-services", "guides/how-to-price-window-cleaning-jobs"] as const;
 
