@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { FoldHorizontal } from "lucide-react";
+import { HoleSnapAd } from "@/components/holesnap-ad";
 import { JsonLd } from "@/components/json-ld";
 import { SheetMetalBendCalculator } from "@/components/sheet-metal-bend-calculator";
 import { htmlLanguage, type Locale } from "@/lib/i18n/config";
@@ -81,6 +82,10 @@ export function SheetMetalBendView({ locale }: { locale: Locale }) {
       </header>
 
       <SheetMetalBendCalculator locale={locale} dictionary={dictionary} />
+
+      <div className="shell holesnap-ad-shell">
+        <HoleSnapAd locale={locale} />
+      </div>
 
       <section className="section seo-content">
         <div className="shell seo-grid">

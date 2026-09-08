@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Box, BriefcaseBusiness, BrushCleaning, Cpu, Droplets, FoldHorizontal, Paintbrush, PanelsTopLeft, ScanLine, Sprout } from "lucide-react";
+import { Box, BriefcaseBusiness, BrushCleaning, Cpu, Droplets, FoldHorizontal, Paintbrush, PanelsTopLeft, ScanLine, Sprout, Weight } from "lucide-react";
 import type { Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getToolsByCategory, toolCategories } from "@/lib/tools/registry";
@@ -11,6 +11,7 @@ export function ToolsView({ locale }: { locale: Locale }) {
     "3d-print-cost-calculator": Box,
     "laser-cutting-cost-calculator": ScanLine,
     "sheet-metal-bend-calculator": FoldHorizontal,
+    "press-brake-tonnage-calculator": Weight,
     "cleaning-quote-generator": BrushCleaning,
     "house-painting-quote": Paintbrush,
     "pressure-washing-quote": Droplets,

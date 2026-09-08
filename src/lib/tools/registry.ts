@@ -74,6 +74,13 @@ const baseTools: Array<Omit<ToolDefinition, "names" | "summaries"> & { names: Ba
     },
   },
   {
+    slug: "press-brake-tonnage-calculator",
+    status: "live" as const,
+    category: "fabrication" as const,
+    names: { en: "Press Brake Tonnage Calculator", "zh-hant": "折彎機噸位計算器", de: "Abkantpresse Tonnage-Rechner", ja: "プレスブレーキトン数計算機", es: "Calculadora de Tonelaje de Plegadora", fr: "Calculateur de Tonnage de Presse-Plieuse", "pt-br": "Calculadora de Tonelagem de Prensa Dobradeira", ko: "프레스 브레이크 톤수 계산기", it: "Calcolatore Tonnellaggio Pressa Piegatrice", nl: "Afkantpers Tonnage Calculator", pl: "Kalkulator Tonażu Prasy Krawędziowej" },
+    summaries: { en: "Bending force, V-die selection, tonnage per meter, safety factor, and capacity check.", "zh-hant": "折彎力、V模選擇、每米噸位、安全係數與設備能力校驗。", de: "Biegekraft, V-Matrizenauswahl, Tonnage pro Meter, Sicherheitsfaktor und Kapazitätsprüfung.", ja: "曲げ力、Vダイ選定、メーター当たりトン数、安全率、設備能力チェック。", es: "Fuerza de plegado, selección de V, tonelaje por metro, factor de seguridad y verificación.", fr: "Force de pliage, sélection de V, tonnage par mètre, facteur de sécurité et vérification.", "pt-br": "Força de dobra, seleção de V, tonelagem por metro, fator de segurança e verificação.", ko: "절곡력, V다이 선정, 미터당 톤수, 안전계수 및 장비 용량 확인.", it: "Forza di piega, selezione V, tonnellaggio al metro, fattore di sicurezza e verifica.", nl: "Buigkracht, V-matrijsselectie, tonnage per meter, veiligheidsfactor en capaciteitscheck.", pl: "Siła gięcia, dobór V, tonaż na metr, współczynnik bezpieczeństwa i weryfikacja." },
+  },
+  {
     slug: "cleaning-quote-generator",
     status: "live" as const,
     category: "local-services",

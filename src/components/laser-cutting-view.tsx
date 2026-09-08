@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ScanLine } from "lucide-react";
+import { HoleSnapAd } from "@/components/holesnap-ad";
 import { JsonLd } from "@/components/json-ld";
 import { LaserCuttingCalculator } from "@/components/laser-cutting-calculator";
 import { htmlLanguage, type Locale } from "@/lib/i18n/config";
@@ -94,6 +95,9 @@ export function LaserCuttingView({ locale }: { locale: Locale }) {
       </header>
       <LaserCuttingCalculator locale={locale} dictionary={dictionary} />
       <p className="shell tool-privacy-note">{copy.privacyNote}</p>
+      <div className="shell holesnap-ad-shell">
+        <HoleSnapAd locale={locale} />
+      </div>
       <section className="section seo-content">
         <div className="shell seo-grid">
           <div>

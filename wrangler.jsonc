@@ -4,6 +4,8 @@
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-08-12",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "workers_dev": true,
+  "preview_urls": true,
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
@@ -17,6 +19,16 @@
       "database_name": "zaps-work-analytics",
       "database_id": "209e0e7a-52b3-48cc-850f-4cbff193482e",
       "migrations_dir": "cloudflare/d1/migrations"
+    }
+  ],
+  "routes": [
+    {
+      "pattern": "zaps.work",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.zaps.work",
+      "custom_domain": true
     }
   ]
 }
