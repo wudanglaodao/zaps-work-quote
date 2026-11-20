@@ -1,6 +1,6 @@
-# zaps.work
+# LOEME Tools
 
-Free, multilingual cost calculators and quote generators for real work.
+Free, multilingual cost calculators and quote generators for real work. Hosted at [tools.loeme.com](https://tools.loeme.com).
 
 The source code is public so the calculation logic, privacy boundary, and export behavior can be inspected. Customer names, emails, phone numbers, addresses, company details, quote numbers, item names, and notes stay in the browser.
 
@@ -51,7 +51,7 @@ English uses clean, unprefixed URLs. Other languages use stable locale prefixes:
 
 Each complete localized page emits a language-specific canonical URL, reciprocal `hreflang` links, and an `x-default` English fallback. The sitemap repeats the same alternate mapping. Legacy `/en/...` routes permanently redirect to their unprefixed English equivalents. New locales are added only after their full page copy and SEO metadata are ready.
 
-The site also publishes [`/robots.txt`](https://zaps.work/robots.txt), a styled sitemap index at [`/sitemap.xml`](https://zaps.work/sitemap.xml), child sitemaps for [`pages-sitemap.xml`](https://zaps.work/pages-sitemap.xml) and [`calculators-sitemap.xml`](https://zaps.work/calculators-sitemap.xml), and [`/llms.txt`](https://zaps.work/llms.txt). `llms.txt` is an AI-readable navigation aid; canonical metadata, sitemap, robots rules, and page content remain the source of truth for search indexing.
+The site also publishes [`/robots.txt`](https://tools.loeme.com/robots.txt), a styled sitemap index at [`/sitemap.xml`](https://tools.loeme.com/sitemap.xml), child sitemaps for [`pages-sitemap.xml`](https://tools.loeme.com/pages-sitemap.xml) and [`calculators-sitemap.xml`](https://tools.loeme.com/calculators-sitemap.xml), and [`/llms.txt`](https://tools.loeme.com/llms.txt). `llms.txt` is an AI-readable navigation aid; canonical metadata, sitemap, robots rules, and page content remain the source of truth for search indexing.
 
 ## Data Boundary
 
