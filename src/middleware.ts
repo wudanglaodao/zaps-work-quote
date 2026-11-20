@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { locales } from "./lib/i18n/config";
 
-const canonicalHost = "zaps.work";
-const redirectHosts = new Set(["www.zaps.work", "quote.loeme.com", "www.quote.loeme.com"]);
+const canonicalHost = "tools.loeme.com";
+const redirectHosts = new Set([
+  "zaps.work",
+  "www.zaps.work",
+  "quote.loeme.com",
+  "www.quote.loeme.com",
+  "www.tools.loeme.com",
+]);
 
 const localizedToolsPath = new RegExp(`^/(${locales.join("|")})/tools(?:(/.*))?$`);
 
