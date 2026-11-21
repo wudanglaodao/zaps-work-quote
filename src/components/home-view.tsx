@@ -12,6 +12,7 @@ import {
   DraftingCompass,
   Droplets,
   FileDown,
+  Home,
   LockKeyhole,
   Paintbrush,
   PanelsTopLeft,
@@ -37,6 +38,7 @@ const toolIcons = {
   "cnc-machining-cost-calculator": Cpu,
   "lawn-care-quote": Sprout,
   "window-cleaning-quote": PanelsTopLeft,
+  "roofing-quote-calculator": Home,
 } as const;
 
 export function HomeView({ locale }: { locale: Locale }) {

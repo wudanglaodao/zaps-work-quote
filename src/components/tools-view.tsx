@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Box, BriefcaseBusiness, BrushCleaning, Cpu, Droplets, FoldHorizontal, Paintbrush, PanelsTopLeft, ScanLine, Sprout, Weight } from "lucide-react";
+import { Box, BriefcaseBusiness, BrushCleaning, Cpu, Droplets, FoldHorizontal, Home, Paintbrush, PanelsTopLeft, ScanLine, Sprout, Weight } from "lucide-react";
 import type { Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getToolsByCategory, toolCategories } from "@/lib/tools/registry";
@@ -19,6 +19,7 @@ export function ToolsView({ locale }: { locale: Locale }) {
     "cnc-machining-cost-calculator": Cpu,
     "lawn-care-quote": Sprout,
     "window-cleaning-quote": PanelsTopLeft,
+    "roofing-quote-calculator": Home,
   } as const;
   return (
     <section className="section page-section">
