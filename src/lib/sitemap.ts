@@ -15,11 +15,20 @@ export const toolSitemapPaths = [
   "calculators/pressure-washing-quote",
   "calculators/freelance-job-quote",
   "calculators/cnc-machining-cost-calculator",
+  "calculators/press-brake-tonnage-calculator",
+  "calculators/roofing-quote-calculator",
   "calculators/lawn-care-quote",
   "calculators/window-cleaning-quote",
 ] as const;
 export const guideSitemapPaths = ["guides", "guides/how-to-price-3d-prints", "guides/how-to-price-pressure-washing-jobs", "guides/how-to-price-laser-cutting-jobs", "guides/how-to-price-house-cleaning-jobs"] as const;
-export const guideEnglishOnlySitemapPaths = ["guides/how-to-price-house-painting-jobs", "guides/how-to-price-freelance-projects", "guides/how-to-price-cnc-machining", "guides/how-to-price-lawn-care-services", "guides/how-to-price-window-cleaning-jobs"] as const;
+export const guideEnglishOnlySitemapPaths = [
+  "guides/how-to-price-house-painting-jobs",
+  "guides/how-to-price-roofing-jobs",
+  "guides/how-to-price-freelance-projects",
+  "guides/how-to-price-cnc-machining",
+  "guides/how-to-price-lawn-care-services",
+  "guides/how-to-price-window-cleaning-jobs",
+] as const;
 
 export function escapeXml(value: string) {
   return value.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character] || character);

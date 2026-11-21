@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Home } from "lucide-react";
 import { notFound, permanentRedirect } from "next/navigation";
 import { JsonLd } from "@/components/json-ld";
@@ -115,6 +116,15 @@ export function RoofingView({ locale }: { locale: Locale }) {
         </div>
       </header>
       <RoofingCalculator locale={locale} dictionary={dictionary} />
+      {locale === "en" ? (
+        <section className="section seo-content">
+          <div className="shell">
+            <Link className="seo-guide-link" href="/guides/how-to-price-roofing-jobs">
+              Read the roofing pricing guide →
+            </Link>
+          </div>
+        </section>
+      ) : null}
     </article>
   );
 }
