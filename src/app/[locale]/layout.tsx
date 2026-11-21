@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { GoogleAdsenseScript } from "@/components/google-adsense";
 import { GoogleAnalytics } from "@/components/google-analytics";
 import { PreferencesProvider } from "@/components/preferences-provider";
 import { SiteFooter } from "@/components/site-footer";
@@ -33,6 +34,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
           <SiteFooter locale={rawLocale} dictionary={dictionary} />
         </PreferencesProvider>
         <GoogleAnalytics />
+        <GoogleAdsenseScript />
       </body>
     </html>
   );

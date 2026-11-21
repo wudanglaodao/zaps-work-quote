@@ -20,6 +20,7 @@ import {
   Sprout,
 } from "lucide-react";
 import { JsonLd } from "@/components/json-ld";
+import { GoogleAdSlot } from "@/components/google-adsense";
 import { htmlLanguage, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { localizedPath } from "@/lib/seo";
@@ -334,6 +335,9 @@ export function HomeView({ locale }: { locale: Locale }) {
           </div>
         </div>
       </section>
+      <div className="shell">
+        <GoogleAdSlot />
+      </div>
     </div>
   );
 }

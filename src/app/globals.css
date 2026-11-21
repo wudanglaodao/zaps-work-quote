@@ -458,6 +458,10 @@ svg { flex: 0 0 auto; }
 .holesnap-ad-link:hover { border-color: var(--green-dark); background: var(--green-dark); color: #fff; }
 .holesnap-ad-link span { font-size: 16px; line-height: 1; }
 .holesnap-ad-shell { margin-block: 18px 30px; }
+.google-ad-slot-shell { width: 100%; margin-block: 24px 32px; clear: both; }
+.google-ad-slot-container { max-width: 970px; margin: 0 auto; padding: 10px 12px; border: 1px solid var(--line); border-radius: 4px; background: color-mix(in srgb, var(--surface-2) 40%, var(--surface)); text-align: center; overflow: hidden; }
+.google-ad-slot-label { display: block; margin-bottom: 6px; color: var(--subtle); font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.google-ad-slot-container ins.adsbygoogle { min-height: 90px; margin: 0 auto; }
 .result-label { margin: 0; padding: 24px 26px 0; display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 12px; font-weight: 680; }
 .result-label::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
 .result-value { display: block; padding: 10px 26px 24px; font-size: clamp(50px, 6vw, 72px); line-height: 1; font-weight: 710; font-variant-numeric: tabular-nums; }
